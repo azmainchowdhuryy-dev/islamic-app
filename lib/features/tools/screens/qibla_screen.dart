@@ -11,16 +11,14 @@ import '../../../core/services/prefs.dart';
 import '../services/qibla_calculator.dart';
 
 class _QiblaCity {
-  final String id;
   final String nameBn;
   final String nameEn;
   final double lat;
   final double lng;
 
-  const _QiblaCity(this.id, this.nameBn, this.nameEn, this.lat, this.lng);
+  const _QiblaCity(this.nameBn, this.nameEn, this.lat, this.lng);
 
   factory _QiblaCity.fromJson(Map<String, dynamic> json) => _QiblaCity(
-        json['id'] as String,
         json['name_bn'] as String,
         json['name_en'] as String,
         (json['lat'] as num).toDouble(),
@@ -211,8 +209,8 @@ class QiblaScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               Text(
                 bn
-                    ? 'দিকটি হোম স্ক্রিনে নির্বাচিত শহরের স্থানাঙ্ক ধরে হিসাব করা হয়েছে, তাই এটি শহরভিত্তিক আনুমানিক দিক। ফোনের কম্পাস চৌম্বকীয় পরিবেশে প্রভাবিত হতে পারে। ধাতব বস্তু ও চুম্বক থেকে দূরে রাখুন এবং প্রয়োজনে ফোনটি আটের মতো করে নাড়িয়ে সেন্সর ক্যালিব্রেট করুন।'
-                    : 'The bearing is calculated from the city selected on the Home screen, so it is a city-level approximation. The phone compass can be affected by magnetic surroundings. Keep the phone away from metal and magnets, and move it in a figure-eight pattern to recalibrate when needed.',
+                    ? 'দিকটি হোম স্ক্রিনে নির্বাচিত শহরের স্থানাঙ্ক ধরে হিসাব করা হয়েছে, তাই এটি শহরভিত্তিক আনুমানিক দিক। চৌম্বকীয় উত্তর ও ভৌগোলিক উত্তরের পার্থক্যে কিছু বিচ্যুতি হতে পারে। ধাতব বস্তু ও চুম্বক থেকে ফোন দূরে রাখুন এবং প্রয়োজনে আটের মতো করে নাড়িয়ে সেন্সর ক্যালিব্রেট করুন।'
+                    : 'The bearing uses the city selected on the Home screen, so it is a city-level approximation. Magnetic north can differ from geographic north, which may cause a small variation. Keep the phone away from metal and magnets, and move it in a figure-eight pattern to recalibrate when needed.',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: scheme.onSurfaceVariant,
                   height: 1.5,
