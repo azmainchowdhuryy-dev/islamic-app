@@ -394,7 +394,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(height: 10),
               Text(
-                lang == 'bn' ? 'Tracker' : 'Trackers',
+                lang == 'bn' ? 'ট্র্যাকার' : 'Trackers',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -488,6 +488,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            lang == 'bn' ? item.category : item.categoryEn,
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              color: scheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                           if (item.arabicText.isNotEmpty)
                             Directionality(
                               textDirection: TextDirection.rtl,
