@@ -10,7 +10,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  testWidgets('ibadah tools renders all 99 names and daily trackers', (tester) async {
+  testWidgets('ibadah tools renders prayer tracker and all 99 names', (tester) async {
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(ProviderScope(
       overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
@@ -18,10 +18,20 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    await tester.scrollUntilVisible(find.text('আল্লাহর সুন্দর নামসমূহ'), 400, scrollable: find.byType(Scrollable).first);
-    expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
+    // Check the prayer tracker while it is on screen. Scrolling to the names
+    // section first can dispose earlier off-screen ListView children.
+    expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsOneWidget);
     expect(find.text('ফজর'), findsOneWidget);
-    expect(find.text('কুরআন তিলাওয়াত'), findsOneWidget);
+
+    // Bring the names section into the widget tree before checking its rows.
+    await tester.scrollUntilVisible(
+      find.text('আল্লাহর সুন্দর নামসমূহ'),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.byType(ListTile), findsNWidgets(99));
   });
 
@@ -33,11 +43,18 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    await tester.scrollUntilVisible(find.byType(TextField), 400, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(
+      find.byType(TextField),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+
     await tester.enterText(find.byType(TextField), 'Ar-Rahman');
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Ar-Rahman'), findsOneWidget);
+    // Match the result row only, not the editable search field itself.
+    expect(find.text('Ar-Rahman • পরম করুণাময়'), findsOneWidget);
     expect(find.byType(ListTile), findsOneWidget);
   });
 }
