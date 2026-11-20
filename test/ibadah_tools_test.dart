@@ -41,6 +41,27 @@ void main() {
     expect(_nameSubtitleFinder(), findsNWidgets(99));
   });
 
+  testWidgets('malformed saved tracker and favorite values are ignored', (tester) async {
+    final now = DateTime.now();
+    final dateKey =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    SharedPreferences.setMockInitialValues({
+      'prayer_tracker_$dateKey': ['fajr', 'not-a-prayer'],
+      'daily_amal_$dateKey': ['quran', 'not-an-amal'],
+      'asma_favorites': ['2', 'not-a-number', '0', '100'],
+    });
+    final prefs = await SharedPreferences.getInstance();
+
+    await tester.pumpWidget(ProviderScope(
+      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      child: const MaterialApp(home: IbadahToolsScreen()),
+    ));
+    await tester.pumpAndSettle();
+
+    expect(find.text('1 / 5 ওয়াক্ত আদায় হয়েছে'), findsOneWidget);
+    expect(find.text('1 / 6 আমল সম্পন্ন'), findsOneWidget);
+  });
+
   testWidgets('name search filters the list', (tester) async {
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(ProviderScope(
