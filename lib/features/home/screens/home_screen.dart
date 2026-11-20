@@ -16,6 +16,7 @@ import '../../tasbih/screens/tasbih_screen.dart';
 import '../../tools/screens/qibla_screen.dart';
 import '../../tools/screens/ruqyah_screen.dart';
 import '../services/prayer_calculator.dart';
+import '../services/daily_hadith_index.dart';
 
 class _City {
   final String id;
@@ -233,10 +234,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           final todayKey =
               '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
           final todayPrefs = ref.read(sharedPrefsProvider);
-          final prayerDone =
-              (todayPrefs.getStringList('prayer_tracker_$todayKey') ?? []).length.clamp(0, 5).toInt();
-          final amalDone =
-              (todayPrefs.getStringList('daily_amal_$todayKey') ?? []).length.clamp(0, 6).toInt();
+          const validPrayerKeys = {
+            'fajr', 'dhuhr', 'asr', 'maghrib', 'isha',
+          };
+          const validAmalKeys = {
+            'quran', 'morning', 'evening', 'charity', 'parents', 'istighfar',
+          };
+          final prayerDone = (todayPrefs.getStringList('prayer_tracker_$todayKey') ?? [])
+              .where(validPrayerKeys.contains)
+              .toSet()
+              .length;
+          final amalDone = (todayPrefs.getStringList('daily_amal_$todayKey') ?? [])
+              .where(validAmalKeys.contains)
+              .toSet()
+              .length;
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
@@ -480,8 +491,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     );
                   }
-                  final dayOfYear = _now.difference(DateTime(_now.year, 1, 1)).inDays;
-                  final item = eligible[dayOfYear % eligible.length];
+                  final item = eligible[dailyHadithIndex(_now, eligible.length)];
                   return Card(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
