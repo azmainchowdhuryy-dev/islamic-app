@@ -94,7 +94,7 @@ class QiblaScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 18),
                       StreamBuilder<CompassEvent>(
-                        stream: FlutterCompass.events,
+                        stream: FlutterCompass.events?.cast<CompassEvent>(),
                         builder: (context, snapshot) {
                           final heading = snapshot.data?.heading;
                           if (heading == null) {
