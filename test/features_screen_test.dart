@@ -21,10 +21,31 @@ void main() {
     expect(find.text('সব ফিচার'), findsOneWidget);
     expect(find.text('আজকের নামাজ'), findsOneWidget);
     expect(find.text('দৈনিক আমল'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.text('কিবলা'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('কিবলা'), findsOneWidget);
     expect(find.text('রুকইয়াহ'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.text('তাসবিহ'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('আল্লাহর ৯৯ নাম'), findsOneWidget);
     expect(find.text('তাসবিহ'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.text('হাদিস ও দোয়া'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('হাদিস ও দোয়া'), findsOneWidget);
   });
 }
