@@ -9,7 +9,9 @@
     "english_translation": "Our Lord, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.",
     "reference": "সূরা আল-বাকারা, ২:২০১",
     "source": "আল-কুরআন",
-    "verified": true
+    "verified": true,
+    "verified_by": "Quran text cross-checked against Surah Al-Baqarah 2:201",
+    "verified_date": "2026-11-20"
   },
   {
     "id": "hisn-78",
@@ -21,6 +23,8 @@
     "english_translation": "O Allah, by You we enter the morning and by You we enter the evening. By You we live and by You we die, and to You is the resurrection.",
     "reference": "হিসনুল মুসলিম ৭৮, সহিহ আত-তিরমিযি ৩/১৪২",
     "source": "Hisn al-Muslim",
-    "verified": true
+    "verified": true,
+    "verified_by": "Arabic text cross-checked against Hisn al-Muslim 78",
+    "verified_date": "2026-11-20"
   }
 ]
