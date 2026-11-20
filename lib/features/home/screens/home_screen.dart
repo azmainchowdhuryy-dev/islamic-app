@@ -9,7 +9,7 @@ import '../../../core/localization/app_strings.dart';
 import '../../../core/services/prefs.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../services/prayer_calculator.dart';
-import '../../../shared/widgets/main_shell.dart';
+import '../../../core/navigation/navigation_provider.dart';
 
 class _City {
   final String id;
