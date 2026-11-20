@@ -18,7 +18,8 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('আল্লাহর সুন্দর নামসমূহ'), 400, scrollable: find.byType(Scrollable).first);
+    expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.text('ফজর'), findsOneWidget);
     expect(find.text('কুরআন তিলাওয়াত'), findsOneWidget);
     expect(find.byType(ListTile), findsNWidgets(99));
@@ -32,6 +33,7 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(find.byType(TextField), 400, scrollable: find.byType(Scrollable).first);
     await tester.enterText(find.byType(TextField), 'Ar-Rahman');
     await tester.pumpAndSettle();
 
