@@ -165,7 +165,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
           .where(validAmalKeys.contains)
           .toSet();
       _favorites = savedFavorites
-          .map(int.tryParse)
+          .map((value) => int.tryParse(value))
           .whereType<int>()
           .where((number) => number >= 1 && number <= 99)
           .toSet();
