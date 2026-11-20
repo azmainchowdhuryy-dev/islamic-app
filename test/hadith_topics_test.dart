@@ -43,6 +43,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('মা-বাবার জন্য দোয়া'), findsOneWidget);
+    // The dua topic appears in both its filter chip and its matching dua card.
+    expect(
+      find.descendant(
+        of: find.byType(ChoiceChip),
+        matching: find.text('মা-বাবার জন্য দোয়া'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(Card),
+        matching: find.text('মা-বাবার জন্য দোয়া'),
+      ),
+      findsWidgets,
+    );
   });
 }
