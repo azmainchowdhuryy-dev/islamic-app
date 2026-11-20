@@ -1,6 +1,6 @@
 workflows:
-  android-debug:
-    name: Android Debug APK
+  android-release:
+    name: Android Release APK
     max_build_duration: 30
     instance_type: mac_mini_m2
     environment:
@@ -10,9 +10,8 @@ workflows:
         script: flutter pub get
       - name: Analyze
         script: flutter analyze --no-fatal-infos
-      - name: Test
-        script: flutter test
-      - name: Build Android Debug APK
-        script: flutter build apk --debug
+      - name: Build Split Release APKs
+        script: flutter build apk --release --split-per-abi
     artifacts:
-      - build/**/outputs/**/*.apk
+      - build/app/outputs/flutter-apk/*.apk
+      
