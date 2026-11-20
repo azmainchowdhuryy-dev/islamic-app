@@ -69,9 +69,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _cityId = prefs.getString('home_city') ?? 'dhaka';
     _hanafi = prefs.getBool('home_hanafi') ?? true;
     final methodIndex = (prefs.getInt('home_calc_method') ?? 0)
-        .clamp(0, PrayerCalculation.values.length - 1);
+        .clamp(0, PrayerCalculation.values.length - 1).toInt();
     _method = PrayerCalculation.values[methodIndex];
-    _hijriOffset = (prefs.getInt('hijri_offset') ?? 0).clamp(-1, 1);
+    _hijriOffset = (prefs.getInt('hijri_offset') ?? 0).clamp(-1, 1).toInt();
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() => _now = DateTime.now());
     });
