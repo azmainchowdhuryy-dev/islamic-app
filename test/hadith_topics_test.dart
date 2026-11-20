@@ -19,8 +19,21 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    // The topic appears once in the filter chip and once on the Hadith card.
-    expect(find.text('নিয়ত'), findsWidgets);
+    // The topic is shown in the filter chip and again on the Hadith card.
+    expect(
+      find.descendant(
+        of: find.byType(ChoiceChip),
+        matching: find.text('নিয়ত'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(Card),
+        matching: find.text('নিয়ত'),
+      ),
+      findsWidgets,
+    );
 
     await tester.scrollUntilVisible(
       find.text('দোয়ার বিষয়সমূহ'),
