@@ -99,7 +99,7 @@ class QiblaScreen extends ConsumerWidget {
                                 Text(
                                   bn
                                       ? 'এই ফোনে কম্পাস সেন্সর পাওয়া যাচ্ছে না। নিচে কিবলার হিসাব করা দিক দেওয়া আছে।'
-                                      : 'No compass sensor reading is available on this phone. The calculated Qibla bearing is shown below.',
+                                      : 'Compass sensor data is unavailable on this phone. The calculated Qibla bearing is shown below.',
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -200,7 +200,7 @@ class QiblaScreen extends ConsumerWidget {
                       Text(
                         bn
                             ? 'উত্তর দিক থেকে ঘড়ির কাঁটার দিকে কিবলার কোণ'
-                            : 'Qibla bearing clockwise from true north',
+                            : 'Calculated Qibla bearing clockwise from north',
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodySmall,
                       ),
