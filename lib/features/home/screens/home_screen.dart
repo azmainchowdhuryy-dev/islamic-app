@@ -12,7 +12,6 @@ import '../../../core/services/prefs.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../services/prayer_calculator.dart';
-import '../../../core/navigation/navigation_provider.dart';
 
 class _City {
   final String id;
@@ -326,6 +325,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Text(s.t('asr_method'), style: theme.textTheme.bodyMedium),
+                  const Spacer(),
+                  SegmentedButton<bool>(
+                    showSelectedIcon: false,
+                    segments: [
+                      ButtonSegment(value: true, label: Text(s.t('hanafi'))),
+                      ButtonSegment(value: false, label: Text(s.t('shafi'))),
+                    ],
+                    selected: {_hanafi},
+                    onSelectionChanged: (value) => _saveAsr(value.first),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(s.t('calculation_note'),
+                  style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
               Card(
                 child: Column(
                   children: [
@@ -349,25 +367,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(s.t('asr_method'), style: theme.textTheme.bodyMedium),
-                  const Spacer(),
-                  SegmentedButton<bool>(
-                    showSelectedIcon: false,
-                    segments: [
-                      ButtonSegment(value: true, label: Text(s.t('hanafi'))),
-                      ButtonSegment(value: false, label: Text(s.t('shafi'))),
-                    ],
-                    selected: {_hanafi},
-                    onSelectionChanged: (value) => _saveAsr(value.first),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(s.t('calculation_note'),
-                  style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
               const SizedBox(height: 12),
               Text(s.t('daily_hadith'),
                   style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
