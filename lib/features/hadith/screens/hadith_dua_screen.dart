@@ -213,10 +213,11 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
               final selectedBn = _hadithCategory;
               final selectedDisplay = selectedBn == null
                   ? null
-                  : hadithList
-                      .where((item) => item.category == selectedBn)
-                      .map((item) => lang == 'bn' ? item.category : item.categoryEn)
-                      .firstOrNull;
+                  : (lang == 'bn'
+                      ? selectedBn
+                      : hadithList
+                          .firstWhere((item) => item.category == selectedBn)
+                          .categoryEn);
               final filtered = selectedBn == null
                   ? hadithList
                   : hadithList.where((item) => item.category == selectedBn).toList();
@@ -289,12 +290,11 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
               final selectedBn = _duaCategory;
               final selectedDisplay = selectedBn == null
                   ? null
-                  : duas
-                      .where((item) => item['category_bn'] == selectedBn)
-                      .map((item) => lang == 'bn'
-                          ? item['category_bn'] as String
-                          : item['category_en'] as String)
-                      .firstOrNull;
+                  : (lang == 'bn'
+                      ? selectedBn
+                      : duas.firstWhere(
+                          (item) => item['category_bn'] == selectedBn,
+                        )['category_en'] as String);
               final filtered = selectedBn == null
                   ? duas
                   : duas.where((item) => item['category_bn'] == selectedBn).toList();
