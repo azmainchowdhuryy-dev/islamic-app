@@ -7,28 +7,25 @@ import '../../features/home/screens/home_screen.dart';
 import '../../features/settings/screens/more_screen.dart';
 import '../../features/tasbih/screens/tasbih_screen.dart';
 
-class MainShell extends ConsumerStatefulWidget {
+final mainNavigationIndexProvider = StateProvider<int>((ref) => 0);
+
+class MainShell extends ConsumerWidget {
   const MainShell({super.key});
-  @override
-  ConsumerState<MainShell> createState() => _MainShellState();
-}
-
-class _MainShellState extends ConsumerState<MainShell> {
-  int _index = 0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = ref.watch(stringsProvider).t;
+    final index = ref.watch(mainNavigationIndexProvider);
     return Scaffold(
-      body: IndexedStack(index: _index, children: const [
+      body: IndexedStack(index: index, children: const [
         HomeScreen(),
         HadithDuaScreen(),
         TasbihScreen(),
         MoreScreen(),
       ]),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        selectedIndex: index,
+        onDestinationSelected: (i) => ref.read(mainNavigationIndexProvider.notifier).state = i,
         destinations: [
           NavigationDestination(icon: const Icon(Icons.home_outlined), label: t('home')),
           NavigationDestination(icon: const Icon(Icons.menu_book_outlined), label: t('hadith_dua')),
