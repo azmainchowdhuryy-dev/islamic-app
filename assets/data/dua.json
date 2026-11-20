@@ -26,5 +26,61 @@
     "verified": true,
     "verified_by": "Arabic text cross-checked against Hisn al-Muslim 78",
     "verified_date": "2026-11-20"
+  },
+  {
+    "id": "quran-3-8",
+    "order": 3,
+    "category_bn": "ঈমানের ওপর অবিচল থাকা",
+    "category_en": "Steadfastness in Faith",
+    "arabic_text": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً ۚ إِنَّكَ أَنْتَ الْوَهَّابُ",
+    "bangla_translation": "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তরকে বক্র করবেন না। আপনার পক্ষ থেকে আমাদের রহমত দান করুন। নিশ্চয়ই আপনি মহাদাতা।",
+    "english_translation": "Our Lord, do not let our hearts deviate after You have guided us. Grant us mercy from Yourself. Indeed, You are the Bestower.",
+    "reference": "সূরা আলে ইমরান, ৩:৮",
+    "source": "আল-কুরআন",
+    "verified": true,
+    "verified_by": "Quran text cross-checked against Surah Ali 'Imran 3:8",
+    "verified_date": "2026-11-20"
+  },
+  {
+    "id": "quran-17-24",
+    "order": 4,
+    "category_bn": "মা-বাবার জন্য দোয়া",
+    "category_en": "Dua for Parents",
+    "arabic_text": "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+    "bangla_translation": "হে আমার রব! আমার মা-বাবার প্রতি দয়া করুন, যেমন তাঁরা শৈশবে আমাকে লালন-পালন করেছেন।",
+    "english_translation": "My Lord, have mercy upon my parents as they raised me when I was small.",
+    "reference": "সূরা আল-ইসরা, ১৭:২৪",
+    "source": "আল-কুরআন",
+    "verified": true,
+    "verified_by": "Quran text cross-checked against Surah Al-Isra 17:24",
+    "verified_date": "2026-11-20"
+  },
+  {
+    "id": "quran-20-114",
+    "order": 5,
+    "category_bn": "জ্ঞান বৃদ্ধির দোয়া",
+    "category_en": "Dua for More Knowledge",
+    "arabic_text": "رَبِّ زِدْنِي عِلْمًا",
+    "bangla_translation": "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দিন।",
+    "english_translation": "My Lord, increase me in knowledge.",
+    "reference": "সূরা ত্ব-হা, ২০:১১৪",
+    "source": "আল-কুরআন",
+    "verified": true,
+    "verified_by": "Quran text cross-checked against Surah Taha 20:114",
+    "verified_date": "2026-11-20"
+  },
+  {
+    "id": "quran-25-74",
+    "order": 6,
+    "category_bn": "নেক পরিবার ও সন্তানের জন্য দোয়া",
+    "category_en": "Dua for a Righteous Family",
+    "arabic_text": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+    "bangla_translation": "হে আমাদের রব! আমাদের স্ত্রী ও সন্তানদের পক্ষ থেকে আমাদের চোখ জুড়ানো প্রশান্তি দান করুন এবং আমাদের মুত্তাকিদের জন্য আদর্শ বানান।",
+    "english_translation": "Our Lord, grant us comfort in our spouses and offspring, and make us an example for the righteous.",
+    "reference": "সূরা আল-ফুরকান, ২৫:৭৪",
+    "source": "আল-কুরআন",
+    "verified": true,
+    "verified_by": "Quran text cross-checked against Surah Al-Furqan 25:74",
+    "verified_date": "2026-11-20"
   }
 ]
