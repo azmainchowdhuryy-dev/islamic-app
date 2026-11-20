@@ -15,8 +15,8 @@ import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
 import '../../tools/screens/qibla_screen.dart';
 import '../../tools/screens/ruqyah_screen.dart';
-import '../services/prayer_calculator.dart';
 import '../services/daily_hadith_index.dart';
+import '../services/prayer_calculator.dart';
 
 class _City {
   final String id;
