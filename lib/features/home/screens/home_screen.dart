@@ -234,9 +234,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
           final todayPrefs = ref.read(sharedPrefsProvider);
           final prayerDone =
-              (todayPrefs.getStringList('prayer_tracker_$todayKey') ?? []).length.clamp(0, 5);
+              (todayPrefs.getStringList('prayer_tracker_$todayKey') ?? []).length.clamp(0, 5).toInt();
           final amalDone =
-              (todayPrefs.getStringList('daily_amal_$todayKey') ?? []).length.clamp(0, 6);
+              (todayPrefs.getStringList('daily_amal_$todayKey') ?? []).length.clamp(0, 6).toInt();
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
