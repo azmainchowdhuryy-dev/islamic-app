@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bangla_utilities/bangla_utilities.dart';
+import 'package:hijri_date_time/hijri_date_time.dart';
 
 import '../../../core/localization/app_strings.dart';
 import '../../../core/services/prefs.dart';
@@ -56,6 +58,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String _cityId = 'dhaka';
   bool _hanafi = true;
   PrayerCalculation _method = PrayerCalculation.karachi;
+  int _hijriOffset = 0;
   DateTime _now = DateTime.now();
   Timer? _clock;
 
@@ -68,6 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final methodIndex = (prefs.getInt('home_calc_method') ?? 0)
         .clamp(0, PrayerCalculation.values.length - 1);
     _method = PrayerCalculation.values[methodIndex];
+    _hijriOffset = (prefs.getInt('hijri_offset') ?? 0).clamp(-1, 1);
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() => _now = DateTime.now());
     });
@@ -92,6 +96,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<void> _saveMethod(PrayerCalculation value) async {
     setState(() => _method = value);
     await ref.read(sharedPrefsProvider).setInt('home_calc_method', value.index);
+  }
+
+  Future<void> _saveHijriOffset(int value) async {
+    setState(() => _hijriOffset = value);
+    await ref.read(sharedPrefsProvider).setInt('hijri_offset', value);
   }
 
   String _time(DateTime value, AppStrings s) {
@@ -175,6 +184,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           );
           final nextName = s.t(upcoming.key);
           final remaining = upcoming.value.difference(_now);
+          final banglaDate = BanglaDate.fromDateTime(_now);
+          const banglaMonthsEn = [
+            'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
+            'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
+          ];
+          const hijriMonthsBn = [
+            'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
+            'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল',
+            'জিলকদ', 'জিলহজ'
+          ];
+          const hijriMonthsEn = [
+            'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
+            'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
+            'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah'
+          ];
+          final hijriDate = HijriDateTime.fromGregorian(
+            DateTime(_now.year, _now.month, _now.day),
+          ).add(Duration(days: _hijriOffset));
+          final banglaDateLabel = lang == 'bn'
+              ? '${banglaDate.weekday}, ${banglaDate.day} ${banglaDate.monthName} ${banglaDate.year}'
+              : '${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
+          final hijriDateLabel = lang == 'bn'
+              ? '${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)} হিজরি'
+              : '${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year} AH';
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
@@ -213,7 +246,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       Text(_date(_now, s),
                           style: theme.textTheme.bodyMedium?.copyWith(color: scheme.onPrimary.withValues(alpha: .9))),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 8),
+                      Text(banglaDateLabel,
+                          style: theme.textTheme.bodySmall?.copyWith(color: scheme.onPrimary.withValues(alpha: .9))),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Expanded(child: Text(hijriDateLabel,
+                              style: theme.textTheme.bodySmall?.copyWith(color: scheme.onPrimary.withValues(alpha: .9)))),
+                          PopupMenuButton<int>(
+                            tooltip: s.t('hijri_adjustment'),
+                            icon: Icon(Icons.calendar_month, color: scheme.onPrimary, size: 20),
+                            initialValue: _hijriOffset,
+                            onSelected: _saveHijriOffset,
+                            itemBuilder: (context) => [
+                              PopupMenuItem(value: -1, child: Text(s.t('hijri_minus_one'))),
+                              PopupMenuItem(value: 0, child: Text(s.t('hijri_no_adjustment'))),
+                              PopupMenuItem(value: 1, child: Text(s.t('hijri_plus_one'))),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
                       Text(s.t('next_prayer'),
                           style: theme.textTheme.titleMedium?.copyWith(color: scheme.onPrimary.withValues(alpha: .9))),
                       const SizedBox(height: 4),
