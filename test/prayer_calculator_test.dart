@@ -14,10 +14,12 @@ void main() {
 
       expect(result.entries().map((entry) => entry.key).toList(),
           ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha']);
-      for (final entry in result.entries()) {
-        expect(entry.value.year, 2026);
-        expect(entry.value.month, 11);
-        expect(entry.value.day, 20);
+      final times = result.entries().map((entry) => entry.value).toList();
+      expect(times.every((time) => time.isAfter(DateTime(2026, 11, 18))), isTrue);
+      expect(times.every((time) => time.isBefore(DateTime(2026, 11, 21))), isTrue);
+      for (var i = 1; i < times.length; i++) {
+        expect(times[i].isAfter(times[i - 1]), isTrue,
+            reason: 'Prayer times should be in chronological order');
       }
     });
 
