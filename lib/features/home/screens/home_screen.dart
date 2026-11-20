@@ -11,6 +11,10 @@ import '../../../core/localization/app_strings.dart';
 import '../../../core/services/prefs.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
+import '../../settings/screens/ibadah_tools_screen.dart';
+import '../../tasbih/screens/tasbih_screen.dart';
+import '../../tools/screens/qibla_screen.dart';
+import '../../tools/screens/ruqyah_screen.dart';
 import '../services/prayer_calculator.dart';
 
 class _City {
@@ -130,6 +134,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return '${s.digits(hours.toString().padLeft(2, '0'))}:${s.digits(minutes.toString().padLeft(2, '0'))}:${s.digits(seconds.toString().padLeft(2, '0'))}';
   }
 
+  Future<void> _openTool(BuildContext context, Widget screen) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => screen),
+    );
+    if (mounted) setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = ref.watch(stringsProvider);
@@ -219,6 +230,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           final hijriDateLabel = lang == 'bn'
               ? '${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)} হিজরি'
               : '${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year} AH';
+          final todayKey =
+              '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
+          final todayPrefs = ref.read(sharedPrefsProvider);
+          final prayerDone =
+              (todayPrefs.getStringList('prayer_tracker_$todayKey') ?? []).length.clamp(0, 5);
+          final amalDone =
+              (todayPrefs.getStringList('daily_amal_$todayKey') ?? []).length.clamp(0, 6);
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
@@ -367,7 +385,76 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 18),
+              Text(
+                'Top Features',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                lang == 'bn' ? 'Tracker' : 'Trackers',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: _TrackerSummaryTile(
+                      icon: Icons.mosque_outlined,
+                      title: lang == 'bn' ? 'আজকের নামাজ' : 'Today’s Prayer',
+                      count: prayerDone,
+                      total: 5,
+                      onTap: () => _openTool(context, const IbadahToolsScreen()),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _TrackerSummaryTile(
+                      icon: Icons.checklist_rtl,
+                      title: lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal',
+                      count: amalDone,
+                      total: 6,
+                      onTap: () => _openTool(context, const IbadahToolsScreen()),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 12),
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 2.45,
+                children: [
+                  _HomeFeatureTile(
+                    icon: Icons.explore_outlined,
+                    title: lang == 'bn' ? 'কিবলা' : 'Qibla',
+                    onTap: () => _openTool(context, const QiblaScreen()),
+                  ),
+                  _HomeFeatureTile(
+                    icon: Icons.menu_book_outlined,
+                    title: lang == 'bn' ? 'রুকইয়াহ' : 'Ruqyah',
+                    onTap: () => _openTool(context, const RuqyahScreen()),
+                  ),
+                  _HomeFeatureTile(
+                    icon: Icons.favorite_outline,
+                    title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
+                    onTap: () => _openTool(context, const IbadahToolsScreen()),
+                  ),
+                  _HomeFeatureTile(
+                    icon: Icons.fingerprint,
+                    title: lang == 'bn' ? 'তাসবিহ' : 'Tasbih',
+                    onTap: () => _openTool(context, const TasbihScreen()),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
               Text(s.t('daily_hadith'),
                   style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
@@ -393,7 +480,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     );
                   }
-                  final item = eligible[_now.day % eligible.length];
+                  final dayOfYear = _now.difference(DateTime(_now.year, 1, 1)).inDays;
+                  final item = eligible[dayOfYear % eligible.length];
                   return Card(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
@@ -423,6 +511,102 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _TrackerSummaryTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final int count;
+  final int total;
+  final VoidCallback onTap;
+
+  const _TrackerSummaryTile({
+    required this.icon,
+    required this.title,
+    required this.count,
+    required this.total,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, color: scheme.primary),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                '$count / $total',
+                style: theme.textTheme.bodySmall,
+              ),
+              const SizedBox(height: 6),
+              LinearProgressIndicator(value: count / total),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeFeatureTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const _HomeFeatureTile({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: scheme.primaryContainer,
+                child: Icon(icon, color: scheme.onPrimaryContainer, size: 19),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+              const Icon(Icons.chevron_right, size: 18),
+            ],
+          ),
+        ),
       ),
     );
   }
