@@ -27,7 +27,8 @@ class SettingsNotifier extends Notifier<SettingsState> {
     final savedLang = p.getString('lang');
     final lang = savedLang == 'en' ? 'en' : 'bn';
     final savedThemeIndex = p.getInt('theme') ?? ThemeMode.system.index;
-    final safeThemeIndex = savedThemeIndex.clamp(0, ThemeMode.values.length - 1);
+    final safeThemeIndex =
+        savedThemeIndex.clamp(0, ThemeMode.values.length - 1).toInt();
     final savedFontScale = p.getDouble('font_scale') ?? 1.0;
     final fontScale = savedFontScale.isFinite
         ? savedFontScale.clamp(0.85, 1.4).toDouble()
