@@ -17,6 +17,8 @@ dependencies:
   shared_preferences: ^2.3.3
   adhan: ^2.0.0+1
   intl: ^0.20.2
+  hijri_date_time: ^1.1.0
+  bangla_utilities: ^2.0.2
 
 dev_dependencies:
   flutter_test:
