@@ -22,16 +22,28 @@ class SettingsNotifier extends Notifier<SettingsState> {
   @override
   SettingsState build() {
     final p = ref.read(sharedPrefsProvider);
+
+    // পুরোনো বা নষ্ট preference থাকলেও অ্যাপ যেন crash না করে।
+    final savedLang = p.getString('lang');
+    final lang = savedLang == 'en' ? 'en' : 'bn';
+    final savedThemeIndex = p.getInt('theme') ?? ThemeMode.system.index;
+    final safeThemeIndex = savedThemeIndex.clamp(0, ThemeMode.values.length - 1);
+    final savedFontScale = p.getDouble('font_scale') ?? 1.0;
+    final fontScale = savedFontScale.isFinite
+        ? savedFontScale.clamp(0.85, 1.4).toDouble()
+        : 1.0;
+
     return SettingsState(
-      lang: p.getString('lang') ?? 'bn',
-      themeMode: ThemeMode.values[p.getInt('theme') ?? 0],
-      fontScale: p.getDouble('font_scale') ?? 1.0,
+      lang: lang,
+      themeMode: ThemeMode.values[safeThemeIndex],
+      fontScale: fontScale,
     );
   }
 
   void setLang(String lang) {
-    ref.read(sharedPrefsProvider).setString('lang', lang);
-    state = state.copyWith(lang: lang);
+    final safeLang = lang == 'en' ? 'en' : 'bn';
+    ref.read(sharedPrefsProvider).setString('lang', safeLang);
+    state = state.copyWith(lang: safeLang);
   }
 
   void setThemeMode(ThemeMode m) {
@@ -40,8 +52,9 @@ class SettingsNotifier extends Notifier<SettingsState> {
   }
 
   void setFontScale(double v) {
-    ref.read(sharedPrefsProvider).setDouble('font_scale', v);
-    state = state.copyWith(fontScale: v);
+    final safeValue = v.isFinite ? v.clamp(0.85, 1.4).toDouble() : 1.0;
+    ref.read(sharedPrefsProvider).setDouble('font_scale', safeValue);
+    state = state.copyWith(fontScale: safeValue);
   }
 }
 
