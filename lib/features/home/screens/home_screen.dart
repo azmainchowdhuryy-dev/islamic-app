@@ -10,6 +10,7 @@ import 'package:hijri_date_time/hijri_date_time.dart';
 import '../../../core/localization/app_strings.dart';
 import '../../../core/services/prefs.dart';
 import '../../hadith/providers/hadith_provider.dart';
+import '../../settings/providers/settings_provider.dart';
 import '../services/prayer_calculator.dart';
 import '../../../core/navigation/navigation_provider.dart';
 
