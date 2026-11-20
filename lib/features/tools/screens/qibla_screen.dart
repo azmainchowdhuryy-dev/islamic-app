@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
 import '../../../core/services/prefs.dart';
+import '../services/qibla_calculator.dart';
 
 class _QiblaCity {
   final String id;
@@ -27,7 +28,7 @@ class _QiblaCity {
       );
 }
 
-final _qiblaCityProvider = FutureProvider<_QiblaCity>((ref) async {
+final _qiblaCityProvider = FutureProvider.autoDispose<_QiblaCity>((ref) async {
   final prefs = ref.read(sharedPrefsProvider);
   final selectedCity = prefs.getString('home_city') ?? 'dhaka';
   final raw = await rootBundle.loadString('assets/data/cities_bd.json');
@@ -39,20 +40,6 @@ final _qiblaCityProvider = FutureProvider<_QiblaCity>((ref) async {
     orElse: () => items.first,
   );
 });
-
-double _qiblaBearing(double latitude, double longitude) {
-  const kaabaLatitude = 21.422511 * math.pi / 180;
-  const kaabaLongitude = 39.82615 * math.pi / 180;
-  final lat = latitude * math.pi / 180;
-  final lon = longitude * math.pi / 180;
-  final deltaLon = kaabaLongitude - lon;
-
-  final y = math.sin(deltaLon);
-  final x = math.cos(lat) * math.tan(kaabaLatitude) -
-      math.sin(lat) * math.cos(deltaLon);
-  final degrees = math.atan2(y, x) * 180 / math.pi;
-  return (degrees + 360) % 360;
-}
 
 class QiblaScreen extends ConsumerWidget {
   const QiblaScreen({super.key});
@@ -72,7 +59,10 @@ class QiblaScreen extends ConsumerWidget {
           child: Text(bn ? 'শহরের তথ্য লোড করা যায়নি।' : 'Could not load city information.'),
         ),
         data: (city) {
-          final bearing = _qiblaBearing(city.lat, city.lng);
+          final bearing = QiblaCalculator.bearing(
+            latitude: city.lat,
+            longitude: city.lng,
+          );
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
@@ -97,7 +87,7 @@ class QiblaScreen extends ConsumerWidget {
                         stream: FlutterCompass.events?.cast<CompassEvent>(),
                         builder: (context, snapshot) {
                           final heading = snapshot.data?.heading;
-                          if (heading == null) {
+                          if (heading == null || !heading.isFinite) {
                             return Column(
                               children: [
                                 Icon(
@@ -115,7 +105,10 @@ class QiblaScreen extends ConsumerWidget {
                               ],
                             );
                           }
-                          final relative = (bearing - heading) * math.pi / 180;
+                          final relative = QiblaCalculator.relativeAngle(
+                            qiblaBearing: bearing,
+                            phoneHeading: heading,
+                          ) * math.pi / 180;
                           return Column(
                             children: [
                               SizedBox(
@@ -218,8 +211,8 @@ class QiblaScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               Text(
                 bn
-                    ? 'দিকটি হোম স্ক্রিনে নির্বাচিত শহরের স্থানাঙ্ক ধরে হিসাব করা হয়েছে। কম্পাসের সঠিকতার জন্য ফোনটি ধাতব বস্তু ও চুম্বক থেকে দূরে রাখুন এবং প্রয়োজনে ফোনটি আটের মতো করে নাড়িয়ে সেন্সর ক্যালিব্রেট করুন।'
-                    : 'The bearing is calculated from the city selected on the Home screen. Keep the phone away from metal and magnets. Move it in a figure-eight pattern to recalibrate the compass when needed.',
+                    ? 'দিকটি হোম স্ক্রিনে নির্বাচিত শহরের স্থানাঙ্ক ধরে হিসাব করা হয়েছে, তাই এটি শহরভিত্তিক আনুমানিক দিক। ফোনের কম্পাস চৌম্বকীয় পরিবেশে প্রভাবিত হতে পারে। ধাতব বস্তু ও চুম্বক থেকে দূরে রাখুন এবং প্রয়োজনে ফোনটি আটের মতো করে নাড়িয়ে সেন্সর ক্যালিব্রেট করুন।'
+                    : 'The bearing is calculated from the city selected on the Home screen, so it is a city-level approximation. The phone compass can be affected by magnetic surroundings. Keep the phone away from metal and magnets, and move it in a figure-eight pattern to recalibrate when needed.',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: scheme.onSurfaceVariant,
                   height: 1.5,
