@@ -11,14 +11,16 @@ import '../../../core/services/prefs.dart';
 import '../services/qibla_calculator.dart';
 
 class _QiblaCity {
+  final String id;
   final String nameBn;
   final String nameEn;
   final double lat;
   final double lng;
 
-  const _QiblaCity(this.nameBn, this.nameEn, this.lat, this.lng);
+  const _QiblaCity(this.id, this.nameBn, this.nameEn, this.lat, this.lng);
 
   factory _QiblaCity.fromJson(Map<String, dynamic> json) => _QiblaCity(
+        json['id'] as String,
         json['name_bn'] as String,
         json['name_en'] as String,
         (json['lat'] as num).toDouble(),
