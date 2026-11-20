@@ -144,13 +144,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         title: Text(s.t('greeting'), style: const TextStyle(fontWeight: FontWeight.w700)),
         actions: [
-          IconButton(
-            tooltip: s.t('language'),
-            onPressed: () {
-              final current = ref.read(stringsProvider).lang;
-              ref.read(settingsProvider.notifier).setLang(current == 'bn' ? 'en' : 'bn');
-            },
-            icon: const Icon(Icons.translate),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Center(
+              child: SegmentedButton<String>(
+                showSelectedIcon: false,
+                style: const ButtonStyle(
+                  visualDensity: VisualDensity.compact,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                segments: const [
+                  ButtonSegment(value: 'bn', label: Text('বাংলা')),
+                  ButtonSegment(value: 'en', label: Text('EN')),
+                ],
+                selected: {lang},
+                onSelectionChanged: (value) =>
+                    ref.read(settingsProvider.notifier).setLang(value.first),
+              ),
+            ),
           ),
         ],
       ),
@@ -241,7 +252,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 clipBehavior: Clip.antiAlias,
                 color: scheme.primary,
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -268,17 +279,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 14),
-                      Text(s.t('next_prayer'),
-                          style: theme.textTheme.titleMedium?.copyWith(color: scheme.onPrimary.withValues(alpha: .9))),
-                      const SizedBox(height: 4),
-                      Text(nextName,
-                          style: theme.textTheme.headlineMedium?.copyWith(
-                            color: scheme.onPrimary, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 4),
-                      Text(_time(upcoming.value, s),
-                          style: theme.textTheme.titleLarge?.copyWith(color: scheme.onPrimary)),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Text(s.t('next_prayer'),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                  color: scheme.onPrimary.withValues(alpha: .9))),
+                          const Spacer(),
+                          Text('$nextName  ${_time(upcoming.value, s)}',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                  color: scheme.onPrimary, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
                       Row(
                         children: [
                           Icon(Icons.hourglass_bottom, color: scheme.onPrimary),
@@ -286,7 +299,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           Text(s.t('time_left'), style: TextStyle(color: scheme.onPrimary)),
                           const Spacer(),
                           Text(_countdown(remaining, s),
-                              style: theme.textTheme.titleLarge?.copyWith(
+                              style: theme.textTheme.titleMedium?.copyWith(
                                 color: scheme.onPrimary, fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -294,11 +307,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(child: Text(s.t('prayer_times'),
-                      style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold))),
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold))),
                   PopupMenuButton<PrayerCalculation>(
                     tooltip: s.t('calculation_method'),
                     icon: const Icon(Icons.tune),
@@ -318,6 +331,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     for (final entry in todayEntries)
                       ListTile(
+                        visualDensity: VisualDensity.compact,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                         dense: true,
                         leading: Icon(
                           entry.key == upcoming.key ? Icons.notifications_active : Icons.access_time,
@@ -353,9 +368,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const SizedBox(height: 4),
               Text(s.t('calculation_note'),
                   style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
-              const SizedBox(height: 22),
+              const SizedBox(height: 12),
               Text(s.t('daily_hadith'),
-                  style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               hadithAsync.when(
                 loading: () => const Card(child: Padding(
@@ -405,25 +420,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   );
                 },
-              ),
-              const SizedBox(height: 22),
-              Text(s.t('quick_access'),
-                  style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(child: _QuickAction(
-                    icon: Icons.menu_book_outlined, label: s.t('open_hadith'),
-                    onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 1)),
-                  const SizedBox(width: 10),
-                  Expanded(child: _QuickAction(
-                    icon: Icons.touch_app_outlined, label: s.t('open_tasbih'),
-                    onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 2)),
-                  const SizedBox(width: 10),
-                  Expanded(child: _QuickAction(
-                    icon: Icons.grid_view_outlined, label: s.t('open_more'),
-                    onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 3)),
-                ],
               ),
             ],
           );
