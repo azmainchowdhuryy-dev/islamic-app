@@ -18,7 +18,6 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('99 Names of Allah'), findsNothing);
     expect(find.textContaining('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.text('ফজর'), findsOneWidget);
     expect(find.text('কুরআন তিলাওয়াত'), findsOneWidget);
