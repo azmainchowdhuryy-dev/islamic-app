@@ -1,1 +1,56 @@
-[]
+[
+  {
+    "id": "bukhari-1",
+    "order": 1,
+    "category": "নিয়ত",
+    "arabic_text": "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+    "bangla_translation": "সব কাজের মূল্যায়ন নিয়তের ওপর নির্ভরশীল। প্রত্যেক ব্যক্তি তার নিয়ত অনুযায়ী প্রতিফল পাবে।",
+    "english_translation": "Actions are judged by intentions, and each person will receive according to what they intended.",
+    "narrator": "উমর ইবনুল খাত্তাব (রা.)",
+    "reference": "সহিহ আল-বুখারি ১",
+    "source": "Sahih al-Bukhari",
+    "grade": "সহিহ",
+    "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ",
+    "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ, কোনো প্রকাশিত অনুবাদের অনুলিপি নয়।",
+    "daily_eligible": true,
+    "verified": true,
+    "verified_by": "Sunnah.com reference checked",
+    "verified_date": "2026-11-20"
+  },
+  {
+    "id": "bukhari-6018",
+    "order": 2,
+    "category": "উত্তম কথা",
+    "arabic_text": "فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+    "bangla_translation": "যে ব্যক্তি আল্লাহ ও শেষ দিনের প্রতি ঈমান রাখে, সে যেন ভালো কথা বলে, অথবা নীরব থাকে।",
+    "english_translation": "Whoever believes in Allah and the Last Day should speak good or remain silent.",
+    "narrator": "আবু হুরায়রা (রা.)",
+    "reference": "সহিহ আল-বুখারি ৬০১৮",
+    "source": "Sahih al-Bukhari",
+    "grade": "সহিহ",
+    "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ",
+    "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ, কোনো প্রকাশিত অনুবাদের অনুলিপি নয়।",
+    "daily_eligible": true,
+    "verified": true,
+    "verified_by": "Sunnah.com reference checked",
+    "verified_date": "2026-11-20"
+  },
+  {
+    "id": "muslim-2699a",
+    "order": 3,
+    "category": "ইলম",
+    "arabic_text": "وَمَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ",
+    "bangla_translation": "যে ব্যক্তি জ্ঞান অর্জনের উদ্দেশ্যে কোনো পথ অবলম্বন করে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করে দেন।",
+    "english_translation": "Whoever follows a path seeking knowledge, Allah makes a path to Paradise easy for them.",
+    "narrator": "আবু হুরায়রা (রা.)",
+    "reference": "সহিহ মুসলিম ২৬৯৯a",
+    "source": "Sahih Muslim",
+    "grade": "সহিহ",
+    "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ",
+    "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ, কোনো প্রকাশিত অনুবাদের অনুলিপি নয়।",
+    "daily_eligible": true,
+    "verified": true,
+    "verified_by": "Sunnah.com reference checked",
+    "verified_date": "2026-11-20"
+  }
+]
