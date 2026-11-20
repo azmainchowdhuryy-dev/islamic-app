@@ -50,10 +50,11 @@ class QiblaScreen extends ConsumerWidget {
     final bn = strings.lang == 'bn';
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+    final cityAsync = ref.watch(_qiblaCityProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(bn ? 'কিবলা কম্পাস' : 'Qibla Compass')),
-      body: _qiblaCityProvider.when(
+      body: cityAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Text(bn ? 'শহরের তথ্য লোড করা যায়নি।' : 'Could not load city information.'),
