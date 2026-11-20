@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/localization/app_strings.dart';
+import '../providers/settings_provider.dart';
+
+class MoreScreen extends ConsumerWidget {
+  const MoreScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = ref.watch(stringsProvider).t;
+    final s = ref.watch(settingsProvider);
+    final n = ref.read(settingsProvider.notifier);
+    return Scaffold(
+      appBar: AppBar(title: Text(t('settings'))),
+      body: ListView(padding: const EdgeInsets.all(16), children: [
+        Text(t('language'), style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 8),
+        SegmentedButton<String>(
+          segments: const [
+            ButtonSegment(value: 'bn', label: Text('বাংলা')),
+            ButtonSegment(value: 'en', label: Text('English')),
+          ],
+          selected: {s.lang},
+          onSelectionChanged: (v) => n.setLang(v.first),
+        ),
+        const SizedBox(height: 24),
+        Text(t('theme'), style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 8),
+        SegmentedButton<ThemeMode>(
+          segments: [
+            ButtonSegment(value: ThemeMode.system, label: Text(t('theme_system'))),
+            ButtonSegment(value: ThemeMode.light, label: Text(t('theme_light'))),
+            ButtonSegment(value: ThemeMode.dark, label: Text(t('theme_dark'))),
+          ],
+          selected: {s.themeMode},
+          onSelectionChanged: (v) => n.setThemeMode(v.first),
+        ),
+        const SizedBox(height: 24),
+        Text(t('font_size'), style: Theme.of(context).textTheme.titleMedium),
+        Slider(
+          value: s.fontScale,
+          min: 0.85,
+          max: 1.4,
+          divisions: 11,
+          onChanged: n.setFontScale,
+        ),
+      ]),
+    );
+  }
+}

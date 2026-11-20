@@ -1,0 +1,14 @@
+[
+  {"id":"dhaka","name_bn":"ঢাকা","name_en":"Dhaka","lat":23.8103,"lng":90.4125},
+  {"id":"chattogram","name_bn":"চট্টগ্রাম","name_en":"Chattogram","lat":22.3569,"lng":91.7832},
+  {"id":"rajshahi","name_bn":"রাজশাহী","name_en":"Rajshahi","lat":24.3745,"lng":88.6042},
+  {"id":"khulna","name_bn":"খুলনা","name_en":"Khulna","lat":22.8456,"lng":89.5403},
+  {"id":"sylhet","name_bn":"সিলেট","name_en":"Sylhet","lat":24.8949,"lng":91.8687},
+  {"id":"barishal","name_bn":"বরিশাল","name_en":"Barishal","lat":22.7010,"lng":90.3535},
+  {"id":"rangpur","name_bn":"রংপুর","name_en":"Rangpur","lat":25.7439,"lng":89.2752},
+  {"id":"mymensingh","name_bn":"ময়মনসিংহ","name_en":"Mymensingh","lat":24.7471,"lng":90.4203},
+  {"id":"natore","name_bn":"নাটোর","name_en":"Natore","lat":24.4206,"lng":89.0000},
+  {"id":"tangail","name_bn":"টাঙ্গাইল","name_en":"Tangail","lat":24.2513,"lng":89.9167},
+  {"id":"cumilla","name_bn":"কুমিল্লা","name_en":"Cumilla","lat":23.4607,"lng":91.1809},
+  {"id":"bogura","name_bn":"বগুড়া","name_en":"Bogura","lat":24.8465,"lng":89.3773}
+]
