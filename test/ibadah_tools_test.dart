@@ -5,6 +5,12 @@ import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/settings/screens/ibadah_tools_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Finder _nameSubtitleFinder() => find.byWidgetPredicate(
+      (widget) =>
+          widget is Text && (widget.data ?? '').contains(' • '),
+      description: 'Allah name subtitles',
+    );
+
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
@@ -32,7 +38,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
-    expect(find.byType(ListTile), findsNWidgets(99));
+    expect(_nameSubtitleFinder(), findsNWidgets(99));
   });
 
   testWidgets('name search filters the list', (tester) async {
@@ -55,6 +61,6 @@ void main() {
 
     // Match the result row only, not the editable search field itself.
     expect(find.text('Ar-Rahman • পরম করুণাময়'), findsOneWidget);
-    expect(find.byType(ListTile), findsOneWidget);
+    expect(_nameSubtitleFinder(), findsOneWidget);
   });
 }
