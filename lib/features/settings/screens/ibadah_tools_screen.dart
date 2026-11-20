@@ -154,10 +154,21 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
   Future<void> _load() async {
     final p = ref.read(sharedPrefsProvider);
     if (!mounted) return;
+    final validPrayerKeys = _prayers.map((item) => item.$1).toSet();
+    final validAmalKeys = _dailyAmal.map((item) => item.$1).toSet();
+    final savedFavorites = p.getStringList('asma_favorites') ?? [];
     setState(() {
-      _donePrayers = (p.getStringList('prayer_tracker_$_dateKey') ?? []).toSet();
-      _doneAmal = (p.getStringList('daily_amal_$_dateKey') ?? []).toSet();
-      _favorites = (p.getStringList('asma_favorites') ?? []).map(int.parse).toSet();
+      _donePrayers = (p.getStringList('prayer_tracker_$_dateKey') ?? [])
+          .where(validPrayerKeys.contains)
+          .toSet();
+      _doneAmal = (p.getStringList('daily_amal_$_dateKey') ?? [])
+          .where(validAmalKeys.contains)
+          .toSet();
+      _favorites = savedFavorites
+          .map(int.tryParse)
+          .whereType<int>()
+          .where((number) => number >= 1 && number <= 99)
+          .toSet();
     });
   }
 
