@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/localization/app_strings.dart';
+import '../../core/navigation/navigation_provider.dart';
 import '../../features/hadith/screens/hadith_dua_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../features/settings/screens/more_screen.dart';
 import '../../features/tasbih/screens/tasbih_screen.dart';
-
-final mainNavigationIndexProvider = StateProvider<int>((ref) => 0);
 
 class MainShell extends ConsumerWidget {
   const MainShell({super.key});
