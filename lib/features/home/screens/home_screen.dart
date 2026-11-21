@@ -983,21 +983,29 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final diameter = (size.width - 42).clamp(210.0, 280.0).toDouble();
-    final rect = Rect.fromCenter(
-      center: Offset(size.width / 2, diameter / 2 + 4),
-      width: diameter,
-      height: diameter,
+    const strokeWidth = 11.0;
+    // Keep the complete upper semicircle inside the available paint area.
+    // The old fixed 210px minimum diameter pushed the arc outside this
+    // 174px-high widget, clipping the top or bottom on different screens.
+    final centerY = size.height - strokeWidth / 2 - 3;
+    final maxRadiusByWidth = (size.width - strokeWidth - 12) / 2;
+    final maxRadiusByHeight = centerY - strokeWidth / 2 - 2;
+    final radius = math.min(maxRadiusByWidth, maxRadiusByHeight);
+    if (radius <= 0) return;
+
+    final rect = Rect.fromCircle(
+      center: Offset(size.width / 2, centerY),
+      radius: radius,
     );
     final track = Paint()
       ..color = const Color(0xFFDAC66D)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 11
+      ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
     final active = Paint()
       ..color = const Color(0xFF203B31)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 11
+      ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
     // Negative sweep draws the upper half of the circle, like a prayer-time arch.
