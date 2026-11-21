@@ -224,13 +224,13 @@ void main() {
       expect(st.counters['istighfar']!.target, 1000);
     });
 
-    test('defaults: durood selected, vibration on, sound off, target 33', () async {
+    test('defaults: durood selected, vibration on, sound on, target 33', () async {
       final c = makeContainer(store, prefs);
       await c.read(tasbihProvider.notifier).ready;
       final st = c.read(tasbihProvider);
       expect(st.activeKey, 'durood');
       expect(st.vibration, isTrue);
-      expect(st.sound, isFalse);
+      expect(st.sound, isTrue);
       expect(st.active.target, 33);
     });
 
