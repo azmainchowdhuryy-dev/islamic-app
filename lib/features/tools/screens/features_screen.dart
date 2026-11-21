@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
+import '../../hadith/screens/hadith_dua_screen.dart';
 import '../../../core/navigation/navigation_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
@@ -188,7 +189,7 @@ class FeaturesScreen extends ConsumerWidget {
             icon: Icons.menu_book,
             title: bn ? 'হাদিস ও দোয়া' : 'Hadith and Dua',
             description: bn ? 'বিষয়ভিত্তিক হাদিস ও কুরআনের দোয়া' : 'Browse hadith and Quranic duas by topic',
-            onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 2,
+            onTap: () => _open(context, const HadithDuaScreen()),
           ),
         ],
       ),
