@@ -110,6 +110,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     await ref.read(sharedPrefsProvider).setInt('hijri_offset', value);
   }
 
+  Future<void> _togglePrayerFromHome(
+    String key,
+    Set<String> current,
+    String dateKey,
+  ) async {
+    final next = Set<String>.from(current);
+    if (!next.add(key)) next.remove(key);
+    await ref
+        .read(sharedPrefsProvider)
+        .setStringList('prayer_tracker_$dateKey', next.toList());
+    if (mounted) setState(() {});
+  }
+
   String _clockTime(DateTime value, AppStrings s) {
     final hour = value.hour.toString().padLeft(2, '0');
     final minute = value.minute.toString().padLeft(2, '0');
@@ -623,12 +636,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         ),
                                       ),
                                       const SizedBox(width: 12),
-                                      Icon(
-                                        isDone ? Icons.check_circle : Icons.radio_button_unchecked,
-                                        color: isDone
-                                            ? const Color(0xFF58C78F)
-                                            : const Color(0xFF69777D),
-                                        size: 23,
+                                      IconButton(
+                                        tooltip: isDone
+                                            ? (lang == 'bn' ? 'আদায় করা হয়েছে' : 'Marked complete')
+                                            : (lang == 'bn' ? 'নামাজ আদায় হয়েছে চিহ্নিত করুন' : 'Mark prayer complete'),
+                                        onPressed: () => _togglePrayerFromHome(
+                                          entry.key,
+                                          prayerDoneKeys,
+                                          todayKey,
+                                        ),
+                                        icon: Icon(
+                                          isDone
+                                              ? Icons.check_circle
+                                              : Icons.radio_button_unchecked,
+                                          color: isDone
+                                              ? const Color(0xFF58C78F)
+                                              : const Color(0xFF69777D),
+                                          size: 23,
+                                        ),
                                       ),
                                     ],
                                   ),
