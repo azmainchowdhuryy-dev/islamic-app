@@ -130,7 +130,7 @@ void main() {
       await delayedStore.bothWritesCompleted.future;
 
       expect(delayedStore.persistedSessions, [1, 2]);
-      expect(delayedStore.data['durood']?.session, 2);
+      expect(delayedStore.data['general']?.session, 2);
     });
 
     test('increment raises session and lifetime total by one', () async {
@@ -173,12 +173,12 @@ void main() {
       n.increment();
 
       final st = c.read(tasbihProvider);
-      expect(st.counters['durood']!.session, 2);
+      expect(st.counters['general']!.session, 2);
       expect(st.counters['istighfar']!.session, 1);
 
       n.resetSession(); // শুধু ইস্তিগফার রিসেট হবে
       expect(c.read(tasbihProvider).counters['istighfar']!.session, 0);
-      expect(c.read(tasbihProvider).counters['durood']!.session, 2);
+      expect(c.read(tasbihProvider).counters['general']!.session, 2);
     });
 
     test('target completion is reported exactly once', () async {
@@ -213,7 +213,7 @@ void main() {
       final n = first.read(tasbihProvider.notifier);
       await n.ready;
 
-      n.setTarget(500); // durood
+      n.setTarget(500); // general
       for (var i = 0; i < 5; i++) {
         n.increment();
       }
@@ -233,9 +233,9 @@ void main() {
       expect(st.activeKey, 'istighfar');
       expect(st.vibration, isFalse);
       expect(st.sound, isTrue);
-      expect(st.counters['durood']!.session, 5);
-      expect(st.counters['durood']!.total, 5);
-      expect(st.counters['durood']!.target, 500);
+      expect(st.counters['general']!.session, 5);
+      expect(st.counters['general']!.total, 5);
+      expect(st.counters['general']!.target, 500);
       expect(st.counters['istighfar']!.session, 2);
       expect(st.counters['istighfar']!.target, 1000);
     });

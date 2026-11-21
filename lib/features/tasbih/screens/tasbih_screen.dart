@@ -578,8 +578,13 @@ class TasbihScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
 
-            Container(
-              decoration: AppSurfaceStyles.middleCard(radius: 18),
+            Material(
+              color: AppColors.middleSurface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+                side: const BorderSide(color: AppColors.subtleBorder),
+              ),
+              clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
                   SwitchListTile(
