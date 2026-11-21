@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/services/feedback_service.dart';
 import '../models/tasbih_state.dart';
 import '../providers/tasbih_provider.dart';
@@ -135,7 +136,10 @@ class TasbihScreen extends ConsumerWidget {
                 child: CircularProgressIndicator(
                   value: c.progress,
                   strokeWidth: 10,
-                  backgroundColor: scheme.surfaceContainerHighest,
+                  backgroundColor: AppColors.subtleBorder,
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    AppColors.progressRing,
+                  ),
                 ),
               ),
               Material(
