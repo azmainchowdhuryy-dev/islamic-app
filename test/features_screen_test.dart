@@ -28,7 +28,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('Features screen exposes supported tools without Qibla Compass', (tester) async {
+  testWidgets('Features screen exposes the remaining supported tools', (tester) async {
     await pumpFeatures(tester);
 
     expect(find.text('সব ফিচার'), findsOneWidget);
