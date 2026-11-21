@@ -15,7 +15,6 @@ import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
-import '../../tools/screens/qibla_screen.dart';
 import '../../tools/screens/ruqyah_screen.dart';
 import '../services/daily_hadith_index.dart';
 import '../services/prayer_calculator.dart';
@@ -793,11 +792,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           title: lang == 'bn' ? 'হাদিস' : 'Hadith',
                           icon: Icons.menu_book_outlined,
                           onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 2,
-                        ),
-                        _HomeCircleFeature(
-                          title: lang == 'bn' ? 'কিবলা' : 'Qibla',
-                          icon: Icons.explore_outlined,
-                          onTap: () => _openTool(context, const QiblaScreen()),
                         ),
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'রুকইয়াহ' : 'Ruqyah',
