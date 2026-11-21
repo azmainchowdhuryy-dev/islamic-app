@@ -125,11 +125,11 @@ void main() {
 
     expect(
       tester.widget<Text>(find.byKey(const Key('next_prayer_name'))).style?.fontSize,
-      23,
+      21,
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('next_prayer_remaining_label'))).style?.fontSize,
-      15,
+      13,
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('next_prayer_countdown'))).style?.fontSize,
