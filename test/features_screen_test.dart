@@ -69,7 +69,11 @@ void main() {
       }
     }
 
-    await pumpFeatures(tester, themeMode: ThemeMode.dark);
+    // Recreate the app after changing the platform brightness so the System
+    // theme is resolved from the updated test device brightness.
+    tester.binding.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+    await tester.pumpWidget(const SizedBox.shrink());
+    await pumpFeatures(tester, themeMode: ThemeMode.system);
     final darkAvatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar).first);
     expect(darkAvatar.backgroundColor, AppColors.iconBadge);
     final darkIcon = tester.widget<Icon>(

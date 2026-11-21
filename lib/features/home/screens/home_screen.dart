@@ -391,7 +391,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 0),
                         SizedBox(
                           key: const Key('next_prayer_arc'),
-                          height: 112,
+                          height: 122,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
