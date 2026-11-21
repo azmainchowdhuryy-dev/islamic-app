@@ -66,9 +66,9 @@ void main() {
       findsOneWidget,
     );
 
-    await tester.ensureVisible(find.text('দোয়ার বিষয়সমূহ'));
-    await tester.pumpAndSettle();
-
+    // Render the Dua collection in its own tab instead of relying on a
+    // lazy ListView child that may be outside the current viewport.
+    await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('81টি দোয়া'), findsOneWidget);
     expect(
