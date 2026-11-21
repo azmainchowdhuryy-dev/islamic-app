@@ -1,7 +1,7 @@
 name: Flutter CI
 
 concurrency:
-  group: flutter-ci-${{ github.event.pull_request.head.ref || github.ref_name }}
+  group: flutter-ci-${{ github.event_name }}-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 
 on:
