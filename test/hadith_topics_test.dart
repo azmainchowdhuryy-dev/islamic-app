@@ -57,7 +57,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.all);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('38টি হাদিস'), findsOneWidget);
+    expect(find.text('88টি হাদিস'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
@@ -74,7 +74,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('31টি দোয়া'), findsOneWidget);
+    expect(find.text('81টি দোয়া'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
@@ -88,7 +88,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.hadith);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('38টি হাদিস'), findsOneWidget);
+    expect(find.text('88টি হাদিস'), findsOneWidget);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsNothing);
   });
 
@@ -96,7 +96,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('31টি দোয়া'), findsOneWidget);
+    expect(find.text('81টি দোয়া'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
   });
 }
