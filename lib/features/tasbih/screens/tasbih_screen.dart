@@ -135,14 +135,14 @@ class TasbihScreen extends ConsumerWidget {
                       final selected = preset.key == activeKey;
                       return Material(
                         color: selected
-                            ? AppColors.activeSurface
-                            : AppColors.middleSurface,
+                            ? scheme.primaryContainer
+                            : scheme.surfaceContainerLow,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                           side: BorderSide(
                             color: selected
-                                ? AppColors.primaryAccent
-                                : AppColors.subtleBorder,
+                                ? scheme.primary
+                                : scheme.outlineVariant,
                           ),
                         ),
                         clipBehavior: Clip.antiAlias,
@@ -169,10 +169,13 @@ class TasbihScreen extends ConsumerWidget {
                                 Container(
                                   width: 46,
                                   height: 46,
-                                  decoration: AppSurfaceStyles.featureIconBadge(),
+                                  decoration: BoxDecoration(
+                                    color: scheme.primaryContainer,
+                                    shape: BoxShape.circle,
+                                  ),
                                   child: Icon(
                                     _presetIcon(preset.iconName),
-                                    color: AppColors.primaryAccent,
+                                    color: scheme.primary,
                                     size: 23,
                                   ),
                                 ),
@@ -187,7 +190,7 @@ class TasbihScreen extends ConsumerWidget {
                                             .textTheme
                                             .titleSmall
                                             ?.copyWith(
-                                              color: AppColors.primaryText,
+                                              color: scheme.onSurface,
                                               fontWeight: FontWeight.w700,
                                             ),
                                       ),
@@ -199,7 +202,7 @@ class TasbihScreen extends ConsumerWidget {
                                             preset.arabic,
                                             textAlign: TextAlign.right,
                                             style: const TextStyle(
-                                              color: AppColors.secondaryText,
+                                              color: scheme.onSurfaceVariant,
                                               fontSize: 17,
                                               height: 1.6,
                                             ),
@@ -215,7 +218,7 @@ class TasbihScreen extends ConsumerWidget {
                                             .textTheme
                                             .bodySmall
                                             ?.copyWith(
-                                              color: AppColors.secondaryText,
+                                              color: scheme.onSurfaceVariant,
                                             ),
                                       ),
                                     ],
@@ -226,7 +229,7 @@ class TasbihScreen extends ConsumerWidget {
                                     padding: EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Icons.workspace_premium,
-                                      color: AppColors.warmAmber,
+                                      color: scheme.tertiary,
                                       size: 20,
                                     ),
                                   ),
@@ -287,6 +290,7 @@ class TasbihScreen extends ConsumerWidget {
     final counter = state.active;
     final notifier = ref.read(tasbihProvider.notifier);
     final textTheme = Theme.of(context).textTheme;
+    final scheme = Theme.of(context).colorScheme;
     final preset = tasbihPresetForKey(state.activeKey);
     final ringSize = math.min(MediaQuery.of(context).size.width - 48, 260.0);
     final buttonSize = ringSize * 0.79;
@@ -320,7 +324,7 @@ class TasbihScreen extends ConsumerWidget {
             onPressed: () => _showPremiumNotice(context, strings),
             icon: const Icon(
               Icons.workspace_premium_outlined,
-              color: AppColors.warmAmber,
+              color: scheme.tertiary,
             ),
           ),
           IconButton(
@@ -337,10 +341,10 @@ class TasbihScreen extends ConsumerWidget {
         child: Column(
           children: [
             Material(
-              color: AppColors.middleSurface,
+              color: scheme.surfaceContainerLow,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
-                side: const BorderSide(color: AppColors.subtleBorder),
+                side: BorderSide(color: scheme.outlineVariant),
               ),
               clipBehavior: Clip.antiAlias,
               child: InkWell(
@@ -361,10 +365,13 @@ class TasbihScreen extends ConsumerWidget {
                       Container(
                         width: 44,
                         height: 44,
-                        decoration: AppSurfaceStyles.featureIconBadge(),
+                        decoration: BoxDecoration(
+                          color: scheme.primaryContainer,
+                          shape: BoxShape.circle,
+                        ),
                         child: Icon(
                           _presetIcon(preset.iconName),
-                          color: AppColors.primaryAccent,
+                          color: scheme.primary,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -375,7 +382,7 @@ class TasbihScreen extends ConsumerWidget {
                             Text(
                               strings.t('active_tasbih'),
                               style: textTheme.bodySmall?.copyWith(
-                                color: AppColors.secondaryText,
+                                color: scheme.onSurfaceVariant,
                               ),
                             ),
                             const SizedBox(height: 3),
@@ -383,7 +390,7 @@ class TasbihScreen extends ConsumerWidget {
                               preset.title(strings.lang),
                               key: const Key('active_tasbih_title'),
                               style: textTheme.titleMedium?.copyWith(
-                                color: AppColors.primaryText,
+                                color: scheme.onSurface,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
@@ -433,15 +440,13 @@ class TasbihScreen extends ConsumerWidget {
                         value: progress,
                         strokeWidth: 10,
                         strokeCap: StrokeCap.round,
-                        backgroundColor: AppColors.subtleBorder,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primaryAccent,
-                        ),
+                        backgroundColor: scheme.outlineVariant,
+                        valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
                       ),
                     ),
                   ),
                   Material(
-                    color: AppColors.heroSurface,
+                    color: scheme.primaryContainer,
                     elevation: 3,
                     shape: const CircleBorder(),
                     child: InkWell(
@@ -459,7 +464,7 @@ class TasbihScreen extends ConsumerWidget {
                                 strings.digits(counter.session),
                                 key: const Key('session_count'),
                                 style: TextStyle(
-                                  color: AppColors.primaryText,
+                                  color: scheme.onSurface,
                                   fontSize: ringSize * 0.22,
                                   fontWeight: FontWeight.w800,
                                   height: 1.1,
@@ -503,7 +508,7 @@ class TasbihScreen extends ConsumerWidget {
                 children: [
                   const Icon(
                     Icons.check_circle,
-                    color: AppColors.primaryAccent,
+                    color: scheme.primary,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -521,7 +526,11 @@ class TasbihScreen extends ConsumerWidget {
                 horizontal: 18,
                 vertical: 12,
               ),
-              decoration: AppSurfaceStyles.middleCard(radius: 16),
+              decoration: BoxDecoration(
+                color: scheme.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: scheme.outlineVariant),
+              ),
               child: Row(
                 children: [
                   const Icon(
@@ -579,7 +588,7 @@ class TasbihScreen extends ConsumerWidget {
             const SizedBox(height: 16),
 
             Material(
-              color: AppColors.middleSurface,
+              color: scheme.surfaceContainerLow,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
                 side: const BorderSide(color: AppColors.subtleBorder),
