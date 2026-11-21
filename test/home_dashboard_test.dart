@@ -148,6 +148,20 @@ void main() {
     );
   });
 
+  testWidgets('Home prayer countdown slides to the second item every five seconds', (tester) async {
+    await _pumpMainShell(tester);
+
+    final countdownName = find.byKey(const Key('next_prayer_name'));
+    final firstName = tester.widget<Text>(countdownName).data;
+
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pump(const Duration(milliseconds: 500));
+
+    expect(countdownName, findsOneWidget);
+    final secondName = tester.widget<Text>(countdownName).data;
+    expect(secondName, isNot(firstName));
+  });
+
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
     await _pumpMainShell(tester);
 
