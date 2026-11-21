@@ -123,14 +123,20 @@ class FeaturesScreen extends ConsumerWidget {
                 icon: Icons.mosque_outlined,
                 title: bn ? 'আজকের নামাজ' : 'Prayer Tracker',
                 description: bn ? 'পাঁচ ওয়াক্তের হিসাব রাখুন' : 'Track your five daily prayers',
-                onTap: () => _open(context, const IbadahToolsScreen()),
+                onTap: () => _open(
+                  context,
+                  const IbadahToolsScreen(section: IbadahToolsSection.prayers),
+                ),
               ),
               _featureCard(
                 context: context,
                 icon: Icons.checklist_rtl,
                 title: bn ? 'দৈনিক আমল' : 'Daily Amal',
                 description: bn ? 'প্রতিদিনের ভালো কাজের তালিকা' : 'Keep a daily good-deeds checklist',
-                onTap: () => _open(context, const IbadahToolsScreen()),
+                onTap: () => _open(
+                  context,
+                  const IbadahToolsScreen(section: IbadahToolsSection.dailyAmal),
+                ),
               ),
             ],
           ),
@@ -162,7 +168,10 @@ class FeaturesScreen extends ConsumerWidget {
                 icon: Icons.favorite_outline,
                 title: bn ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
                 description: bn ? 'আরবি, উচ্চারণ ও অর্থ' : 'Arabic, transliteration and meanings',
-                onTap: () => _open(context, const IbadahToolsScreen()),
+                onTap: () => _open(
+                  context,
+                  const IbadahToolsScreen(section: IbadahToolsSection.names),
+                ),
               ),
               _featureCard(
                 context: context,
