@@ -56,6 +56,13 @@ class TasbihScreen extends ConsumerWidget {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
+    if (st.isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: Text(s.t('tasbih'))),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text(s.t('tasbih'))),
       body: SingleChildScrollView(
