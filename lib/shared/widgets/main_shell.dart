@@ -18,32 +18,68 @@ class MainShell extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(index: index, children: const [
         HomeScreen(),
-        HadithDuaScreen(),
         FeaturesScreen(),
+        HadithDuaScreen(section: HadithDuaSection.hadith),
+        HadithDuaScreen(section: HadithDuaSection.dua),
         MoreScreen(),
       ]),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
-        onDestinationSelected: (i) =>
-            ref.read(mainNavigationIndexProvider.notifier).state = i,
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            label: t('home'),
+      bottomNavigationBar: NavigationBarTheme(
+        data: NavigationBarThemeData(
+          backgroundColor: const Color(0xFF101A1E),
+          indicatorColor: const Color(0xFF075D46),
+          height: 76,
+          labelTextStyle: WidgetStateProperty.resolveWith(
+            (states) => TextStyle(
+              color: states.contains(WidgetState.selected)
+                  ? const Color(0xFF58C99C)
+                  : const Color(0xFFB7C4C8),
+              fontSize: 11,
+              fontWeight: states.contains(WidgetState.selected)
+                  ? FontWeight.w700
+                  : FontWeight.w500,
+            ),
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.menu_book_outlined),
-            label: t('hadith_dua'),
+          iconTheme: WidgetStateProperty.resolveWith(
+            (states) => IconThemeData(
+              color: states.contains(WidgetState.selected)
+                  ? const Color(0xFF42C391)
+                  : const Color(0xFFCAD4D7),
+              size: 24,
+            ),
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.apps_outlined),
-            label: t('features'),
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.more_horiz),
-            label: t('more'),
-          ),
-        ],
+        ),
+        child: NavigationBar(
+          selectedIndex: index,
+          onDestinationSelected: (i) =>
+              ref.read(mainNavigationIndexProvider.notifier).state = i,
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home_rounded),
+              label: t('home'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.apps_outlined),
+              selectedIcon: const Icon(Icons.apps),
+              label: t('features'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.menu_book_outlined),
+              selectedIcon: const Icon(Icons.menu_book),
+              label: t('hadith'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.volunteer_activism_outlined),
+              selectedIcon: const Icon(Icons.volunteer_activism),
+              label: t('dua'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.person_outline),
+              selectedIcon: const Icon(Icons.person),
+              label: t('more'),
+            ),
+          ],
+        ),
       ),
     );
   }
