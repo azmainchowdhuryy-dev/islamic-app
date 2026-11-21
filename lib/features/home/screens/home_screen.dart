@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
 
 import '../../../core/localization/app_strings.dart';
+import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
@@ -108,13 +110,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     await ref.read(sharedPrefsProvider).setInt('hijri_offset', value);
   }
 
-  String _time(DateTime value, AppStrings s) {
-    final hour = value.hour % 12 == 0 ? 12 : value.hour % 12;
+  String _clockTime(DateTime value, AppStrings s) {
+    final hour = value.hour.toString().padLeft(2, '0');
     final minute = value.minute.toString().padLeft(2, '0');
-    final suffix = value.hour < 12
-        ? (s.lang == 'bn' ? 'পূর্বাহ্ণ' : 'AM')
-        : (s.lang == 'bn' ? 'অপরাহ্ণ' : 'PM');
-    return s.digits('$hour:$minute $suffix');
+    return s.digits('$hour:$minute');
   }
 
   String _date(DateTime date, AppStrings s) {
@@ -151,442 +150,744 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(s.t('greeting'), style: const TextStyle(fontWeight: FontWeight.w700)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: Center(
-              child: SegmentedButton<String>(
-                showSelectedIcon: false,
-                style: const ButtonStyle(
-                  visualDensity: VisualDensity.compact,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                segments: const [
-                  ButtonSegment(value: 'bn', label: Text('বাংলা')),
-                  ButtonSegment(value: 'en', label: Text('EN')),
-                ],
-                selected: {lang},
-                onSelectionChanged: (value) =>
-                    ref.read(settingsProvider.notifier).setLang(value.first),
-              ),
-            ),
-          ),
-        ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Color(0xFF101A1E),
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
-      body: citiesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text(s.t('prayer_error'))),
-        data: (cities) {
-          final city = cities.firstWhere(
-            (item) => item.id == _cityId,
-            orElse: () => cities.first,
-          );
-          final prayers = DailyPrayerTimes.calculate(
-            latitude: city.lat,
-            longitude: city.lng,
-            date: _now,
-            hanafi: _hanafi,
-            method: _method,
-          );
-          final todayEntries = prayers.entries();
-          final nextDay = _now.add(const Duration(days: 1));
-          final tomorrow = DailyPrayerTimes.calculate(
-            latitude: city.lat,
-            longitude: city.lng,
-            date: nextDay,
-            hanafi: _hanafi,
-            method: _method,
-          );
-          final nextFajr = tomorrow.fajr;
-          final upcoming = todayEntries.firstWhere(
-            (entry) => entry.value.isAfter(_now),
-            orElse: () => MapEntry('fajr', nextFajr),
-          );
-          final nextName = s.t(upcoming.key);
-          final remaining = upcoming.value.difference(_now);
-          final banglaDate = BanglaDate.fromDateTime(_now);
-          const banglaMonthsEn = [
-            'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
-            'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
-          ];
-          const hijriMonthsBn = [
-            'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
-            'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল',
-            'জিলকদ', 'জিলহজ'
-          ];
-          const hijriMonthsEn = [
-            'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
-            'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
-            'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah'
-          ];
-          final hijriDate = HijriDateTime.fromGregorian(
-            DateTime(_now.year, _now.month, _now.day),
-          ).add(Duration(days: _hijriOffset));
-          final banglaDateLabel = lang == 'bn'
-              ? '${banglaDate.weekday}, ${banglaDate.day} ${banglaDate.monthName} ${banglaDate.year}'
-              : '${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
-          final hijriDateLabel = lang == 'bn'
-              ? '${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)} হিজরি'
-              : '${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year} AH';
-          final todayKey =
-              '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
-          final todayPrefs = ref.read(sharedPrefsProvider);
-          const validPrayerKeys = {
-            'fajr', 'dhuhr', 'asr', 'maghrib', 'isha',
-          };
-          const validAmalKeys = {
-            'quran', 'morning', 'evening', 'charity', 'parents', 'istighfar',
-          };
-          final prayerDone = (todayPrefs.getStringList('prayer_tracker_$todayKey') ?? [])
-              .where(validPrayerKeys.contains)
-              .toSet()
-              .length;
-          final amalDone = (todayPrefs.getStringList('daily_amal_$todayKey') ?? [])
-              .where(validAmalKeys.contains)
-              .toSet()
-              .length;
+      child: Scaffold(
+        backgroundColor: const Color(0xFF1B2529),
+        body: citiesAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(
+            child: Text(s.t('prayer_error'),
+                style: const TextStyle(color: Color(0xFFE6EEF0))),
+          ),
+          data: (cities) {
+            final city = cities.firstWhere(
+              (item) => item.id == _cityId,
+              orElse: () => cities.first,
+            );
+            final prayers = DailyPrayerTimes.calculate(
+              latitude: city.lat,
+              longitude: city.lng,
+              date: _now,
+              hanafi: _hanafi,
+              method: _method,
+            );
+            final todayEntries = prayers.entries();
+            final tomorrow = DailyPrayerTimes.calculate(
+              latitude: city.lat,
+              longitude: city.lng,
+              date: _now.add(const Duration(days: 1)),
+              hanafi: _hanafi,
+              method: _method,
+            );
+            final yesterday = DailyPrayerTimes.calculate(
+              latitude: city.lat,
+              longitude: city.lng,
+              date: _now.subtract(const Duration(days: 1)),
+              hanafi: _hanafi,
+              method: _method,
+            );
+            final upcoming = todayEntries.firstWhere(
+              (entry) => entry.value.isAfter(_now),
+              orElse: () => MapEntry('fajr', tomorrow.fajr),
+            );
+            final nextName = s.t(upcoming.key);
+            final remaining = upcoming.value.difference(_now);
+            final nextIndex = todayEntries.indexWhere(
+              (entry) => entry.key == upcoming.key,
+            );
+            final previousPrayerTime =
+                nextIndex <= 0 ? yesterday.isha : todayEntries[nextIndex - 1].value;
+            final intervalSeconds =
+                upcoming.value.difference(previousPrayerTime).inSeconds;
+            final elapsedSeconds = _now
+                .difference(previousPrayerTime)
+                .inSeconds
+                .clamp(0, intervalSeconds > 0 ? intervalSeconds : 0);
+            final countdownProgress = intervalSeconds > 0
+                ? elapsedSeconds / intervalSeconds
+                : 0.0;
 
-          return ListView(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-            children: [
-              Row(
+            final banglaDate = BanglaDate.fromDateTime(_now);
+            const banglaMonthsEn = [
+              'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
+              'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
+            ];
+            const hijriMonthsBn = [
+              'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
+              'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল',
+              'জিলকদ', 'জিলহজ'
+            ];
+            const hijriMonthsEn = [
+              'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
+              'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
+              'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah'
+            ];
+            final hijriDate = HijriDateTime.fromGregorian(
+              DateTime(_now.year, _now.month, _now.day),
+            ).add(Duration(days: _hijriOffset));
+            final banglaDateLabel = lang == 'bn'
+                ? '\${banglaDate.weekday}, \${banglaDate.day} \${banglaDate.monthName} \${banglaDate.year}'
+                : '\${banglaDate.dayInt} \${banglaMonthsEn[banglaDate.monthInt - 1]} \${banglaDate.yearInt}';
+            final hijriDateLabel = lang == 'bn'
+                ? '\${s.digits(hijriDate.day)} \${hijriMonthsBn[hijriDate.month - 1]} \${s.digits(hijriDate.year)} হিজরি'
+                : '\${hijriDate.day} \${hijriMonthsEn[hijriDate.month - 1]} \${hijriDate.year} AH';
+
+            final todayKey =
+                '\${_now.year}-\${_now.month.toString().padLeft(2, '0')}-\${_now.day.toString().padLeft(2, '0')}';
+            final todayPrefs = ref.read(sharedPrefsProvider);
+            const validPrayerKeys = {'fajr', 'dhuhr', 'asr', 'maghrib', 'isha'};
+            final prayerDoneKeys = (todayPrefs
+                        .getStringList('prayer_tracker_$todayKey') ??
+                    [])
+                .where(validPrayerKeys.contains)
+                .toSet();
+            const validAmalKeys = {
+              'quran', 'morning', 'evening', 'charity', 'parents', 'istighfar',
+            };
+            final amalDone = (todayPrefs
+                        .getStringList('daily_amal_$todayKey') ??
+                    [])
+                .where(validAmalKeys.contains)
+                .toSet()
+                .length;
+            final prayerDone = prayerDoneKeys.length;
+            final prayerPercent = (prayerDone / 5 * 100).round();
+
+            return SafeArea(
+              top: false,
+              child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
-                  Icon(Icons.location_on_outlined, color: scheme.primary, size: 19),
-                  const SizedBox(width: 6),
-                  Text(s.t('city'), style: theme.textTheme.labelLarge),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: city.id,
-                        items: [
-                          for (final item in cities)
-                            DropdownMenuItem(value: item.id, child: Text(item.name(lang))),
-                        ],
-                        onChanged: (value) {
-                          if (value != null) _saveCity(value);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Card(
-                clipBehavior: Clip.antiAlias,
-                color: scheme.primary,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(_date(_now, s),
-                          style: theme.textTheme.bodyMedium?.copyWith(color: scheme.onPrimary.withValues(alpha: .9))),
-                      const SizedBox(height: 8),
-                      Text(banglaDateLabel,
-                          style: theme.textTheme.bodySmall?.copyWith(color: scheme.onPrimary.withValues(alpha: .9))),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Expanded(child: Text(hijriDateLabel,
-                              style: theme.textTheme.bodySmall?.copyWith(color: scheme.onPrimary.withValues(alpha: .9)))),
-                          PopupMenuButton<int>(
-                            tooltip: s.t('hijri_adjustment'),
-                            icon: Icon(Icons.calendar_month, color: scheme.onPrimary, size: 20),
-                            initialValue: _hijriOffset,
-                            onSelected: _saveHijriOffset,
-                            itemBuilder: (context) => [
-                              PopupMenuItem(value: -1, child: Text(s.t('hijri_minus_one'))),
-                              PopupMenuItem(value: 0, child: Text(s.t('hijri_no_adjustment'))),
-                              PopupMenuItem(value: 1, child: Text(s.t('hijri_plus_one'))),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          Text(s.t('next_prayer'),
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                  color: scheme.onPrimary.withValues(alpha: .9))),
-                          const Spacer(),
-                          Text('$nextName  ${_time(upcoming.value, s)}',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                  color: scheme.onPrimary, fontWeight: FontWeight.bold)),
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFFFFE98D),
+                          Color(0xFFFFE477),
+                          Color(0xFFFFEF9E),
                         ],
                       ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          Icon(Icons.hourglass_bottom, color: scheme.onPrimary),
-                          const SizedBox(width: 8),
-                          Text(s.t('time_left'), style: TextStyle(color: scheme.onPrimary)),
-                          const Spacer(),
-                          Text(_countdown(remaining, s),
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: scheme.onPrimary, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(child: Text(s.t('prayer_times'),
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold))),
-                  PopupMenuButton<PrayerCalculation>(
-                    tooltip: s.t('calculation_method'),
-                    icon: const Icon(Icons.tune),
-                    initialValue: _method,
-                    onSelected: _saveMethod,
-                    itemBuilder: (context) => [
-                      PopupMenuItem(value: PrayerCalculation.karachi, child: Text(s.t('karachi'))),
-                      PopupMenuItem(value: PrayerCalculation.muslimWorldLeague, child: Text(s.t('mwl'))),
-                      PopupMenuItem(value: PrayerCalculation.egyptian, child: Text(s.t('egypt'))),
-                      PopupMenuItem(value: PrayerCalculation.dubai, child: Text(s.t('dubai'))),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(s.t('asr_method'), style: theme.textTheme.bodyMedium),
-                  const Spacer(),
-                  SegmentedButton<bool>(
-                    showSelectedIcon: false,
-                    segments: [
-                      ButtonSegment(value: true, label: Text(s.t('hanafi'))),
-                      ButtonSegment(value: false, label: Text(s.t('shafi'))),
-                    ],
-                    selected: {_hanafi},
-                    onSelectionChanged: (value) => _saveAsr(value.first),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(s.t('calculation_note'),
-                  style: theme.textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
-              Card(
-                child: Column(
-                  children: [
-                    for (final entry in todayEntries)
-                      ListTile(
-                        visualDensity: VisualDensity.compact,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                        dense: true,
-                        leading: Icon(
-                          entry.key == upcoming.key ? Icons.notifications_active : Icons.access_time,
-                          color: entry.key == upcoming.key ? scheme.primary : scheme.onSurfaceVariant,
-                        ),
-                        title: Text(s.t(entry.key),
-                            style: TextStyle(fontWeight: entry.key == upcoming.key ? FontWeight.bold : FontWeight.normal)),
-                        trailing: Text(_time(entry.value, s),
-                            style: TextStyle(
-                              fontWeight: entry.key == upcoming.key ? FontWeight.bold : FontWeight.w500,
-                              color: entry.key == upcoming.key ? scheme.primary : null,
-                            )),
-                      ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                'Top Features',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                lang == 'bn' ? 'ট্র্যাকার' : 'Trackers',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: _TrackerSummaryTile(
-                      icon: Icons.mosque_outlined,
-                      title: lang == 'bn' ? 'আজকের নামাজ' : 'Today’s Prayer',
-                      count: prayerDone,
-                      total: 5,
-                      onTap: () => _openTool(
-                        context,
-                        const IbadahToolsScreen(section: IbadahToolsSection.prayers),
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(28),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _TrackerSummaryTile(
-                      icon: Icons.checklist_rtl,
-                      title: lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal',
-                      count: amalDone,
-                      total: 6,
-                      onTap: () => _openTool(
-                        context,
-                        const IbadahToolsScreen(section: IbadahToolsSection.dailyAmal),
-                      ),
+                    padding: EdgeInsets.fromLTRB(
+                      16,
+                      MediaQuery.of(context).padding.top + 10,
+                      16,
+                      16,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 2.45,
-                children: [
-                  _HomeFeatureTile(
-                    icon: Icons.explore_outlined,
-                    title: lang == 'bn' ? 'কিবলা' : 'Qibla',
-                    onTap: () => _openTool(context, const QiblaScreen()),
-                  ),
-                  _HomeFeatureTile(
-                    icon: Icons.menu_book_outlined,
-                    title: lang == 'bn' ? 'রুকইয়াহ' : 'Ruqyah',
-                    onTap: () => _openTool(context, const RuqyahScreen()),
-                  ),
-                  _HomeFeatureTile(
-                    icon: Icons.favorite_outline,
-                    title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
-                    onTap: () => _openTool(
-                      context,
-                      const IbadahToolsScreen(section: IbadahToolsSection.names),
-                    ),
-                  ),
-                  _HomeFeatureTile(
-                    icon: Icons.fingerprint,
-                    title: lang == 'bn' ? 'তাসবিহ' : 'Tasbih',
-                    onTap: () => _openTool(context, const TasbihScreen()),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Text(s.t('daily_hadith'),
-                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              hadithAsync.when(
-                loading: () => const Card(child: Padding(
-                  padding: EdgeInsets.all(18), child: LinearProgressIndicator())),
-                error: (error, stack) => Card(child: Padding(
-                  padding: const EdgeInsets.all(16), child: Text(s.t('daily_hadith_empty')))),
-                data: (list) {
-                  final eligible = list.where((item) => item.verified && item.dailyEligible).toList();
-                  if (eligible.isEmpty) {
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(18),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            Icon(Icons.menu_book_outlined, color: scheme.primary),
-                            const SizedBox(width: 12),
-                            Expanded(child: Text(s.t('daily_hadith_empty'))),
+                            const Icon(Icons.calendar_month_outlined,
+                                color: Color(0xFF252719), size: 27),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    hijriDateLabel,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color(0xFF29291F),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    banglaDateLabel,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color(0xFF3B3A2E),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                color: const Color(0x55FFFFFF),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _LanguageChoice(
+                                    label: 'বাংলা',
+                                    selected: lang == 'bn',
+                                    onTap: () => ref.read(settingsProvider.notifier).setLang('bn'),
+                                  ),
+                                  _LanguageChoice(
+                                    label: 'EN',
+                                    selected: lang == 'en',
+                                    onTap: () => ref.read(settingsProvider.notifier).setLang('en'),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    );
-                  }
-                  final item = eligible[dailyHadithIndex(_now, eligible.length)];
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            lang == 'bn' ? item.category : item.categoryEn,
-                            style: theme.textTheme.labelLarge?.copyWith(
-                              color: scheme.primary,
-                              fontWeight: FontWeight.bold,
+                        const SizedBox(height: 3),
+                        SizedBox(
+                          height: 174,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Positioned.fill(
+                                child: CustomPaint(
+                                  painter: _PrayerCountdownArcPainter(
+                                    progress: countdownProgress.toDouble(),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 3),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      nextName,
+                                      style: const TextStyle(
+                                        color: Color(0xFF202A22),
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      lang == 'bn' ? 'শুরু হতে বাকি' : 'Time remaining',
+                                      style: const TextStyle(
+                                        color: Color(0xFF554C2D),
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      _countdown(remaining, s),
+                                      style: const TextStyle(
+                                        color: Color(0xFF1D2821),
+                                        fontSize: 29,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                height: 42,
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: const Color(0x55B99E42),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.location_on,
+                                        size: 18, color: Color(0xFF28291D)),
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                          value: city.id,
+                                          isExpanded: true,
+                                          icon: const Icon(Icons.keyboard_arrow_down,
+                                              color: Color(0xFF28291D)),
+                                          style: const TextStyle(
+                                            color: Color(0xFF28291D),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          items: [
+                                            for (final item in cities)
+                                              DropdownMenuItem(
+                                                value: item.id,
+                                                child: Text(
+                                                  item.name(lang),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                          ],
+                                          onChanged: (value) {
+                                            if (value != null) _saveCity(value);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              flex: 6,
+                              child: Container(
+                                height: 42,
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: const Color(0x55B99E42),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const Icon(Icons.wb_twilight,
+                                        size: 17, color: Color(0xFF28291D)),
+                                    Text(
+                                      _clockTime(prayers.sunrise, s),
+                                      style: const TextStyle(
+                                        color: Color(0xFF28291D),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 22,
+                                      width: 1,
+                                      color: const Color(0x77584D2C),
+                                    ),
+                                    const Icon(Icons.wb_sunny_outlined,
+                                        size: 16, color: Color(0xFF28291D)),
+                                    Flexible(
+                                      child: Text(
+                                        _clockTime(prayers.maghrib, s),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Color(0xFF28291D),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          lang == 'bn'
+                              ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সঙ্গে দেখানো হয়েছে'
+                              : 'Sunset is represented by the calculated Maghrib time',
+                          style: const TextStyle(
+                            color: Color(0xFF5A542F),
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF202B30),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < todayEntries.length; i++) ...[
+                          Builder(
+                            builder: (context) {
+                              final entry = todayEntries[i];
+                              final endTime = i < todayEntries.length - 1
+                                  ? todayEntries[i + 1].value.subtract(const Duration(minutes: 1))
+                                  : tomorrow.fajr.subtract(const Duration(minutes: 1));
+                              final isNext = entry.key == upcoming.key;
+                              final isDone = prayerDoneKeys.contains(entry.key);
+                              final icon = switch (entry.key) {
+                                'fajr' => Icons.wb_twilight,
+                                'dhuhr' => Icons.wb_sunny,
+                                'asr' => Icons.wb_sunny_outlined,
+                                'maghrib' => Icons.cloud,
+                                _ => Icons.nightlight_round,
+                              };
+                              return InkWell(
+                                onTap: () => _openTool(
+                                  context,
+                                  const IbadahToolsScreen(section: IbadahToolsSection.prayers),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        icon,
+                                        size: 24,
+                                        color: isNext
+                                            ? const Color(0xFFFFD66B)
+                                            : isDone
+                                                ? const Color(0xFF63C99A)
+                                                : const Color(0xFFAAB6BB),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Expanded(
+                                        child: Text(
+                                          s.t(entry.key),
+                                          style: TextStyle(
+                                            color: isNext
+                                                ? const Color(0xFFF4F7F8)
+                                                : isDone
+                                                    ? const Color(0xFF8ECBAF)
+                                                    : const Color(0xFFB6C1C5),
+                                            fontSize: 17,
+                                            fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      if (isNext)
+                                        Container(
+                                          width: 8,
+                                          height: 8,
+                                          margin: const EdgeInsets.only(right: 10),
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xFFD99B26),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      Text(
+                                        '\${_clockTime(entry.value, s)} - \${_clockTime(endTime, s)}',
+                                        style: TextStyle(
+                                          color: isNext
+                                              ? const Color(0xFFE8EFF1)
+                                              : const Color(0xFF9BA9AE),
+                                          fontSize: 14,
+                                          fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Icon(
+                                        isDone ? Icons.check_circle : Icons.radio_button_unchecked,
+                                        color: isDone
+                                            ? const Color(0xFF58C78F)
+                                            : const Color(0xFF69777D),
+                                        size: 23,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          if (i < todayEntries.length - 1)
+                            const Divider(
+                              height: 1,
+                              thickness: .5,
+                              indent: 54,
+                              endIndent: 16,
+                              color: Color(0xFF354248),
+                            ),
+                        ],
+                        const Divider(height: 1, color: Color(0xFF354248)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextButton.icon(
+                                  onPressed: () => _openTool(
+                                    context,
+                                    const IbadahToolsScreen(section: IbadahToolsSection.prayers),
+                                  ),
+                                  icon: const Icon(Icons.notifications_none,
+                                      color: Color(0xFFE2EBEE)),
+                                  label: Text(
+                                    lang == 'bn' ? 'নামাজের হিসাব' : 'Prayer tracker',
+                                    style: const TextStyle(color: Color(0xFFE2EBEE)),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 1,
+                                height: 34,
+                                color: const Color(0xFF667278),
+                              ),
+                              Expanded(
+                                child: PopupMenuButton<int>(
+                                  tooltip: s.t('hijri_adjustment'),
+                                  initialValue: _hijriOffset,
+                                  onSelected: _saveHijriOffset,
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(value: -1, child: Text(s.t('hijri_minus_one'))),
+                                    PopupMenuItem(value: 0, child: Text(s.t('hijri_no_adjustment'))),
+                                    PopupMenuItem(value: 1, child: Text(s.t('hijri_plus_one'))),
+                                  ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.calendar_month_outlined,
+                                            color: Color(0xFFE2EBEE)),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          lang == 'bn' ? 'ক্যালেন্ডার' : 'Calendar',
+                                          style: const TextStyle(color: Color(0xFFE2EBEE)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 24, 18, 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            lang == 'bn' ? 'টপ ফিচার' : 'Top Features',
+                            style: const TextStyle(
+                              color: Color(0xFFE7EFF1),
+                              fontSize: 21,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          if (item.arabicText.isNotEmpty)
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: Text(item.arabicText,
-                                  style: theme.textTheme.titleLarge, textAlign: TextAlign.right),
+                        ),
+                        TextButton(
+                          onPressed: () => ref.read(mainNavigationIndexProvider.notifier).state = 1,
+                          child: Text(
+                            lang == 'bn' ? 'আরও দেখুন' : 'See all',
+                            style: const TextStyle(
+                              color: Color(0xFF36AA82),
+                              fontWeight: FontWeight.w700,
                             ),
-                          if (item.arabicText.isNotEmpty) const SizedBox(height: 12),
-                          Text(lang == 'bn' ? item.banglaTranslation : item.englishTranslation,
-                              style: theme.textTheme.bodyLarge),
-                          const SizedBox(height: 12),
-                          Text('${s.t('source')}: ${item.source}  •  ${s.t('reference')}: ${item.reference}',
-                              style: theme.textTheme.bodySmall),
-                          if (item.grade.isNotEmpty)
-                            Text(item.grade, style: theme.textTheme.labelSmall),
-                        ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 122,
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'ট্র্যাকার' : 'Tracker',
+                          icon: Icons.track_changes,
+                          detail: '$prayerPercent%',
+                          progress: prayerDone / 5,
+                          onTap: () => _openTool(
+                            context,
+                            const IbadahToolsScreen(section: IbadahToolsSection.prayers),
+                          ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'হাদিস' : 'Hadith',
+                          icon: Icons.menu_book_outlined,
+                          onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 2,
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'কিবলা' : 'Qibla',
+                          icon: Icons.explore_outlined,
+                          onTap: () => _openTool(context, const QiblaScreen()),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'রুকইয়াহ' : 'Ruqyah',
+                          icon: Icons.auto_awesome_outlined,
+                          onTap: () => _openTool(context, const RuqyahScreen()),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal',
+                          icon: Icons.checklist_rtl,
+                          detail: '$amalDone/6',
+                          onTap: () => _openTool(
+                            context,
+                            const IbadahToolsScreen(section: IbadahToolsSection.dailyAmal),
+                          ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? '৯৯ নাম' : '99 Names',
+                          icon: Icons.favorite_outline,
+                          onTap: () => _openTool(
+                            context,
+                            const IbadahToolsScreen(section: IbadahToolsSection.names),
+                          ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'তাসবিহ' : 'Tasbih',
+                          icon: Icons.fingerprint,
+                          onTap: () => _openTool(context, const TasbihScreen()),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'দোয়া' : 'Dua',
+                          icon: Icons.volunteer_activism_outlined,
+                          onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 3,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
+                    child: Text(
+                      s.t('daily_hadith'),
+                      style: const TextStyle(
+                        color: Color(0xFFE7EFF1),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  );
-                },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: hadithAsync.when(
+                      loading: () => const Card(
+                        color: Color(0xFF26343A),
+                        child: Padding(
+                          padding: EdgeInsets.all(18),
+                          child: LinearProgressIndicator(),
+                        ),
+                      ),
+                      error: (error, stack) => Card(
+                        color: const Color(0xFF26343A),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            s.t('daily_hadith_empty'),
+                            style: const TextStyle(color: Color(0xFFE6EEF0)),
+                          ),
+                        ),
+                      ),
+                      data: (list) {
+                        final eligible = list
+                            .where((item) => item.verified && item.dailyEligible)
+                            .toList();
+                        if (eligible.isEmpty) {
+                          return Card(
+                            color: const Color(0xFF26343A),
+                            child: Padding(
+                              padding: const EdgeInsets.all(18),
+                              child: Text(
+                                s.t('daily_hadith_empty'),
+                                style: const TextStyle(color: Color(0xFFE6EEF0)),
+                              ),
+                            ),
+                          );
+                        }
+                        final item = eligible[dailyHadithIndex(_now, eligible.length)];
+                        return Card(
+                          color: const Color(0xFF26343A),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  lang == 'bn' ? item.category : item.categoryEn,
+                                  style: const TextStyle(
+                                    color: Color(0xFF66C69C),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                if (item.arabicText.isNotEmpty)
+                                  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Text(
+                                      item.arabicText,
+                                      textAlign: TextAlign.right,
+                                      style: const TextStyle(
+                                        color: Color(0xFFF2F5F6),
+                                        fontSize: 22,
+                                        height: 1.8,
+                                      ),
+                                    ),
+                                  ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  lang == 'bn' ? item.banglaTranslation : item.englishTranslation,
+                                  style: const TextStyle(
+                                    color: Color(0xFFE3EAEC),
+                                    height: 1.5,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  s.t('source') + ': ' + item.source + '  •  ' +
+                                      s.t('reference') + ': ' + item.reference,
+                                  style: const TextStyle(
+                                    color: Color(0xFFAAB7BC),
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
-            ],
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-class _TrackerSummaryTile extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final int count;
-  final int total;
+
+class _LanguageChoice extends StatelessWidget {
+  final String label;
+  final bool selected;
   final VoidCallback onTap;
 
-  const _TrackerSummaryTile({
-    required this.icon,
-    required this.title,
-    required this.count,
-    required this.total,
+  const _LanguageChoice({
+    required this.label,
+    required this.selected,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(icon, color: scheme.primary),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                '$count / $total',
-                style: theme.textTheme.bodySmall,
-              ),
-              const SizedBox(height: 6),
-              LinearProgressIndicator(value: count / total),
-            ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+        decoration: BoxDecoration(
+          color: selected ? const Color(0xFF243B2D) : Colors.transparent,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: selected ? Colors.white : const Color(0xFF343321),
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -594,45 +895,127 @@ class _TrackerSummaryTile extends StatelessWidget {
   }
 }
 
-class _HomeFeatureTile extends StatelessWidget {
-  final IconData icon;
+class _PrayerCountdownArcPainter extends CustomPainter {
+  final double progress;
+
+  const _PrayerCountdownArcPainter({required this.progress});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final diameter = (size.width - 42).clamp(210.0, 280.0);
+    final rect = Rect.fromCenter(
+      center: Offset(size.width / 2, diameter / 2 + 4),
+      width: diameter,
+      height: diameter,
+    );
+    final track = Paint()
+      ..color = const Color(0xFFDAC66D)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 11
+      ..strokeCap = StrokeCap.round;
+    final active = Paint()
+      ..color = const Color(0xFF203B31)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 11
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawArc(rect, math.pi, math.pi, false, track);
+    canvas.drawArc(
+      rect,
+      math.pi,
+      math.pi * progress.clamp(0.0, 1.0),
+      false,
+      active,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _PrayerCountdownArcPainter oldDelegate) =>
+      oldDelegate.progress != progress;
+}
+
+class _HomeCircleFeature extends StatelessWidget {
   final String title;
+  final IconData icon;
+  final String? detail;
+  final double? progress;
   final VoidCallback onTap;
 
-  const _HomeFeatureTile({
-    required this.icon,
+  const _HomeCircleFeature({
     required this.title,
+    required this.icon,
     required this.onTap,
+    this.detail,
+    this.progress,
   });
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Card(
-      clipBehavior: Clip.antiAlias,
+    return SizedBox(
+      width: 88,
       child: InkWell(
+        borderRadius: BorderRadius.circular(18),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundColor: scheme.primaryContainer,
-                child: Icon(icon, color: scheme.onPrimaryContainer, size: 19),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+        child: Column(
+          children: [
+            SizedBox(
+              width: 66,
+              height: 66,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (progress != null)
+                    SizedBox(
+                      width: 66,
+                      height: 66,
+                      child: CircularProgressIndicator(
+                        value: progress,
+                        strokeWidth: 5,
+                        backgroundColor: const Color(0xFF7A4141),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xFF46B98D),
+                        ),
                       ),
-                ),
+                    )
+                  else
+                    Container(
+                      width: 66,
+                      height: 66,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF173B2C),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  if (detail != null)
+                    Text(
+                      detail!,
+                      style: const TextStyle(
+                        color: Color(0xFFEAF2F3),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 15,
+                      ),
+                    )
+                  else
+                    Icon(
+                      icon,
+                      color: const Color(0xFFF1F6F3),
+                      size: 30,
+                    ),
+                ],
               ),
-              const Icon(Icons.chevron_right, size: 18),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Color(0xFFC6D0D3),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );
