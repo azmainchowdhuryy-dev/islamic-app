@@ -35,12 +35,14 @@ class TasbihState {
   final Map<String, TasbihCounter> counters;
   final bool vibration;
   final bool sound;
+  final bool isLoading;
 
   const TasbihState({
     required this.activeKey,
     required this.counters,
     required this.vibration,
     required this.sound,
+    this.isLoading = false,
   });
 
   TasbihCounter get active => counters[activeKey]!;
@@ -50,11 +52,13 @@ class TasbihState {
     Map<String, TasbihCounter>? counters,
     bool? vibration,
     bool? sound,
+    bool? isLoading,
   }) =>
       TasbihState(
         activeKey: activeKey ?? this.activeKey,
         counters: counters ?? this.counters,
         vibration: vibration ?? this.vibration,
         sound: sound ?? this.sound,
+        isLoading: isLoading ?? this.isLoading,
       );
 }
