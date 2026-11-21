@@ -4,6 +4,7 @@ enum PrayerCalculation { karachi, muslimWorldLeague, egyptian, dubai }
 
 class DailyPrayerTimes {
   final DateTime fajr;
+  final DateTime sunrise;
   final DateTime dhuhr;
   final DateTime asr;
   final DateTime maghrib;
@@ -11,6 +12,7 @@ class DailyPrayerTimes {
 
   const DailyPrayerTimes({
     required this.fajr,
+    required this.sunrise,
     required this.dhuhr,
     required this.asr,
     required this.maghrib,
@@ -31,6 +33,7 @@ class DailyPrayerTimes {
     final times = PrayerTimes(coordinates, components, params);
     return DailyPrayerTimes(
       fajr: times.fajr,
+      sunrise: times.sunrise,
       dhuhr: times.dhuhr,
       asr: times.asr,
       maghrib: times.maghrib,
