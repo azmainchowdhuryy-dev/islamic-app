@@ -946,8 +946,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  s.t('source') + ': ' + item.source + '  •  ' +
-                                      s.t('reference') + ': ' + item.reference,
+                                  '${s.t('source')}: ${item.source}  •  ${s.t('reference')}: ${item.reference}',
                                   style: const TextStyle(
                                     color: Color(0xFFAAB7BC),
                                     fontSize: 11,
