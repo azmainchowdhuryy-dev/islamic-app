@@ -66,12 +66,8 @@ void main() {
       findsOneWidget,
     );
 
-    await tester.scrollUntilVisible(
-      find.text('দোয়ার বিষয়সমূহ'),
-      350,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.pump();
+    await tester.ensureVisible(find.text('দোয়ার বিষয়সমূহ'));
+    await tester.pumpAndSettle();
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('81টি দোয়া'), findsOneWidget);
