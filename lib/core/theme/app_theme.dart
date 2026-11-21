@@ -35,6 +35,7 @@ class AppTheme {
       onSecondary: AppColors.primaryText,
       surface: AppColors.middleSurface,
       onSurface: AppColors.primaryText,
+      onSurfaceVariant: AppColors.secondaryText,
       surfaceContainerLowest: AppColors.bottomSurface,
       surfaceContainerLow: AppColors.bottomSurface,
       surfaceContainer: AppColors.middleSurface,
@@ -44,6 +45,15 @@ class AppTheme {
       outlineVariant: AppColors.subtleBorder,
       error: AppColors.progressRing,
       onError: AppColors.primaryText,
+      primaryContainer: AppColors.activeSurface,
+      onPrimaryContainer: AppColors.primaryText,
+      secondaryContainer: AppColors.iconBadge,
+      onSecondaryContainer: AppColors.primaryText,
+      tertiary: AppColors.warmAmber,
+      onTertiary: AppColors.bottomSurface,
+      tertiaryContainer: AppColors.iconBadge,
+      onTertiaryContainer: AppColors.primaryText,
+      surfaceTint: Colors.transparent,
     );
 
     return ThemeData.dark().copyWith(
