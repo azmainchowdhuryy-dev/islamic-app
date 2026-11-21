@@ -21,10 +21,17 @@ void main() {
     expect(find.text('বাংলা'), findsOneWidget);
     expect(find.text('EN'), findsOneWidget);
     expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
+    expect(find.byType(NavigationDestination), findsNWidgets(5));
+
+    await tester.scrollUntilVisible(
+      find.text('টপ ফিচার'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('টপ ফিচার'), findsOneWidget);
     expect(find.text('ট্র্যাকার'), findsOneWidget);
     expect(find.text('কিবলা'), findsOneWidget);
-    expect(find.byType(NavigationDestination), findsNWidgets(5));
   });
 
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
