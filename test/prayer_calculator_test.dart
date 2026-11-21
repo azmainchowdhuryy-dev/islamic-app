@@ -92,7 +92,7 @@ void main() {
           tomorrow: tomorrow,
         );
 
-    test('uses yesterday Maghrib and today's Fajr after midnight', () {
+    test("uses yesterday Maghrib and today's Fajr after midnight", () {
       final plan = planAt(0, 30);
       final expectedStart = DailyPrayerTimes.tahajjudStart(
         yesterday.maghrib,
