@@ -5,7 +5,6 @@ import '../../../core/localization/app_strings.dart';
 import '../../hadith/screens/hadith_dua_screen.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
-import 'qibla_screen.dart';
 import 'ruqyah_screen.dart';
 
 class FeaturesScreen extends ConsumerWidget {
@@ -149,13 +148,6 @@ class FeaturesScreen extends ConsumerWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: [
-              _featureCard(
-                context: context,
-                icon: Icons.explore_outlined,
-                title: bn ? 'কিবলা' : 'Qibla',
-                description: bn ? 'কাবার দিক নির্ণয় করুন' : 'Find the direction of the Kaaba',
-                onTap: () => _open(context, const QiblaScreen()),
-              ),
               _featureCard(
                 context: context,
                 icon: Icons.menu_book_outlined,
