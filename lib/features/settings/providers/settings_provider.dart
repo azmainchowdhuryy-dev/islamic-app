@@ -26,7 +26,7 @@ class SettingsNotifier extends Notifier<SettingsState> {
     // পুরোনো বা নষ্ট preference থাকলেও অ্যাপ যেন crash না করে।
     final savedLang = p.getString('lang');
     final lang = savedLang == 'en' ? 'en' : 'bn';
-    final savedThemeIndex = p.getInt('theme') ?? ThemeMode.system.index;
+    final savedThemeIndex = p.getInt('theme') ?? ThemeMode.dark.index;
     final safeThemeIndex =
         savedThemeIndex.clamp(0, ThemeMode.values.length - 1).toInt();
     final savedFontScale = p.getDouble('font_scale') ?? 1.0;
