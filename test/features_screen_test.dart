@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/services/prefs.dart';
+import 'package:islamic_app/features/hadith/models/hadith.dart';
+import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
+import 'package:islamic_app/features/hadith/screens/hadith_dua_screen.dart';
 import 'package:islamic_app/features/tools/screens/features_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +25,13 @@ void main() {
   Future<void> pumpFeatures(WidgetTester tester) async {
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(ProviderScope(
-      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      overrides: [
+        sharedPrefsProvider.overrideWithValue(prefs),
+        hadithListProvider.overrideWith((ref) async => <Hadith>[]),
+        verifiedDuasProvider.overrideWith(
+          (ref) async => <Map<String, dynamic>>[],
+        ),
+      ],
       child: const MaterialApp(home: FeaturesScreen()),
     ));
     await tester.pumpAndSettle();
