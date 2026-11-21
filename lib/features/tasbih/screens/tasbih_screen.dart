@@ -320,7 +320,7 @@ class TasbihScreen extends ConsumerWidget {
             key: const Key('premium_button'),
             tooltip: strings.t('premium_title'),
             onPressed: () => _showPremiumNotice(context, strings),
-            icon: const Icon(
+            icon: Icon(
               Icons.workspace_premium_outlined,
               color: scheme.tertiary,
             ),
