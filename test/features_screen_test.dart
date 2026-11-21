@@ -28,9 +28,9 @@ void main() {
     await tester.pumpWidget(ProviderScope(
       overrides: [
         sharedPrefsProvider.overrideWithValue(prefs),
-        hadithListProvider.overrideWith((ref) async => <Hadith>[]),
+        hadithListProvider.overrideWith((ref) => <Hadith>[]),
         verifiedDuasProvider.overrideWith(
-          (ref) async => <Map<String, dynamic>>[],
+          (ref) => <Map<String, dynamic>>[],
         ),
       ],
       child: const MaterialApp(home: FeaturesScreen()),
