@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/localization/app_strings.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/tasbih/models/tasbih_state.dart';
+import 'package:islamic_app/features/tasbih/models/tasbih_preset.dart';
 import 'package:islamic_app/features/tasbih/providers/tasbih_provider.dart';
 import 'package:islamic_app/features/tasbih/repositories/tasbih_repository.dart';
 import 'package:islamic_app/features/tasbih/screens/tasbih_screen.dart';
@@ -60,6 +61,21 @@ ProviderContainer makeContainer(FakeCounterStore store, SharedPreferences prefs)
 }
 
 void main() {
+  test('Tasbih catalogue contains all nine requested presets in order', () {
+    expect(tasbihPresets.map((preset) => preset.key).toList(), dhikrKeys);
+    expect(tasbihPresets, hasLength(9));
+    expect(tasbihPresets.first.titleBn, 'সাধারণ');
+    expect(tasbihPresets.first.target, 100);
+    expect(tasbihPresets[1].titleBn, 'সুবহানাল্লাহ');
+    expect(tasbihPresets[1].arabic, 'سُبْحَانَ اللَّهِ');
+    expect(tasbihPresets[1].target, 33);
+    expect(tasbihPresets[5].key, 'istighfar');
+    expect(tasbihPresets.last.key, 'durood');
+    expect(tasbihPresets.last.target, 100);
+    expect(tasbihPresets.every((preset) => !preset.requiresPremium), isTrue);
+  });
+
+
   late FakeCounterStore store;
   late SharedPreferences prefs;
 
@@ -80,8 +96,8 @@ void main() {
       expect(container.read(tasbihProvider).active.session, 0);
 
       delayedStore.loadCompleter.complete({
-        'durood': const TasbihCounter(
-          key: 'durood',
+        'general': const TasbihCounter(
+          key: 'general',
           session: 9,
           total: 22,
           target: 100,
@@ -224,14 +240,14 @@ void main() {
       expect(st.counters['istighfar']!.target, 1000);
     });
 
-    test('defaults: durood selected, vibration on, sound on, target 33', () async {
+    test('defaults: General selected, vibration on, sound on, target 100', () async {
       final c = makeContainer(store, prefs);
       await c.read(tasbihProvider.notifier).ready;
       final st = c.read(tasbihProvider);
-      expect(st.activeKey, 'durood');
+      expect(st.activeKey, 'general');
       expect(st.vibration, isTrue);
       expect(st.sound, isTrue);
-      expect(st.active.target, 33);
+      expect(st.active.target, 100);
     });
 
     test('lifetime total stays after reset and reopen', () async {
@@ -304,6 +320,34 @@ void main() {
 
       expect(textOf(tester, 'session_count'), '২');
       expect(textOf(tester, 'total_count'), '২');
+    });
+
+    testWidgets('preset bottom sheet selects a Tasbih and its target', (tester) async {
+      await pumpScreen(tester);
+
+      expect(find.text('সাধারণ'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('select_tasbih_button')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('তাসবীহ নির্বাচন করুন'), findsOneWidget);
+      expect(find.text('سُبْحَانَ اللَّهِ'), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('tasbih_option_subhanallah')));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<Text>(find.byKey(const Key('active_tasbih_title'))).data,
+        'সুবহানাল্লাহ',
+      );
+      expect(
+        tester.widget<Text>(find.byKey(const Key('session_of_target'))).data,
+        '/ ৩৩',
+      );
+      expect(prefs.getString('tasbih_active'), 'subhanallah');
+
+      await tester.tap(find.byKey(const Key('tap_button')));
+      await tester.pump();
+      expect(textOf(tester, 'session_count'), '১');
     });
 
     testWidgets('reset asks for confirmation and keeps lifetime total', (tester) async {
