@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -145,7 +147,8 @@ class IbadahToolsScreen extends ConsumerStatefulWidget {
 
 class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
   String _query = '';
-  late final String _dateKey;
+  String _dateKey = '';
+  Timer? _dayWatcher;
   Set<String> _donePrayers = {};
   Set<String> _doneAmal = {};
   Set<int> _favorites = {};
@@ -153,22 +156,48 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
-    _dateKey = '${now.year}-${now.month.toString().padLeft(2,'0')}-${now.day.toString().padLeft(2,'0')}';
+    _dateKey = _makeDateKey(DateTime.now());
+    _load();
+    _dayWatcher = Timer.periodic(
+      const Duration(minutes: 1),
+      (_) => _refreshForNewDay(),
+    );
+  }
+
+  String _makeDateKey(DateTime date) =>
+      '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+
+  void _refreshForNewDay() {
+    if (!mounted) return;
+    final nextDateKey = _makeDateKey(DateTime.now());
+    if (nextDateKey == _dateKey) return;
+    setState(() {
+      _dateKey = nextDateKey;
+      _donePrayers = {};
+      _doneAmal = {};
+    });
     _load();
   }
 
+  @override
+  void dispose() {
+    _dayWatcher?.cancel();
+    super.dispose();
+  }
+
   Future<void> _load() async {
+    final dateKey = _dateKey;
     final p = ref.read(sharedPrefsProvider);
     if (!mounted) return;
     final validPrayerKeys = _prayers.map((item) => item.$1).toSet();
     final validAmalKeys = _dailyAmal.map((item) => item.$1).toSet();
     final savedFavorites = p.getStringList('asma_favorites') ?? [];
+    if (!mounted || dateKey != _dateKey) return;
     setState(() {
-      _donePrayers = (p.getStringList('prayer_tracker_$_dateKey') ?? [])
+      _donePrayers = (p.getStringList('prayer_tracker_$dateKey') ?? [])
           .where(validPrayerKeys.contains)
           .toSet();
-      _doneAmal = (p.getStringList('daily_amal_$_dateKey') ?? [])
+      _doneAmal = (p.getStringList('daily_amal_$dateKey') ?? [])
           .where(validAmalKeys.contains)
           .toSet();
       _favorites = savedFavorites
