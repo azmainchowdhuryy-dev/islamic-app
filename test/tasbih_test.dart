@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +24,14 @@ class FakeCounterStore implements TasbihCounterStore {
   }
 }
 
+class DelayedCounterStore extends FakeCounterStore {
+  final Completer<Map<String, TasbihCounter>> loadCompleter =
+      Completer<Map<String, TasbihCounter>>();
+
+  @override
+  Future<Map<String, TasbihCounter>> loadCounters() => loadCompleter.future;
+}
+
 ProviderContainer makeContainer(FakeCounterStore store, SharedPreferences prefs) {
   final c = ProviderContainer(overrides: [
     sharedPrefsProvider.overrideWithValue(prefs),
@@ -42,6 +52,35 @@ void main() {
   });
 
   group('counter logic', () {
+    test('saved counters load before interactions are accepted', () async {
+      final delayedStore = DelayedCounterStore();
+      final container = makeContainer(delayedStore, prefs);
+      final notifier = container.read(tasbihProvider.notifier);
+
+      expect(container.read(tasbihProvider).isLoading, isTrue);
+      expect(notifier.increment(), isFalse);
+      expect(container.read(tasbihProvider).active.session, 0);
+
+      delayedStore.loadCompleter.complete({
+        'durood': const TasbihCounter(
+          key: 'durood',
+          session: 9,
+          total: 22,
+          target: 100,
+        ),
+      });
+      await notifier.ready;
+
+      final restored = container.read(tasbihProvider);
+      expect(restored.isLoading, isFalse);
+      expect(restored.active.session, 9);
+      expect(restored.active.total, 22);
+
+      notifier.increment();
+      expect(container.read(tasbihProvider).active.session, 10);
+      expect(container.read(tasbihProvider).active.total, 23);
+    });
+
     test('increment raises session and lifetime total by one', () async {
       final c = makeContainer(store, prefs);
       final n = c.read(tasbihProvider.notifier);
@@ -206,6 +245,11 @@ void main() {
         child: const MaterialApp(home: TasbihScreen()),
       ));
       await tester.pump();
+      for (var i = 0;
+          i < 5 && find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+          i++) {
+        await tester.pump(const Duration(milliseconds: 20));
+      }
     }
 
     String textOf(WidgetTester tester, String key) =>
