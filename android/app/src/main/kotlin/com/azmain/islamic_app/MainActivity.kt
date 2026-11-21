@@ -4,8 +4,6 @@ import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import io.flutter.embedding.android.FlutterActivity
@@ -14,7 +12,6 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
     private val feedbackChannel = "com.azmain.islamic_app/feedback"
-    private val mainHandler = Handler(Looper.getMainLooper())
     private var toneGenerator: ToneGenerator? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -76,7 +73,6 @@ class MainActivity : FlutterActivity() {
     }
 
     override fun onDestroy() {
-        mainHandler.removeCallbacksAndMessages(null)
         toneGenerator?.release()
         toneGenerator = null
         super.onDestroy()
