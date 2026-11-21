@@ -34,7 +34,7 @@ class HomeCity {
     required this.lng,
   });
 
-  factory HomeCity.fromJson(Map<String, dynamic> json) => _City(
+  factory HomeCity.fromJson(Map<String, dynamic> json) => HomeCity(
         id: json['id'] as String,
         nameBn: json['name_bn'] as String,
         nameEn: json['name_en'] as String,
