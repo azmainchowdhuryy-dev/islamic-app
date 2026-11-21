@@ -28,21 +28,22 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('Features screen exposes all requested tools', (tester) async {
+  testWidgets('Features screen exposes supported tools without Qibla Compass', (tester) async {
     await pumpFeatures(tester);
 
     expect(find.text('সব ফিচার'), findsOneWidget);
     expect(find.text('আজকের নামাজ'), findsOneWidget);
     expect(find.text('দৈনিক আমল'), findsOneWidget);
+    expect(find.text('কিবলা'), findsNothing);
 
     await tester.scrollUntilVisible(
-      find.text('কিবলা'),
+      find.text('রুকইয়াহ'),
       250,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
-    expect(find.text('কিবলা'), findsOneWidget);
     expect(find.text('রুকইয়াহ'), findsOneWidget);
+    expect(find.text('কিবলা'), findsNothing);
 
     await tester.scrollUntilVisible(
       find.text('তাসবিহ'),
@@ -96,6 +97,7 @@ void main() {
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
     expect(find.text('দৈনিক আমল'), findsNothing);
+  });
 
   testWidgets('Hadith and Dua feature opens the combined library', (tester) async {
     await pumpFeatures(tester);
@@ -110,6 +112,5 @@ void main() {
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-  });
   });
 }
