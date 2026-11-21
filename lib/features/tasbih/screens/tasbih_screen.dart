@@ -462,7 +462,7 @@ class TasbihScreen extends ConsumerWidget {
                                 strings.digits(counter.session),
                                 key: const Key('session_count'),
                                 style: TextStyle(
-                                  color: scheme.onSurface,
+                                  color: scheme.onPrimaryContainer,
                                   fontSize: ringSize * 0.22,
                                   fontWeight: FontWeight.w800,
                                   height: 1.1,
@@ -486,7 +486,7 @@ class TasbihScreen extends ConsumerWidget {
                                 style: textTheme.bodySmall?.copyWith(
                                   color: counter.completed
                                       ? scheme.primary
-                                      : scheme.onSurfaceVariant,
+                                      : scheme.onPrimaryContainer,
                                 ),
                               ),
                             ],
