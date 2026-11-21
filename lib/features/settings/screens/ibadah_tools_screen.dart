@@ -268,7 +268,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
         : widget.section == IbadahToolsSection.dailyAmal
             ? (lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal')
             : widget.section == IbadahToolsSection.names
-                ? "99 Names of Allah"
+                ? (lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah')
                 : (lang == 'bn' ? 'ইবাদত ও আল্লাহর নাম' : 'Worship & Names of Allah');
     final visible = _names.where((n) {
       final q = _query.toLowerCase();
