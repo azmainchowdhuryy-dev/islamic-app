@@ -67,6 +67,9 @@ class TasbihNotifier extends Notifier<TasbihState> {
     }
   }
 
+  /// Wait until all previously queued counter writes are durable.
+  Future<void> flushPendingWrites() => _counterWriteQueue;
+
   void _putCounter(TasbihCounter c) {
     if (state.isLoading) return;
     state = state.copyWith(counters: {...state.counters, c.key: c});
