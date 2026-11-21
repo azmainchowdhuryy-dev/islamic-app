@@ -61,7 +61,7 @@ void main() {
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
-        matching: find.text('নিয়ত'),
+        matching: find.text('আদব ও চরিত্র'),
       ),
       findsOneWidget,
     );
@@ -78,7 +78,7 @@ void main() {
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
-        matching: find.text('মা-বাবার জন্য দোয়া'),
+        matching: find.text('পরিবার ও সন্তান'),
       ),
       findsOneWidget,
     );
