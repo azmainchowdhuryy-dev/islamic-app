@@ -684,6 +684,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                       const SizedBox(width: 12),
                                       IconButton(
+                                        key: Key('home_prayer_toggle_${entry.key}'),
                                         constraints: const BoxConstraints(
                                           minWidth: 36,
                                           minHeight: 36,
