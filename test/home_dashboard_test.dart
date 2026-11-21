@@ -84,11 +84,14 @@ void main() {
     expect(find.text('কিবলা'), findsNothing);
     expect(find.text('দৈনিক আমল'), findsNothing);
 
-    // The quick links must stay in exactly two rows, including on wide screens.
-    final firstRowY = tester.getCenter(find.text('ট্র্যাকার')).dy;
+    // Allah's 99 Names sits directly to the right of Tracker.
+    final trackerCenter = tester.getCenter(find.text('ট্র্যাকার'));
+    final firstRowY = trackerCenter.dy;
+    final namesCenter = tester.getCenter(find.text("Allah's 99 Names"));
+    expect(namesCenter.dy, closeTo(firstRowY, 1));
+    expect(namesCenter.dx, greaterThan(trackerCenter.dx));
     expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));
-    expect(tester.getCenter(find.text('রুকইয়াহ')).dy, closeTo(firstRowY, 1));
-    final secondRowY = tester.getCenter(find.text('৯৯ নাম')).dy;
+    final secondRowY = tester.getCenter(find.text('রুকইয়াহ')).dy;
     expect(secondRowY, greaterThan(firstRowY + 40));
     expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
     expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));

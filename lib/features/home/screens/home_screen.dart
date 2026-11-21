@@ -839,6 +839,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         _HomeCircleFeature(
+                          title: "Allah's 99 Names",
+                          icon: Icons.favorite_outline,
+                          titleFontSize: 11,
+                          titleMaxLines: 2,
+                          onTap: () => _openTool(
+                            context,
+                            const IbadahToolsScreen(section: IbadahToolsSection.names),
+                          ),
+                        ),
+                        _HomeCircleFeature(
                           title: lang == 'bn' ? 'হাদিস' : 'Hadith',
                           icon: Icons.menu_book_outlined,
                           onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 2,
@@ -847,14 +857,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           title: lang == 'bn' ? 'রুকইয়াহ' : 'Ruqyah',
                           icon: Icons.auto_awesome_outlined,
                           onTap: () => _openTool(context, const RuqyahScreen()),
-                        ),
-                        _HomeCircleFeature(
-                          title: lang == 'bn' ? '৯৯ নাম' : '99 Names',
-                          icon: Icons.favorite_outline,
-                          onTap: () => _openTool(
-                            context,
-                            const IbadahToolsScreen(section: IbadahToolsSection.names),
-                          ),
                         ),
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'তাসবিহ' : 'Tasbih',
@@ -1068,6 +1070,8 @@ class _HomeCircleFeature extends StatelessWidget {
   final IconData icon;
   final String? detail;
   final double? progress;
+  final double titleFontSize;
+  final int titleMaxLines;
   final VoidCallback onTap;
 
   const _HomeCircleFeature({
@@ -1076,6 +1080,8 @@ class _HomeCircleFeature extends StatelessWidget {
     required this.onTap,
     this.detail,
     this.progress,
+    this.titleFontSize = 14,
+    this.titleMaxLines = 1,
   });
 
   @override
@@ -1133,11 +1139,12 @@ class _HomeCircleFeature extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
-              maxLines: 1,
+              maxLines: titleMaxLines,
+              textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.secondaryText,
-                fontSize: 14,
+                fontSize: titleFontSize,
                 fontWeight: FontWeight.w600,
               ),
             ),
