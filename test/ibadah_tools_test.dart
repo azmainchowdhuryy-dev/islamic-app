@@ -83,5 +83,51 @@ void main() {
     // Match the result row only, not the editable search field itself.
     expect(find.text('Ar-Rahman • পরম করুণাময়'), findsOneWidget);
     expect(_nameSubtitleFinder(), findsOneWidget);
+
+  testWidgets('prayer tracker screen shows only prayer tracking', (tester) async {
+    final prefs = await SharedPreferences.getInstance();
+    await tester.pumpWidget(ProviderScope(
+      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      child: const MaterialApp(
+        home: IbadahToolsScreen(section: IbadahToolsSection.prayers),
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsOneWidget);
+    expect(find.text('দৈনিক আমল'), findsNothing);
+    expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsNothing);
+  });
+
+  testWidgets('daily amal screen shows only its own checklist', (tester) async {
+    final prefs = await SharedPreferences.getInstance();
+    await tester.pumpWidget(ProviderScope(
+      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      child: const MaterialApp(
+        home: IbadahToolsScreen(section: IbadahToolsSection.dailyAmal),
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    expect(find.text('দৈনিক আমল'), findsOneWidget);
+    expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
+    expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsNothing);
+  });
+
+  testWidgets('Allah names screen does not show tracker sections', (tester) async {
+    final prefs = await SharedPreferences.getInstance();
+    await tester.pumpWidget(ProviderScope(
+      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      child: const MaterialApp(
+        home: IbadahToolsScreen(section: IbadahToolsSection.names),
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
+    expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
+    expect(find.text('দৈনিক আমল'), findsNothing);
+    expect(_nameSubtitleFinder(), findsNWidgets(99));
+  });
   });
 }
