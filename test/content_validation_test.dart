@@ -102,6 +102,35 @@ void main() {
     });
   }
 
+  test('Allah names asset contains 99 complete ordered entries', () {
+    final names = jsonDecode(
+      File('assets/data/allah_names.json').readAsStringSync(),
+    ) as List;
+    expect(names, hasLength(99));
+
+    final orders = <int>{};
+    final ids = <String>{};
+    for (final raw in names.cast<Map<String, dynamic>>()) {
+      expect(ids.add(raw['id'] as String), isTrue);
+      final order = raw['order'] as int;
+      expect(orders.add(order), isTrue);
+      expect(order, inInclusiveRange(1, 99));
+      for (final key in [
+        'arabic',
+        'transliteration',
+        'bangla',
+        'english',
+      ]) {
+        expect(
+          (raw[key] ?? '').toString().trim(),
+          isNotEmpty,
+          reason: '${raw['id']}: "$key" is empty',
+        );
+      }
+    }
+    expect(orders, Set<int>.from(List<int>.generate(99, (i) => i + 1)));
+  });
+
   test('expanded Hadith and Dua collections contain the new records', () {
     final hadith =
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
