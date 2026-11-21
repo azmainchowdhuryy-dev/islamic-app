@@ -123,7 +123,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   String _clockTime(DateTime value, AppStrings s) {
-    final hour = value.hour.toString().padLeft(2, '0');
+    final hourValue = value.hour % 12 == 0 ? 12 : value.hour % 12;
+    final hour = hourValue.toString().padLeft(2, '0');
     final minute = value.minute.toString().padLeft(2, '0');
     return s.digits('$hour:$minute');
   }
