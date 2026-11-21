@@ -990,7 +990,7 @@ class _PrayerCountdownArcPainter extends CustomPainter {
     canvas.drawArc(
       rect,
       math.pi,
-      math.pi * progress.clamp(0.0, 1.0),
+      math.pi * progress.clamp(0.0, 1.0).toDouble(),
       false,
       active,
     );
