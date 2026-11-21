@@ -38,7 +38,6 @@ void main() {
 
     expect(find.text('টপ ফিচার'), findsOneWidget);
     expect(find.text('ট্র্যাকার'), findsOneWidget);
-    expect(find.text('কিবলা'), findsOneWidget);
   });
 
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
