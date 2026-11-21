@@ -87,7 +87,7 @@ void main() {
     // 99 Names of Allah sits directly to the right of Tracker.
     final trackerCenter = tester.getCenter(find.text('ট্র্যাকার'));
     final firstRowY = trackerCenter.dy;
-    final namesCenter = tester.getCenter(find.text("99 Names of Allah"));
+    final namesCenter = tester.getCenter(find.text('আল্লাহর ৯৯ নাম'));
     expect(namesCenter.dy, closeTo(firstRowY, 3));
     expect(namesCenter.dx, greaterThan(trackerCenter.dx));
     expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));

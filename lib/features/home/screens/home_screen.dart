@@ -365,7 +365,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: AppColors.primaryText,
-                                      fontSize: 15,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -819,7 +819,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 6),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
                     child: Row(
                       children: [
                         Expanded(
@@ -827,17 +827,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             lang == 'bn' ? 'টপ ফিচার' : 'Top Features',
                             style: const TextStyle(
                               color: AppColors.primaryText,
-                              fontSize: 21,
+                              fontSize: 17,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                         ),
                         TextButton(
+                          style: TextButton.styleFrom(
+                            minimumSize: const Size(0, 32),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
                           onPressed: () => ref.read(mainNavigationIndexProvider.notifier).state = 1,
                           child: Text(
                             lang == 'bn' ? 'আরও দেখুন' : 'See all',
                             style: const TextStyle(
                               color: AppColors.primaryAccent,
+                              fontSize: 12,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -852,9 +861,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        mainAxisExtent: 102,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
+                        mainAxisExtent: 84,
+                        mainAxisSpacing: 6,
+                        crossAxisSpacing: 6,
                       ),
                       children: [
                         _HomeCircleFeature(
@@ -868,9 +877,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         _HomeCircleFeature(
-                          title: "99 Names of Allah",
+                          title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
                           icon: Icons.favorite_outline,
-                          titleFontSize: 11,
+                          titleFontSize: 10,
                           titleMaxLines: 2,
                           onTap: () => _openTool(
                             context,
@@ -1108,32 +1117,32 @@ class _HomeCircleFeature extends StatelessWidget {
     required this.onTap,
     this.detail,
     this.progress,
-    this.titleFontSize = 14,
+    this.titleFontSize = 11.2,
     this.titleMaxLines = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 84,
+      width: 67,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
         onTap: onTap,
         child: Column(
           children: [
             SizedBox(
-              width: 66,
-              height: 66,
+              width: 53,
+              height: 53,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   if (progress != null)
                     SizedBox(
-                      width: 66,
-                      height: 66,
+                      width: 53,
+                      height: 53,
                       child: CircularProgressIndicator(
                         value: progress,
-                        strokeWidth: 5,
+                        strokeWidth: 4,
                         backgroundColor: AppColors.subtleBorder,
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.primaryAccent,
@@ -1159,12 +1168,12 @@ class _HomeCircleFeature extends StatelessWidget {
                     Icon(
                       icon,
                       color: AppColors.primaryText,
-                      size: 30,
+                      size: 24,
                     ),
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             Text(
               title,
               maxLines: titleMaxLines,

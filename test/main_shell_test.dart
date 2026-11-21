@@ -5,6 +5,7 @@ import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/core/theme/app_theme.dart';
 import 'package:islamic_app/features/hadith/models/hadith.dart';
 import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
+import 'package:islamic_app/features/hadith/screens/hadith_dua_screen.dart';
 import 'package:islamic_app/features/home/screens/home_screen.dart';
 import 'package:islamic_app/shared/widgets/main_shell.dart';
 import 'package:shared_preferences/shared_preferences.dart';
