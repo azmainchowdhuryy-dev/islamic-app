@@ -188,7 +188,7 @@ class FeaturesScreen extends ConsumerWidget {
             icon: Icons.menu_book,
             title: bn ? 'হাদিস ও দোয়া' : 'Hadith and Dua',
             description: bn ? 'বিষয়ভিত্তিক হাদিস ও কুরআনের দোয়া' : 'Browse hadith and Quranic duas by topic',
-            onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 1,
+            onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 2,
           ),
         ],
       ),
