@@ -32,6 +32,23 @@ class DelayedCounterStore extends FakeCounterStore {
   Future<Map<String, TasbihCounter>> loadCounters() => loadCompleter.future;
 }
 
+class DelayedFirstSaveStore extends FakeCounterStore {
+  final Completer<void> firstWriteGate = Completer<void>();
+  final Completer<void> bothWritesCompleted = Completer<void>();
+  final List<int> persistedSessions = [];
+  int saveCalls = 0;
+
+  @override
+  Future<void> saveCounter(TasbihCounter counter) async {
+    saveCalls++;
+    if (saveCalls == 1) await firstWriteGate.future;
+    persistedSessions.add(counter.session);
+    if (persistedSessions.length == 2 && !bothWritesCompleted.isCompleted) {
+      bothWritesCompleted.complete();
+    }
+  }
+}
+
 ProviderContainer makeContainer(FakeCounterStore store, SharedPreferences prefs) {
   final c = ProviderContainer(overrides: [
     sharedPrefsProvider.overrideWithValue(prefs),
@@ -79,6 +96,24 @@ void main() {
       notifier.increment();
       expect(container.read(tasbihProvider).active.session, 10);
       expect(container.read(tasbihProvider).active.total, 23);
+    });
+
+    test('rapid increments persist in order without stale overwrite', () async {
+      final delayedStore = DelayedFirstSaveStore();
+      final container = makeContainer(delayedStore, prefs);
+      final notifier = container.read(tasbihProvider.notifier);
+      await notifier.ready;
+
+      notifier.increment();
+      notifier.increment();
+      await Future<void>.delayed(Duration.zero);
+      expect(delayedStore.saveCalls, 1);
+
+      delayedStore.firstWriteGate.complete();
+      await delayedStore.bothWritesCompleted.future;
+
+      expect(delayedStore.persistedSessions, [1, 2]);
+      expect(delayedStore.data['durood']?.session, 2);
     });
 
     test('increment raises session and lifetime total by one', () async {
