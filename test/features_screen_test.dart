@@ -14,7 +14,8 @@ Future<void> _openFeature(
 ) async {
   await tester.ensureVisible(find.text(label));
   await tester.tap(find.text(label));
-  await tester.pumpAndSettle();
+  await tester.pump(const Duration(milliseconds: 350));
+  await tester.pump();
 }
 
 void main() {
@@ -34,7 +35,7 @@ void main() {
       ],
       child: const MaterialApp(home: FeaturesScreen()),
     ));
-    await tester.pumpAndSettle();
+    await tester.pump();
   }
 
   testWidgets('Features screen exposes the remaining supported tools', (tester) async {
@@ -50,7 +51,7 @@ void main() {
       250,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
     expect(find.text('রুকইয়াহ'), findsOneWidget);
     expect(find.text('কিবলা'), findsNothing);
 
@@ -59,7 +60,7 @@ void main() {
       250,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
     expect(find.text('আল্লাহর ৯৯ নাম'), findsOneWidget);
     expect(find.text('তাসবিহ'), findsOneWidget);
 
@@ -68,7 +69,7 @@ void main() {
       250,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
     expect(find.text('হাদিস ও দোয়া'), findsOneWidget);
   });
 
@@ -99,9 +100,9 @@ void main() {
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
     await tester.tap(find.text('আল্লাহর ৯৯ নাম'));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
@@ -115,9 +116,9 @@ void main() {
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
     await tester.tap(find.text('হাদিস ও দোয়া'));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
