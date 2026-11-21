@@ -39,26 +39,23 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
     required String allLabel,
     required ValueChanged<String?> onSelected,
   }) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        ChoiceChip(
+          label: Text(allLabel),
+          selected: selected == null,
+          onSelected: (_) => onSelected(null),
+        ),
+        for (final category in categories)
           ChoiceChip(
-            label: Text(allLabel),
-            selected: selected == null,
-            onSelected: (_) => onSelected(null),
+            label: Text(category),
+            selected: selected == category,
+            onSelected: (_) => onSelected(category),
           ),
-          const SizedBox(width: 8),
-          for (final category in categories) ...[
-            ChoiceChip(
-              label: Text(category),
-              selected: selected == category,
-              onSelected: (_) => onSelected(category),
-            ),
-            const SizedBox(width: 8),
-          ],
-        ],
-      ),
+      ],
     );
   }
 
