@@ -944,7 +944,7 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final diameter = (size.width - 42).clamp(210.0, 280.0);
+    final diameter = (size.width - 42).clamp(210.0, 280.0).toDouble();
     final rect = Rect.fromCenter(
       center: Offset(size.width / 2, diameter / 2 + 4),
       width: diameter,
