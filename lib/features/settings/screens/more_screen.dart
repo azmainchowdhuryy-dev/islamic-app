@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
@@ -13,7 +13,7 @@ class MoreScreen extends ConsumerWidget {
     final s = ref.watch(settingsProvider);
     final n = ref.read(settingsProvider.notifier);
     return Scaffold(
-      appBar: AppBar(title: Text(t('settings'))),
+      appBar: AppBar(title: Text(t('more'))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         Text(t('language'), style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),

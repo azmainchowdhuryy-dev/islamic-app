@@ -2,6 +2,7 @@ class Hadith {
   final String id;
   final int order;
   final String category;
+  final String categoryEn;
   final String arabicText;
   final String banglaTranslation;
   final String englishTranslation;
@@ -20,6 +21,7 @@ class Hadith {
     required this.id,
     required this.order,
     required this.category,
+    required this.categoryEn,
     required this.arabicText,
     required this.banglaTranslation,
     required this.englishTranslation,
@@ -39,6 +41,7 @@ class Hadith {
         id: j['id'] as String,
         order: (j['order'] ?? 0) as int,
         category: (j['category'] ?? '') as String,
+        categoryEn: (j['category_en'] ?? j['category'] ?? '') as String,
         arabicText: (j['arabic_text'] ?? '') as String,
         banglaTranslation: (j['bangla_translation'] ?? '') as String,
         englishTranslation: (j['english_translation'] ?? '') as String,

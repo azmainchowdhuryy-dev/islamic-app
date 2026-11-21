@@ -1,23 +1,27 @@
 import 'package:flutter/services.dart';
 
-/// কম্পন ও শব্দ। Flutter-এর নিজস্ব API ব্যবহার করে, তাই কোনো নতুন প্যাকেজ বা
-/// Android Permission লাগে না।
+/// Native Android feedback for the Tasbih counter.
 class FeedbackService {
-  static Future<void> _safe(Future<void> Function() action) async {
-    try {
-      await action();
-    } catch (_) {
-      // কম্পন/শব্দ না চললেও অ্যাপ যেন ক্র্যাশ না করে।
-    }
-  }
+  static const MethodChannel _channel =
+      MethodChannel('com.azmain.islamic_app/feedback');
 
-  /// [strong] = true হলে জোরালো কম্পন (লক্ষ্য পূর্ণ হলে)।
-  static void tap({required bool vibration, required bool sound, bool strong = false}) {
-    if (vibration) {
-      _safe(() => strong ? HapticFeedback.heavyImpact() : HapticFeedback.lightImpact());
-    }
-    if (sound) {
-      _safe(() => SystemSound.play(SystemSoundType.click));
+  static Future<void> tap({
+    required bool vibration,
+    required bool sound,
+    bool strong = false,
+  }) async {
+    if (!vibration && !sound) return;
+
+    try {
+      await _channel.invokeMethod<void>('playFeedback', {
+        'vibration': vibration,
+        'sound': sound,
+        'strong': strong,
+      });
+    } on MissingPluginException {
+      // The UI must remain usable on platforms without the Android bridge.
+    } on PlatformException {
+      // Audio or vibration hardware may be unavailable or disabled by the OS.
     }
   }
 }

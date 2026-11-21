@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/services/prefs.dart';
 import '../models/tasbih_state.dart';
+import '../models/tasbih_preset.dart';
 import '../repositories/tasbih_repository.dart';
 
 final tasbihCounterStoreProvider =
@@ -13,6 +14,7 @@ final tasbihPrefsStoreProvider =
 class TasbihNotifier extends Notifier<TasbihState> {
   late TasbihCounterStore _store;
   late TasbihPrefsStore _prefs;
+  Future<void> _counterWriteQueue = Future<void>.value();
 
   /// সংরক্ষিত গণনা লোড শেষ হলে সম্পূর্ণ হয় (টেস্টে অপেক্ষা করার জন্য)।
   Future<void> ready = Future<void>.value();
@@ -24,29 +26,76 @@ class TasbihNotifier extends Notifier<TasbihState> {
     ready = _loadCounters();
     return TasbihState(
       activeKey: _prefs.activeKey,
-      counters: {for (final k in dhikrKeys) k: TasbihCounter(key: k)},
+      counters: {
+        for (final key in dhikrKeys)
+          key: TasbihCounter(
+            key: key,
+            target: tasbihPresetForKey(key).target,
+          ),
+      },
       vibration: _prefs.vibration,
       sound: _prefs.sound,
+      isLoading: true,
     );
+  }
+
+  int _restoredTarget(String key, int savedTarget) {
+    final defaultTarget = tasbihPresetForKey(key).target;
+    // Older releases used 33 as the untouched default for these two counters.
+    // Keep the saved count and lifetime total while updating their default goal.
+    final legacyDefault =
+        (key == 'durood' || key == 'istighfar') && savedTarget == 33;
+    if (legacyDefault) return defaultTarget;
+    return tasbihTargets.contains(savedTarget) ? savedTarget : defaultTarget;
   }
 
   Future<void> _loadCounters() async {
     try {
       final saved = await _store.loadCounters();
-      if (saved.isEmpty) return;
-      state = state.copyWith(counters: {...state.counters, ...saved});
+      final counters = <String, TasbihCounter>{...state.counters};
+      for (final key in dhikrKeys) {
+        final value = saved[key];
+        if (value == null || value.key != key) continue;
+        counters[key] = TasbihCounter(
+          key: key,
+          session: value.session < 0 ? 0 : value.session,
+          total: value.total < 0 ? 0 : value.total,
+          target: _restoredTarget(key, value.target),
+        );
+      }
+      state = state.copyWith(counters: counters, isLoading: false);
     } catch (_) {
       // লোড ব্যর্থ হলে শূন্য থেকে শুরু; অ্যাপ চলতে থাকবে।
+      state = state.copyWith(isLoading: false);
     }
   }
 
+  Future<void> _persistCounter(TasbihCounter counter) async {
+    final write = _counterWriteQueue
+        .catchError((_) {})
+        .then<void>((_) async {
+          await _store.saveCounter(counter);
+        });
+    _counterWriteQueue = write;
+    try {
+      await write;
+    } catch (_) {
+      // Local persistence failure must not crash the counter UI.
+    }
+  }
+
+  /// Wait until all previously queued counter writes are durable.
+  Future<void> flushPendingWrites() => _counterWriteQueue;
+
   void _putCounter(TasbihCounter c) {
+    if (state.isLoading) return;
     state = state.copyWith(counters: {...state.counters, c.key: c});
-    _store.saveCounter(c);
+    _persistCounter(c);
   }
 
   /// এক গণনা বাড়ায়। এই ট্যাপে লক্ষ্য পূর্ণ হলে true ফেরত দেয় (একবারই)।
   bool increment() {
+    if (state.isLoading) return false;
     final c = state.active;
     final next = c.copyWith(session: c.session + 1, total: c.total + 1);
     _putCounter(next);
@@ -55,15 +104,17 @@ class TasbihNotifier extends Notifier<TasbihState> {
 
   /// শুধু বর্তমান গণনা শূন্য করে; মোট গণনা থাকে।
   void resetSession() {
+    if (state.isLoading) return;
     _putCounter(state.active.copyWith(session: 0));
   }
 
   void setTarget(int target) {
+    if (state.isLoading || !tasbihTargets.contains(target)) return;
     _putCounter(state.active.copyWith(target: target));
   }
 
   void selectDhikr(String key) {
-    if (!dhikrKeys.contains(key)) return;
+    if (state.isLoading || !dhikrKeys.contains(key)) return;
     _prefs.setActiveKey(key);
     state = state.copyWith(activeKey: key);
   }

@@ -8,6 +8,8 @@ workflows:
     scripts:
       - name: Get packages
         script: flutter pub get
+      - name: Run tests
+        script: flutter test
       - name: Analyze
         script: flutter analyze --no-fatal-infos
       - name: Build Split Release APKs

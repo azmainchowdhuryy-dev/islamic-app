@@ -9,12 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
+  material_ui: ^1.11.1
   flutter_riverpod: ^2.6.1
   sqflite: ^2.4.1
   path: ^1.9.0
   shared_preferences: ^2.3.3
+  adhan: ^2.0.0+1
+  hijri_date_time: ^1.1.0
+  bangla_utilities: ^2.0.2
 
 dev_dependencies:
   flutter_test:
