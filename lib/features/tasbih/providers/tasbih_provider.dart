@@ -13,6 +13,7 @@ final tasbihPrefsStoreProvider =
 class TasbihNotifier extends Notifier<TasbihState> {
   late TasbihCounterStore _store;
   late TasbihPrefsStore _prefs;
+  Future<void> _counterWriteQueue = Future<void>.value();
 
   /// সংরক্ষিত গণনা লোড শেষ হলে সম্পূর্ণ হয় (টেস্টে অপেক্ষা করার জন্য)।
   Future<void> ready = Future<void>.value();
@@ -53,8 +54,14 @@ class TasbihNotifier extends Notifier<TasbihState> {
   }
 
   Future<void> _persistCounter(TasbihCounter counter) async {
+    final write = _counterWriteQueue
+        .catchError((_) {})
+        .then<void>((_) async {
+          await _store.saveCounter(counter);
+        });
+    _counterWriteQueue = write;
     try {
-      await _store.saveCounter(counter);
+      await write;
     } catch (_) {
       // Local persistence failure must not crash the counter UI.
     }
