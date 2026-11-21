@@ -77,6 +77,15 @@ void main() {
     });
   }
 
+  test('expanded Hadith and Dua collections contain the new records', () {
+    final hadith =
+        jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
+    final duas =
+        jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
+    expect(hadith.length, greaterThanOrEqualTo(38));
+    expect(duas.length, greaterThanOrEqualTo(31));
+  });
+
   test('daily hadith collection contains multiple distinct entries', () {
     final list =
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
