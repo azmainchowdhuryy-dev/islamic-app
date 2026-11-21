@@ -473,7 +473,7 @@ class TasbihScreen extends ConsumerWidget {
                                 '/ ' + strings.digits(counter.target),
                                 key: const Key('session_of_target'),
                                 style: textTheme.titleMedium?.copyWith(
-                                  color: AppColors.secondaryText,
+                                  color: scheme.onSurfaceVariant,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -485,8 +485,8 @@ class TasbihScreen extends ConsumerWidget {
                                 textAlign: TextAlign.center,
                                 style: textTheme.bodySmall?.copyWith(
                                   color: counter.completed
-                                      ? AppColors.primaryAccent
-                                      : AppColors.secondaryText,
+                                      ? scheme.primary
+                                      : scheme.onSurfaceVariant,
                                 ),
                               ),
                             ],
@@ -540,7 +540,7 @@ class TasbihScreen extends ConsumerWidget {
                     child: Text(
                       strings.t('total_count'),
                       style: textTheme.bodyMedium?.copyWith(
-                        color: AppColors.secondaryText,
+                        color: scheme.onSurfaceVariant,
                       ),
                     ),
                   ),
