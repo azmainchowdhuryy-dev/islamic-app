@@ -73,6 +73,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _hijriOffset = 0;
   DateTime _now = DateTime.now();
   Timer? _clock;
+  Timer? _prayerSlideTimer;
+  int _prayerSlideIndex = 0;
   String? _homePrayerOverrideDateKey;
   Set<String>? _homePrayerDoneOverride;
   Future<void> _prayerWriteQueue = Future<void>.value();
@@ -90,11 +92,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() => _now = DateTime.now());
     });
+    _prayerSlideTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      if (mounted) setState(() => _prayerSlideIndex++);
+    });
   }
 
   @override
   void dispose() {
     _clock?.cancel();
+    _prayerSlideTimer?.cancel();
     super.dispose();
   }
 
@@ -238,6 +244,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 'tahajjud',
                 DailyPrayerTimes.tahajjudStart(yesterday.maghrib, prayers.fajr),
               ),
+              MapEntry('tahajjud_last', prayers.fajr),
               MapEntry('fajr', prayers.fajr),
               MapEntry('duha', DailyPrayerTimes.duhaStart(prayers.sunrise)),
               MapEntry('dhuhr', prayers.dhuhr),
@@ -248,19 +255,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 'tahajjud',
                 DailyPrayerTimes.tahajjudStart(prayers.maghrib, tomorrow.fajr),
               ),
+              MapEntry('tahajjud_last', tomorrow.fajr),
               MapEntry('fajr', tomorrow.fajr),
               MapEntry('duha', DailyPrayerTimes.duhaStart(tomorrow.sunrise)),
               MapEntry('dhuhr', tomorrow.dhuhr),
               MapEntry('asr', tomorrow.asr),
               MapEntry('maghrib', tomorrow.maghrib),
               MapEntry('isha', tomorrow.isha),
-            ]..sort((a, b) => a.value.compareTo(b.value));
+            ]..sort((a, b) {
+                final timeOrder = a.value.compareTo(b.value);
+                if (timeOrder != 0) return timeOrder;
+                if (a.key == 'tahajjud_last') return -1;
+                if (b.key == 'tahajjud_last') return 1;
+                return 0;
+              });
             final nextPrayerIndex = prayerMilestones.indexWhere(
               (entry) => entry.value.isAfter(_now),
             );
-            final upcomingIndex = nextPrayerIndex < 0
+            final firstUpcomingIndex = nextPrayerIndex < 0
                 ? prayerMilestones.length - 1
                 : nextPrayerIndex;
+            final remainingMilestones = prayerMilestones.length - firstUpcomingIndex;
+            final upcomingIndex = firstUpcomingIndex +
+                (_prayerSlideIndex % remainingMilestones);
             final upcoming = prayerMilestones[upcomingIndex];
             final nextName = s.t(upcoming.key);
             final remaining = upcoming.value.difference(_now);
@@ -449,7 +466,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      lang == 'bn' ? 'শুরু হতে বাকি' : 'Time remaining',
+                                      'শুরু হতে বাকি',
                                       key: const Key('next_prayer_remaining_label'),
                                       style: const TextStyle(
                                         color: AppColors.secondaryText,
@@ -536,7 +553,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        (lang == 'bn' ? 'উদয় ' : 'Rise ') +
+                                        'সূর্যোদয় ' +
                                             _clockTime(prayers.sunrise, s),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
@@ -553,7 +570,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     Flexible(
                                       child: Text(
-                                        (lang == 'bn' ? 'অস্ত ' : 'Set ') +
+                                        'সূর্যাস্ত ' +
                                             _clockTime(prayers.maghrib, s),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
@@ -867,7 +884,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       children: [
                         _HomeCircleFeature(
-                          title: lang == 'bn' ? 'ট্র্যাকার' : 'Tracker',
+                          title: 'ট্র্যাকার',
+                          titleMaxLines: 2,
+                          titleFontSize: 12,
                           icon: Icons.track_changes,
                           detail: '$prayerPercent%',
                           progress: prayerDone / 5,
@@ -1123,8 +1142,9 @@ class _HomeCircleFeature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return SizedBox(
-      width: 67,
+      width: 76,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
         onTap: onTap,
@@ -1143,23 +1163,24 @@ class _HomeCircleFeature extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 4,
-                        backgroundColor: AppColors.subtleBorder,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primaryAccent,
-                        ),
+                        backgroundColor: scheme.outlineVariant,
+                        valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
                       ),
                     )
                   else
                     Container(
                       width: 66,
                       height: 66,
-                      decoration: AppSurfaceStyles.featureIconBadge(),
+                      decoration: BoxDecoration(
+                        color: scheme.primaryContainer,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   if (detail != null)
                     Text(
                       detail!,
                       style: const TextStyle(
-                        color: AppColors.primaryText,
+                        color: scheme.onSurface,
                         fontWeight: FontWeight.w800,
                         fontSize: 15,
                       ),
@@ -1167,7 +1188,7 @@ class _HomeCircleFeature extends StatelessWidget {
                   else
                     Icon(
                       icon,
-                      color: AppColors.primaryText,
+                      color: scheme.onPrimaryContainer,
                       size: 24,
                     ),
                 ],
@@ -1180,7 +1201,7 @@ class _HomeCircleFeature extends StatelessWidget {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: AppColors.secondaryText,
+                color: scheme.onSurfaceVariant,
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.w600,
               ),
