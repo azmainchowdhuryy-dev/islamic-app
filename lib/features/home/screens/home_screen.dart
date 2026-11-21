@@ -19,14 +19,14 @@ import '../../tools/screens/ruqyah_screen.dart';
 import '../services/daily_hadith_index.dart';
 import '../services/prayer_calculator.dart';
 
-class _City {
+class HomeCity {
   final String id;
   final String nameBn;
   final String nameEn;
   final double lat;
   final double lng;
 
-  const _City({
+  const HomeCity({
     required this.id,
     required this.nameBn,
     required this.nameEn,
@@ -34,7 +34,7 @@ class _City {
     required this.lng,
   });
 
-  factory _City.fromJson(Map<String, dynamic> json) => _City(
+  factory HomeCity.fromJson(Map<String, dynamic> json) => _City(
         id: json['id'] as String,
         nameBn: json['name_bn'] as String,
         nameEn: json['name_en'] as String,
@@ -45,11 +45,11 @@ class _City {
   String name(String lang) => lang == 'bn' ? nameBn : nameEn;
 }
 
-final _citiesProvider = FutureProvider<List<_City>>((ref) async {
+final homeCitiesProvider = FutureProvider<List<HomeCity>>((ref) async {
   final raw = await rootBundle.loadString('assets/data/cities_bd.json');
   final data = jsonDecode(raw) as List<dynamic>;
   return data
-      .map((item) => _City.fromJson(item as Map<String, dynamic>))
+      .map((item) => HomeCity.fromJson(item as Map<String, dynamic>))
       .toList();
 });
 
@@ -148,7 +148,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final s = ref.watch(stringsProvider);
     final lang = s.lang;
-    final citiesAsync = ref.watch(_citiesProvider);
+    final citiesAsync = ref.watch(homeCitiesProvider);
     final hadithAsync = ref.watch(hadithListProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
