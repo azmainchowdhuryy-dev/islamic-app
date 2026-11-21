@@ -10,7 +10,6 @@ class MoreScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = ref.watch(stringsProvider).t;
-    final lang = ref.watch(stringsProvider).lang;
     final s = ref.watch(settingsProvider);
     final n = ref.read(settingsProvider.notifier);
     return Scaffold(
