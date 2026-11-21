@@ -122,6 +122,26 @@ void main() {
     expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
   });
 
+  testWidgets('rapid prayer taps toggle from the latest optimistic state', (tester) async {
+    final prefs = await _pumpMainShell(tester);
+
+    final now = DateTime.now();
+    final dateKey =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+
+    final prayerButton = find.byIcon(Icons.radio_button_unchecked).first;
+    await tester.tap(prayerButton);
+    await tester.tap(prayerButton);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 20));
+    await tester.pump(const Duration(milliseconds: 20));
+
+    expect(
+      prefs.getStringList('prayer_tracker_$dateKey') ?? [],
+      isNot(contains('fajr')),
+    );
+  });
+
   testWidgets('Prayer status circle updates the daily saved tracker', (tester) async {
     final prefs = await _pumpMainShell(tester);
 
