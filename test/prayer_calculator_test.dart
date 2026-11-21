@@ -123,6 +123,31 @@ void main() {
       expect(plan.items[1].target, today.sunrise.add(const Duration(minutes: 20)));
     });
 
+
+    test('warns shortly before the sunrise prohibited window', () {
+      final plan = planAt(6, 12);
+
+      expect(plan.items.first.nameKey, 'fajr');
+      expect(plan.items.first.isImminent, isTrue);
+      expect(plan.items.first.detailKey, 'sunrise_window');
+    });
+
+    test('warns shortly before the zenith prohibited window', () {
+      final plan = planAt(11, 47);
+
+      expect(plan.items.first.nameKey, 'duha');
+      expect(plan.items.first.isImminent, isTrue);
+      expect(plan.items.first.detailKey, 'zenith_window');
+    });
+
+    test('warns shortly before the sunset prohibited window', () {
+      final plan = planAt(17, 27);
+
+      expect(plan.items.first.nameKey, 'asr');
+      expect(plan.items.first.isImminent, isTrue);
+      expect(plan.items.first.detailKey, 'sunset_window');
+    });
+
     test('marks sunrise prohibited window and counts down to its end', () {
       final plan = planAt(6, 20);
 
