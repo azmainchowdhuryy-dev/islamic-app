@@ -6,8 +6,23 @@ class AppDatabase {
   AppDatabase._();
   static final AppDatabase instance = AppDatabase._();
   Database? _db;
+  Future<Database>? _opening;
 
-  Future<Database> get db async => _db ??= await _open();
+  Future<Database> get db async {
+    final existing = _db;
+    if (existing != null) return existing;
+
+    final opening = _opening ??= _open();
+    try {
+      final opened = await opening;
+      _db = opened;
+      return opened;
+    } catch (_) {
+      // Allow a later call to retry after a transient database-open failure.
+      if (identical(_opening, opening)) _opening = null;
+      rethrow;
+    }
+  }
 
   Future<Database> _open() async {
     final path = p.join(await getDatabasesPath(), 'islamic_app.db');
