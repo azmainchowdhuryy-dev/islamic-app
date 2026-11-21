@@ -18,8 +18,12 @@ final _verifiedDuasProvider = FutureProvider<List<Map<String, dynamic>>>((ref) a
     ..sort((a, b) => (a['order'] as int).compareTo(b['order'] as int));
 });
 
+enum HadithDuaSection { all, hadith, dua }
+
 class HadithDuaScreen extends ConsumerStatefulWidget {
-  const HadithDuaScreen({super.key});
+  final HadithDuaSection section;
+
+  const HadithDuaScreen({super.key, this.section = HadithDuaSection.all});
 
   @override
   ConsumerState<HadithDuaScreen> createState() => _HadithDuaScreenState();
@@ -185,10 +189,17 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(strings.t('hadith_dua'))),
+      appBar: AppBar(
+        title: Text(widget.section == HadithDuaSection.hadith
+            ? strings.t('hadith')
+            : widget.section == HadithDuaSection.dua
+                ? strings.t('dua')
+                : strings.t('hadith_dua')),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          if (widget.section != HadithDuaSection.dua) ...[
           Text(
             lang == 'bn' ? 'হাদিসের বিষয়সমূহ' : 'Hadith Topics',
             style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -263,6 +274,8 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
               );
             },
           ),
+          ],
+          if (widget.section != HadithDuaSection.hadith) ...[
           const SizedBox(height: 18),
           Text(
             lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics',
@@ -331,6 +344,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
               );
             },
           ),
+          ],
         ],
       ),
     );
