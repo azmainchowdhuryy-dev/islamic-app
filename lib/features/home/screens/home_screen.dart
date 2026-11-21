@@ -292,9 +292,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Color(0xFFFFE98D),
-                          Color(0xFFFFE477),
-                          Color(0xFFFFEF9E),
+                          Color(0xFFDDF3E5),
+                          Color(0xFFCBEBD7),
+                          Color(0xFFE8F7EC),
                         ],
                       ),
                       borderRadius: BorderRadius.vertical(
@@ -303,9 +303,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     padding: EdgeInsets.fromLTRB(
                       16,
-                      MediaQuery.of(context).padding.top + 10,
+                      MediaQuery.of(context).padding.top + 8,
                       16,
-                      16,
+                      9,
                     ),
                     child: Column(
                       children: [
@@ -366,9 +366,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 3),
+                        const SizedBox(height: 0),
                         SizedBox(
-                          height: 174,
+                          height: 154,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
@@ -380,7 +380,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 3),
+                                padding: const EdgeInsets.only(bottom: 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -388,7 +388,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       nextName,
                                       style: const TextStyle(
                                         color: Color(0xFF202A22),
-                                        fontSize: 25,
+                                        fontSize: 23,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
@@ -405,7 +405,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       _countdown(remaining, s),
                                       style: const TextStyle(
                                         color: Color(0xFF1D2821),
-                                        fontSize: 29,
+                                        fontSize: 26,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
@@ -525,7 +525,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 2, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 16, 4),
                     child: Row(
                       children: [
                         Expanded(
@@ -533,7 +533,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             lang == 'bn' ? 'নামাজের সময়সূচি' : 'Prayer Times',
                             style: const TextStyle(
                               color: Color(0xFFE5EDEF),
-                              fontSize: 17,
+                              fontSize: 15,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -607,12 +607,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   const IbadahToolsScreen(section: IbadahToolsSection.prayers),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                                   child: Row(
                                     children: [
                                       Icon(
                                         icon,
-                                        size: 24,
+                                        size: 21,
                                         color: isNext
                                             ? const Color(0xFFFFD66B)
                                             : isDone
@@ -629,7 +629,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 : isDone
                                                     ? const Color(0xFF8ECBAF)
                                                     : const Color(0xFFB6C1C5),
-                                            fontSize: 17,
+                                            fontSize: 15,
                                             fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                           ),
                                         ),
@@ -650,7 +650,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           color: isNext
                                               ? const Color(0xFFE8EFF1)
                                               : const Color(0xFF9BA9AE),
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                         ),
                                       ),
@@ -671,7 +671,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           color: isDone
                                               ? const Color(0xFF58C78F)
                                               : const Color(0xFF69777D),
-                                          size: 23,
+                                          size: 20,
                                         ),
                                       ),
                                     ],
@@ -747,7 +747,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 24, 18, 10),
+                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 6),
                     child: Row(
                       children: [
                         Expanded(
@@ -773,11 +773,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 122,
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      scrollDirection: Axis.horizontal,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceEvenly,
+                      runAlignment: WrapAlignment.start,
+                      spacing: 8,
+                      runSpacing: 14,
                       children: [
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'ট্র্যাকার' : 'Tracker',
@@ -798,15 +800,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           title: lang == 'bn' ? 'রুকইয়াহ' : 'Ruqyah',
                           icon: Icons.auto_awesome_outlined,
                           onTap: () => _openTool(context, const RuqyahScreen()),
-                        ),
-                        _HomeCircleFeature(
-                          title: lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal',
-                          icon: Icons.checklist_rtl,
-                          detail: '$amalDone/6',
-                          onTap: () => _openTool(
-                            context,
-                            const IbadahToolsScreen(section: IbadahToolsSection.dailyAmal),
-                          ),
                         ),
                         _HomeCircleFeature(
                           title: lang == 'bn' ? '৯৯ নাম' : '99 Names',
@@ -987,9 +980,11 @@ class _PrayerCountdownArcPainter extends CustomPainter {
     // Keep the complete upper semicircle inside the available paint area.
     // The old fixed 210px minimum diameter pushed the arc outside this
     // 174px-high widget, clipping the top or bottom on different screens.
-    final centerY = size.height - strokeWidth / 2 - 3;
-    final maxRadiusByWidth = (size.width - strokeWidth - 12) / 2;
-    final maxRadiusByHeight = centerY - strokeWidth / 2 - 2;
+    // Place the arc's baseline at the lower edge while keeping the upper
+    // semicircle fully inside the compact header on narrow and tall screens.
+    final centerY = size.height - strokeWidth / 2 - 1;
+    final maxRadiusByWidth = (size.width - strokeWidth - 20) / 2;
+    final maxRadiusByHeight = centerY - strokeWidth / 2 - 5;
     final radius = math.min(maxRadiusByWidth, maxRadiusByHeight);
     if (radius <= 0) return;
 
