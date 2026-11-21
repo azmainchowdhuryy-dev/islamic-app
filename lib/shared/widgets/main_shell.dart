@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/localization/app_strings.dart';
 import '../../core/navigation/navigation_provider.dart';
+import '../../core/theme/app_colors.dart';
 import '../../features/hadith/screens/hadith_dua_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../features/settings/screens/more_screen.dart';
@@ -25,14 +26,14 @@ class MainShell extends ConsumerWidget {
       ]),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          backgroundColor: const Color(0xFF101A1E),
-          indicatorColor: const Color(0xFF075D46),
+          backgroundColor: AppColors.bottomSurface,
+          indicatorColor: AppColors.activeSurface,
           height: 76,
           labelTextStyle: WidgetStateProperty.resolveWith(
             (states) => TextStyle(
               color: states.contains(WidgetState.selected)
-                  ? const Color(0xFF58C99C)
-                  : const Color(0xFFB7C4C8),
+                  ? AppColors.primaryAccent
+                  : AppColors.secondaryText,
               fontSize: 11,
               fontWeight: states.contains(WidgetState.selected)
                   ? FontWeight.w700
@@ -42,8 +43,8 @@ class MainShell extends ConsumerWidget {
           iconTheme: WidgetStateProperty.resolveWith(
             (states) => IconThemeData(
               color: states.contains(WidgetState.selected)
-                  ? const Color(0xFF42C391)
-                  : const Color(0xFFCAD4D7),
+                  ? AppColors.primaryAccent
+                  : AppColors.secondaryText,
               size: 24,
             ),
           ),
