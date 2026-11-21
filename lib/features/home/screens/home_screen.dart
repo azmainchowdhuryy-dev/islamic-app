@@ -419,7 +419,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       title: lang == 'bn' ? 'আজকের নামাজ' : 'Today’s Prayer',
                       count: prayerDone,
                       total: 5,
-                      onTap: () => _openTool(context, const IbadahToolsScreen()),
+                      onTap: () => _openTool(
+                        context,
+                        const IbadahToolsScreen(section: IbadahToolsSection.prayers),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -429,7 +432,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       title: lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal',
                       count: amalDone,
                       total: 6,
-                      onTap: () => _openTool(context, const IbadahToolsScreen()),
+                      onTap: () => _openTool(
+                        context,
+                        const IbadahToolsScreen(section: IbadahToolsSection.dailyAmal),
+                      ),
                     ),
                   ),
                 ],
@@ -456,7 +462,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _HomeFeatureTile(
                     icon: Icons.favorite_outline,
                     title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
-                    onTap: () => _openTool(context, const IbadahToolsScreen()),
+                    onTap: () => _openTool(
+                      context,
+                      const IbadahToolsScreen(section: IbadahToolsSection.names),
+                    ),
                   ),
                   _HomeFeatureTile(
                     icon: Icons.fingerprint,
