@@ -174,7 +174,7 @@ class PrayerCountdownPlan {
           'ends_in',
           today.sunrise,
           imminent: !now.isBefore(today.sunrise.subtract(const Duration(minutes: 5))),
-          detail: now.isBefore(today.sunrise)
+          detail: !now.isBefore(today.sunrise.subtract(const Duration(minutes: 5)))
               ? 'sunrise_window'
               : null,
         ),
@@ -209,7 +209,9 @@ class PrayerCountdownPlan {
           'ends_in',
           zenithStart,
           imminent: !now.isBefore(zenithStart.subtract(const Duration(minutes: 5))),
-          detail: 'zenith_window',
+          detail: !now.isBefore(zenithStart.subtract(const Duration(minutes: 5)))
+              ? 'zenith_window'
+              : null,
         ),
         item('dhuhr', 'starts_in', today.dhuhr),
       );
@@ -242,7 +244,9 @@ class PrayerCountdownPlan {
           'ends_in',
           today.maghrib,
           imminent: !now.isBefore(sunsetStart.subtract(const Duration(minutes: 5))),
-          detail: 'sunset_window',
+          detail: !now.isBefore(sunsetStart.subtract(const Duration(minutes: 5)))
+              ? 'sunset_window'
+              : null,
         ),
         item('maghrib', 'starts_in', today.maghrib),
       );
