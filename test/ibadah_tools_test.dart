@@ -93,13 +93,13 @@ void main() {
     expect(_nameSubtitleFinder(), findsOneWidget);
   });
 
-  testWidgets('prayer tracker screen shows only prayer tracking', (tester) async {
+  testWidgets('prayer tracker screen shows prayer and daily amal tracking', (tester) async {
     final prefs = await _prefs();
     await _pumpSection(tester, prefs, IbadahToolsSection.prayers);
 
-    expect(find.text('আজকের নামাজ'), findsOneWidget);
+    expect(find.text('ইবাদত ট্র্যাকার'), findsOneWidget);
     expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsOneWidget);
-    expect(find.text('দৈনিক আমল'), findsNothing);
+    expect(find.text('আজকের আমলের তালিকা'), findsOneWidget);
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsNothing);
     expect(_nameSubtitleFinder(), findsNothing);
   });
