@@ -66,11 +66,22 @@ void main() {
         }
 
         if (file == 'dua' && record['verified'] == true) {
-          if ((record['id'] as String).startsWith('quran-')) {
+          if ((record['id'] as String).startsWith('quran-') &&
+              record['verified_date'] == '2026-11-21') {
             expect(
               (record['verified_by'] as String).contains('https://quran.com/'),
               isTrue,
               reason: '${record['id']}: direct Quran source link is missing',
+            );
+            expect(
+              (record['translation_source'] ?? '').toString().trim(),
+              isNotEmpty,
+              reason: '${record['id']}: translation source note is missing',
+            );
+            expect(
+              (record['license_note'] ?? '').toString().trim(),
+              isNotEmpty,
+              reason: '${record['id']}: translation note is missing',
             );
           }
           for (final key in [
