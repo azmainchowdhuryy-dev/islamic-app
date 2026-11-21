@@ -19,6 +19,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
+    expect(find.text('৩৮টি হাদিস'), findsOneWidget);
     // The topic is shown in the filter chip and again on the Hadith card.
     expect(
       find.descendant(
@@ -43,6 +44,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
+    expect(find.text('৩১টি দোয়া'), findsOneWidget);
     // The dua topic appears in both its filter chip and its matching dua card.
     expect(
       find.descendant(
