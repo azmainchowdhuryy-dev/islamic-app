@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +15,13 @@ class TasbihScreen extends ConsumerWidget {
     final s = ref.read(stringsProvider);
     final reached = ref.read(tasbihProvider.notifier).increment();
     final st = ref.read(tasbihProvider);
-    FeedbackService.tap(vibration: st.vibration, sound: st.sound, strong: reached);
+    unawaited(
+      FeedbackService.tap(
+        vibration: st.vibration,
+        sound: st.sound,
+        strong: reached,
+      ),
+    );
     if (reached) {
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
