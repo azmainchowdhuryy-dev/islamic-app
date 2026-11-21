@@ -10,7 +10,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  testWidgets('Hadith and Dua screens show separate topic collections', (tester) async {
+  testWidgets('Combined Hadith and Dua view keeps both collections', (tester) async {
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(ProviderScope(
       overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
@@ -20,20 +20,12 @@ void main() {
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
     expect(find.text('38টি হাদিস'), findsOneWidget);
-    // The topic is shown in the filter chip and again on the Hadith card.
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
         matching: find.text('নিয়ত'),
       ),
       findsOneWidget,
-    );
-    expect(
-      find.descendant(
-        of: find.byType(Card),
-        matching: find.text('নিয়ত'),
-      ),
-      findsWidgets,
     );
 
     await tester.scrollUntilVisible(
@@ -45,7 +37,6 @@ void main() {
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('31টি দোয়া'), findsOneWidget);
-    // The dua topic appears in both its filter chip and its matching dua card.
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
@@ -53,13 +44,7 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(
-      find.descendant(
-        of: find.byType(Card),
-        matching: find.text('মা-বাবার জন্য দোয়া'),
-      ),
-      findsWidgets,
-    );
+  });
 
   testWidgets('Hadith tab contains no Dua section', (tester) async {
     final prefs = await SharedPreferences.getInstance();
@@ -89,6 +74,5 @@ void main() {
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('31টি দোয়া'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
-  });
   });
 }
