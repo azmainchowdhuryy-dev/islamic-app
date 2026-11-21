@@ -1158,11 +1158,11 @@ class _HomeCircleFeature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    // Keep the Top Features palette identical in Light, Dark and System modes.
     return SizedBox(
       width: 76,
       child: Material(
-        color: scheme.surfaceContainerLow,
+        color: AppColors.middleSurface,
         borderRadius: BorderRadius.circular(14),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -1183,8 +1183,8 @@ class _HomeCircleFeature extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 4,
-                        backgroundColor: scheme.outlineVariant,
-                        valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
+                        backgroundColor: AppColors.subtleBorder,
+                        valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primaryAccent),
                       ),
                     )
                   else
@@ -1192,7 +1192,7 @@ class _HomeCircleFeature extends StatelessWidget {
                       width: 66,
                       height: 66,
                       decoration: BoxDecoration(
-                        color: scheme.primaryContainer,
+                        color: AppColors.activeSurface,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -1200,7 +1200,7 @@ class _HomeCircleFeature extends StatelessWidget {
                     Text(
                       detail!,
                       style: TextStyle(
-                        color: scheme.onSurface,
+                        color: AppColors.primaryText,
                         fontWeight: FontWeight.w800,
                         fontSize: 15,
                       ),
@@ -1208,7 +1208,7 @@ class _HomeCircleFeature extends StatelessWidget {
                   else
                     Icon(
                       icon,
-                      color: scheme.onPrimaryContainer,
+                      color: AppColors.primaryText,
                       size: 24,
                     ),
                 ],
@@ -1221,7 +1221,7 @@ class _HomeCircleFeature extends StatelessWidget {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: scheme.onSurfaceVariant,
+                color: AppColors.secondaryText,
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.w600,
               ),
