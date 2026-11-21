@@ -42,8 +42,8 @@ void main() {
     await tester.pumpWidget(ProviderScope(
       overrides: [
         sharedPrefsProvider.overrideWithValue(prefs),
-        hadithListProvider.overrideWith((ref) async => _hadithFixture),
-        verifiedDuasProvider.overrideWith((ref) async => _duaFixture),
+        hadithListProvider.overrideWith((ref) => _hadithFixture),
+        verifiedDuasProvider.overrideWith((ref) => _duaFixture),
       ],
       child: MaterialApp(home: HadithDuaScreen(section: section)),
     ));
