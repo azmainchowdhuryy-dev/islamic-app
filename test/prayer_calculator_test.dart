@@ -41,11 +41,11 @@ void main() {
       );
     });
 
-    test('Duha milestone starts twenty minutes after sunrise', () {
+    test('Duha starts when the fifteen-minute sunrise restriction ends', () {
       final sunrise = DateTime(2026, 11, 21, 6, 10);
       expect(
         DailyPrayerTimes.duhaStart(sunrise),
-        DateTime(2026, 11, 21, 6, 30),
+        DateTime(2026, 11, 21, 6, 25),
       );
     });
 
@@ -120,7 +120,7 @@ void main() {
       expect(plan.items.first.nameKey, 'fajr');
       expect(plan.items.first.target, today.sunrise);
       expect(plan.items[1].nameKey, 'duha');
-      expect(plan.items[1].target, today.sunrise.add(const Duration(minutes: 20)));
+      expect(plan.items[1].target, today.sunrise.add(const Duration(minutes: 15)));
     });
 
 
