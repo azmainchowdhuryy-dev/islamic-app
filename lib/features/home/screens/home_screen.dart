@@ -412,7 +412,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         nextName,
                                         key: const Key('next_prayer_name'),
                                         style: TextStyle(
-                                          color: primaryCountdown.isProhibited
+                                          color: (primaryCountdown.isProhibited || primaryCountdown.isImminent)
                                               ? AppColors.warmAmber
                                               : AppColors.primaryText,
                                           fontSize: 21,
