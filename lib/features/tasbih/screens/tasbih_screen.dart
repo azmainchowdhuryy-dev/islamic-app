@@ -504,7 +504,7 @@ class TasbihScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.check_circle,
                     color: scheme.primary,
                   ),
@@ -531,7 +531,7 @@ class TasbihScreen extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.all_inclusive,
                     color: scheme.primary,
                   ),
