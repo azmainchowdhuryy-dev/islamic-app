@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -45,6 +48,22 @@ Future<SharedPreferences> _pumpMainShell(WidgetTester tester) async {
 }
 
 void main() {
+  test('Bangladesh city asset parses into valid unique city records', () {
+    final raw = jsonDecode(
+      File('assets/data/cities_bd.json').readAsStringSync(),
+    ) as List;
+    final cities = raw
+        .map((item) => HomeCity.fromJson(item as Map<String, dynamic>))
+        .toList();
+
+    expect(cities, isNotEmpty);
+    expect(cities.map((city) => city.id).toSet().length, cities.length);
+    expect(cities.any((city) => city.id == 'dhaka'), isTrue);
+    for (final city in cities) {
+      expect(city.lat, inInclusiveRange(-90, 90));
+      expect(city.lng, inInclusiveRange(-180, 180));
+    }
+  });
   testWidgets('Home dashboard displays the redesigned prayer header and features', (tester) async {
     await _pumpMainShell(tester);
 
