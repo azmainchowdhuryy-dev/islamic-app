@@ -131,10 +131,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final prefs = ref.read(sharedPrefsProvider);
     final write = _prayerWriteQueue
         .catchError((_) {})
-        .then((_) => prefs.setStringList(
-              'prayer_tracker_$dateKey',
-              next.toList(),
-            ));
+        .then<void>((_) async {
+          await prefs.setStringList(
+            'prayer_tracker_$dateKey',
+            next.toList(),
+          );
+        });
     _prayerWriteQueue = write;
 
     try {
