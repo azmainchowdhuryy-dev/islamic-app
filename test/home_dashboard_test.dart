@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/services/prefs.dart';
+import 'package:islamic_app/features/hadith/models/hadith.dart';
+import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
+import 'package:islamic_app/features/hadith/screens/hadith_dua_screen.dart';
+import 'package:islamic_app/features/home/screens/home_screen.dart';
 import 'package:islamic_app/shared/widgets/main_shell.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,11 +13,28 @@ Future<SharedPreferences> _pumpMainShell(WidgetTester tester) async {
   SharedPreferences.setMockInitialValues({});
   final prefs = await SharedPreferences.getInstance();
   await tester.pumpWidget(ProviderScope(
-    overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+    overrides: [
+      sharedPrefsProvider.overrideWithValue(prefs),
+      homeCitiesProvider.overrideWith(
+        (ref) async => const [
+          HomeCity(
+            id: 'dhaka',
+            nameBn: 'ঢাকা',
+            nameEn: 'Dhaka',
+            lat: 23.8103,
+            lng: 90.4125,
+          ),
+        ],
+      ),
+      hadithListProvider.overrideWith((ref) async => <Hadith>[]),
+      verifiedDuasProvider.overrideWith(
+        (ref) async => <Map<String, dynamic>>[],
+      ),
+    ],
     child: const MaterialApp(home: MainShell()),
   ));
-  // Wait for the bundled city data without pumpAndSettle because the
-  // Home countdown intentionally has a live one-second timer.
+
+  // Home has a live countdown timer, so never use pumpAndSettle here.
   for (var i = 0;
       i < 20 && find.text('নামাজের সময়সূচি').evaluate().isEmpty;
       i++) {
