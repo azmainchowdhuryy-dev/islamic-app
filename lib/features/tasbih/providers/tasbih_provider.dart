@@ -27,26 +27,48 @@ class TasbihNotifier extends Notifier<TasbihState> {
       counters: {for (final k in dhikrKeys) k: TasbihCounter(key: k)},
       vibration: _prefs.vibration,
       sound: _prefs.sound,
+      isLoading: true,
     );
   }
 
   Future<void> _loadCounters() async {
     try {
       final saved = await _store.loadCounters();
-      if (saved.isEmpty) return;
-      state = state.copyWith(counters: {...state.counters, ...saved});
+      final counters = <String, TasbihCounter>{...state.counters};
+      for (final key in dhikrKeys) {
+        final value = saved[key];
+        if (value == null || value.key != key) continue;
+        counters[key] = TasbihCounter(
+          key: key,
+          session: value.session < 0 ? 0 : value.session,
+          total: value.total < 0 ? 0 : value.total,
+          target: tasbihTargets.contains(value.target) ? value.target : 33,
+        );
+      }
+      state = state.copyWith(counters: counters, isLoading: false);
     } catch (_) {
       // লোড ব্যর্থ হলে শূন্য থেকে শুরু; অ্যাপ চলতে থাকবে।
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> _persistCounter(TasbihCounter counter) async {
+    try {
+      await _store.saveCounter(counter);
+    } catch (_) {
+      // Local persistence failure must not crash the counter UI.
     }
   }
 
   void _putCounter(TasbihCounter c) {
+    if (state.isLoading) return;
     state = state.copyWith(counters: {...state.counters, c.key: c});
-    _store.saveCounter(c);
+    _persistCounter(c);
   }
 
   /// এক গণনা বাড়ায়। এই ট্যাপে লক্ষ্য পূর্ণ হলে true ফেরত দেয় (একবারই)।
   bool increment() {
+    if (state.isLoading) return false;
     final c = state.active;
     final next = c.copyWith(session: c.session + 1, total: c.total + 1);
     _putCounter(next);
@@ -55,15 +77,17 @@ class TasbihNotifier extends Notifier<TasbihState> {
 
   /// শুধু বর্তমান গণনা শূন্য করে; মোট গণনা থাকে।
   void resetSession() {
+    if (state.isLoading) return;
     _putCounter(state.active.copyWith(session: 0));
   }
 
   void setTarget(int target) {
+    if (state.isLoading || !tasbihTargets.contains(target)) return;
     _putCounter(state.active.copyWith(target: target));
   }
 
   void selectDhikr(String key) {
-    if (!dhikrKeys.contains(key)) return;
+    if (state.isLoading || !dhikrKeys.contains(key)) return;
     _prefs.setActiveKey(key);
     state = state.copyWith(activeKey: key);
   }
