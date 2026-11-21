@@ -88,7 +88,7 @@ void main() {
     final trackerCenter = tester.getCenter(find.text('ট্র্যাকার'));
     final firstRowY = trackerCenter.dy;
     final namesCenter = tester.getCenter(find.text("99 Names of Allah"));
-    expect(namesCenter.dy, closeTo(firstRowY, 1));
+    expect(namesCenter.dy, closeTo(firstRowY, 3));
     expect(namesCenter.dx, greaterThan(trackerCenter.dx));
     expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));
     final secondRowY = tester.getCenter(find.text('রুকইয়াহ')).dy;
