@@ -599,10 +599,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: 6),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: AppColors.middleSurface,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
+                    decoration: AppSurfaceStyles.middleCard(radius: 24),
                     clipBehavior: Clip.antiAlias,
                     child: Column(
                       children: [
@@ -1103,10 +1100,7 @@ class _HomeCircleFeature extends StatelessWidget {
                     Container(
                       width: 66,
                       height: 66,
-                      decoration: const BoxDecoration(
-                        color: AppColors.iconBadge,
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: AppSurfaceStyles.featureIconBadge(),
                     ),
                   if (detail != null)
                     Text(
