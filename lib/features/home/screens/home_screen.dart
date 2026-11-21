@@ -771,13 +771,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GridView.count(
-                      crossAxisCount: 3,
+                    child: GridView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      childAspectRatio: 0.95,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisExtent: 102,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                      ),
                       children: [
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'ট্র্যাকার' : 'Tracker',
