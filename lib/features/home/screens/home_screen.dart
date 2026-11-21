@@ -321,12 +321,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 padding: EdgeInsets.zero,
                 children: [
                   Container(
+                    key: const Key('home_header_panel'),
                     decoration: AppSurfaceStyles.hero(),
                     padding: EdgeInsets.fromLTRB(
                       16,
-                      MediaQuery.of(context).padding.top + 8,
+                      MediaQuery.of(context).padding.top + 4,
                       16,
-                      9,
+                      6,
                     ),
                     child: Column(
                       children: [
@@ -389,7 +390,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: 0),
                         SizedBox(
-                          height: 154,
+                          key: const Key('next_prayer_arc'),
+                          height: 120,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
@@ -400,13 +402,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 0),
-                                child: Column(
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 3),
+                                  child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       nextName,
+                                      key: const Key('next_prayer_name'),
                                       style: const TextStyle(
                                         color: AppColors.primaryText,
                                         fontSize: 23,
@@ -416,6 +421,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     const SizedBox(height: 8),
                                     Text(
                                       lang == 'bn' ? 'শুরু হতে বাকি' : 'Time remaining',
+                                      key: const Key('next_prayer_remaining_label'),
                                       style: const TextStyle(
                                         color: AppColors.secondaryText,
                                         fontSize: 15,
@@ -424,6 +430,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     const SizedBox(height: 2),
                                     Text(
                                       _countdown(remaining, s),
+                                      key: const Key('next_prayer_countdown'),
                                       style: const TextStyle(
                                         color: AppColors.primaryText,
                                         fontSize: 26,
@@ -431,6 +438,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                     ),
                                   ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -441,7 +449,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Expanded(
                               flex: 4,
                               child: Container(
-                                height: 42,
+                                height: 38,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: AppColors.activeSurface,
@@ -532,7 +540,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 3),
                         Text(
                           lang == 'bn'
                               ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সমতুল্য ধরে দেখানো হয়েছে'
@@ -598,6 +606,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(height: 6),
                   Container(
+                    key: const Key('home_prayer_times_card'),
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: AppSurfaceStyles.middleCard(radius: 24),
                     clipBehavior: Clip.antiAlias,
@@ -629,7 +638,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ? AppSurfaceStyles.activeRow(radius: 12)
                                       : null,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
                                     child: Row(
                                       children: [
                                       Icon(
@@ -680,9 +689,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       IconButton(
                                         key: Key('home_prayer_toggle_${entry.key}'),
                                         constraints: const BoxConstraints(
-                                          minWidth: 48,
-                                          minHeight: 48,
+                                          minWidth: 40,
+                                          minHeight: 40,
                                         ),
+                                        visualDensity: VisualDensity.compact,
                                         padding: EdgeInsets.zero,
                                         tooltip: isDone
                                             ? (lang == 'bn' ? 'আদায় করা হয়েছে' : 'Marked complete')
@@ -720,7 +730,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ],
                         const Divider(height: 1, color: AppColors.subtleBorder),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           child: Row(
                             children: [
                               Expanded(
@@ -731,6 +741,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   icon: const Icon(Icons.notifications_none,
                                       color: AppColors.primaryText),
+                                  style: TextButton.styleFrom(
+                                    minimumSize: const Size(0, 40),
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
                                   label: Text(
                                     lang == 'bn' ? 'নামাজের হিসাব' : 'Prayer tracker',
                                     style: const TextStyle(color: AppColors.primaryText),
@@ -1035,12 +1049,19 @@ class _PrayerCountdownArcPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
-    // Canvas coordinates grow downwards, so a positive half-turn from
-    // the left edge passes over the top and ends at the right edge.
-    // This keeps the prayer countdown inside an upward-facing arch.
-    canvas.drawArc(rect, math.pi, math.pi, false, track);
+    // Use a wide, shallow ellipse so the arch spans the text block instead
+    // of cutting through it. The label and countdown sit below the arch apex.
+    final horizontalInset = math.min(18.0, size.width / 8);
+    final arcTop = strokeWidth / 2 + 1;
+    final arcRect = Rect.fromLTRB(
+      horizontalInset,
+      arcTop,
+      size.width - horizontalInset,
+      2 * centerY - arcTop,
+    );
+    canvas.drawArc(arcRect, math.pi, math.pi, false, track);
     canvas.drawArc(
-      rect,
+      arcRect,
       math.pi,
       math.pi * progress.clamp(0.0, 1.0).toDouble(),
       false,

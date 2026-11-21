@@ -35,8 +35,13 @@ class FeaturesScreen extends ConsumerWidget {
     required VoidCallback onTap,
     Color? color,
   }) {
-    final scheme = Theme.of(context).colorScheme;
-    final tint = color ?? scheme.primary;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final badgeBackground =
+        isDark ? AppColors.iconBadge : scheme.primaryContainer;
+    final tint = color ??
+        (isDark ? AppColors.primaryAccent : scheme.onPrimaryContainer);
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -48,7 +53,7 @@ class FeaturesScreen extends ConsumerWidget {
             children: [
               CircleAvatar(
                 radius: 22,
-                backgroundColor: AppColors.iconBadge,
+                backgroundColor: badgeBackground,
                 child: Icon(icon, color: tint),
               ),
               const SizedBox(height: 12),

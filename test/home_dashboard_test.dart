@@ -94,6 +94,52 @@ void main() {
     expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
   });
 
+
+  testWidgets('Home prayer countdown text sits inside the upper arch and panels are compact', (tester) async {
+    await _pumpMainShell(tester);
+
+    final header = find.byKey(const Key('home_header_panel'));
+    final arc = find.byKey(const Key('next_prayer_arc'));
+    expect(header, findsOneWidget);
+    expect(arc, findsOneWidget);
+    expect(tester.getSize(header).height, lessThan(250));
+
+    final arcRect = tester.getRect(arc);
+    for (final key in [
+      'next_prayer_name',
+      'next_prayer_remaining_label',
+      'next_prayer_countdown',
+    ]) {
+      final textRect = tester.getRect(find.byKey(Key(key)));
+      expect(textRect.top, greaterThan(arcRect.top + 14), reason: '$key should be below the curve');
+      expect(textRect.bottom, lessThan(arcRect.bottom), reason: '$key should remain inside the arch area');
+    }
+
+    expect(
+      tester.widget<Text>(find.byKey(const Key('next_prayer_name'))).style?.fontSize,
+      23,
+    );
+    expect(
+      tester.widget<Text>(find.byKey(const Key('next_prayer_remaining_label'))).style?.fontSize,
+      15,
+    );
+    expect(
+      tester.widget<Text>(find.byKey(const Key('next_prayer_countdown'))).style?.fontSize,
+      26,
+    );
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('home_prayer_times_card')),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pump();
+    expect(
+      tester.getSize(find.byKey(const Key('home_prayer_times_card'))).height,
+      lessThan(275),
+    );
+  });
+
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
     await _pumpMainShell(tester);
 

@@ -2,6 +2,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/services/prefs.dart';
+import 'package:islamic_app/core/theme/app_colors.dart';
+import 'package:islamic_app/core/theme/app_theme.dart';
 import 'package:islamic_app/features/hadith/models/hadith.dart';
 import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
 import 'package:islamic_app/features/hadith/screens/hadith_dua_screen.dart';
@@ -24,7 +26,10 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  Future<void> pumpFeatures(WidgetTester tester) async {
+  Future<void> pumpFeatures(
+    WidgetTester tester, {
+    ThemeMode themeMode = ThemeMode.light,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(ProviderScope(
       overrides: [
@@ -34,10 +39,47 @@ void main() {
           (ref) => <Map<String, dynamic>>[],
         ),
       ],
-      child: const MaterialApp(home: FeaturesScreen()),
+      child: MaterialApp(
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: themeMode,
+        home: const FeaturesScreen(),
+      ),
     ));
     await tester.pump();
   }
+
+
+  testWidgets('Feature icons remain visible in Light and System themes', (tester) async {
+    tester.binding.platformDispatcher.platformBrightnessTestValue = Brightness.light;
+    addTearDown(tester.binding.platformDispatcher.clearPlatformBrightnessTestValue);
+
+    for (final mode in [ThemeMode.light, ThemeMode.system]) {
+      await pumpFeatures(tester, themeMode: mode);
+      final avatars = find.byType(CircleAvatar);
+      expect(avatars, findsWidgets);
+
+      for (var i = 0; i < avatars.evaluate().length; i++) {
+        final avatar = tester.widget<CircleAvatar>(avatars.at(i));
+        expect(avatar.backgroundColor, AppTheme.light.colorScheme.primaryContainer);
+        final icon = tester.widget<Icon>(
+          find.descendant(of: avatars.at(i), matching: find.byType(Icon)),
+        );
+        expect(icon.color, AppTheme.light.colorScheme.onPrimaryContainer);
+      }
+    }
+
+    await pumpFeatures(tester, themeMode: ThemeMode.dark);
+    final darkAvatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar).first);
+    expect(darkAvatar.backgroundColor, AppColors.iconBadge);
+    final darkIcon = tester.widget<Icon>(
+      find.descendant(
+        of: find.byType(CircleAvatar).first,
+        matching: find.byType(Icon),
+      ),
+    );
+    expect(darkIcon.color, AppColors.primaryAccent);
+  });
 
   testWidgets('Features screen exposes the remaining supported tools', (tester) async {
     await pumpFeatures(tester);
