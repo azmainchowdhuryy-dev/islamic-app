@@ -47,7 +47,10 @@ void main() {
       ],
       child: MaterialApp(home: HadithDuaScreen(section: section)),
     ));
-    await tester.pumpAndSettle();
+    // Both providers are overridden with fixtures, so two bounded frames
+    // are enough to render their data without waiting for an animation to settle.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
   }
 
   testWidgets('Combined Hadith and Dua view keeps both collections', (tester) async {
