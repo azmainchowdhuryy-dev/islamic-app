@@ -207,6 +207,7 @@ void main() {
       n.increment();
       n.setVibration(false);
       n.setSound(true);
+      await n.flushPendingWrites();
 
       // অ্যাপ বন্ধ করে আবার খোলা: নতুন container, একই সংরক্ষিত ডেটা
       final second = makeContainer(store, prefs);
@@ -241,6 +242,7 @@ void main() {
         n.increment();
       }
       n.resetSession();
+      await n.flushPendingWrites();
 
       final second = makeContainer(store, prefs);
       await second.read(tasbihProvider.notifier).ready;
