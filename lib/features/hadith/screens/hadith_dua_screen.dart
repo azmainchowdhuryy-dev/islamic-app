@@ -270,7 +270,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                       child: Text(
                         lang == 'bn'
                             ? 'হাদিসগুলো সহিহ বুখারি ও সহিহ মুসলিমের উল্লেখিত রেফারেন্স অনুযায়ী সাজানো হয়েছে। অনুবাদগুলো সংক্ষিপ্ত ভাবানুবাদ।'
-                            : 'Hadith entries are referenced to the cited Sahih al-Bukhari and Sahih Muslim reports. Translations are concise project paraphrases.',
+                            : 'Each hadith displays its cited collection, reference and grade. Translations are concise project paraphrases.',
                         style: theme.textTheme.bodySmall,
                       ),
                     ),
