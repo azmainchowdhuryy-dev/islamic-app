@@ -25,11 +25,27 @@ class TasbihNotifier extends Notifier<TasbihState> {
     ready = _loadCounters();
     return TasbihState(
       activeKey: _prefs.activeKey,
-      counters: {for (final k in dhikrKeys) k: TasbihCounter(key: k)},
+      counters: {
+        for (final key in dhikrKeys)
+          key: TasbihCounter(
+            key: key,
+            target: tasbihPresetForKey(key).target,
+          ),
+      },
       vibration: _prefs.vibration,
       sound: _prefs.sound,
       isLoading: true,
     );
+  }
+
+  int _restoredTarget(String key, int savedTarget) {
+    final defaultTarget = tasbihPresetForKey(key).target;
+    // Older releases used 33 as the untouched default for these two counters.
+    // Keep the saved count and lifetime total while updating their default goal.
+    final legacyDefault =
+        (key == 'durood' || key == 'istighfar') && savedTarget == 33;
+    if (legacyDefault) return defaultTarget;
+    return tasbihTargets.contains(savedTarget) ? savedTarget : defaultTarget;
   }
 
   Future<void> _loadCounters() async {
@@ -43,7 +59,7 @@ class TasbihNotifier extends Notifier<TasbihState> {
           key: key,
           session: value.session < 0 ? 0 : value.session,
           total: value.total < 0 ? 0 : value.total,
-          target: tasbihTargets.contains(value.target) ? value.target : 33,
+          target: _restoredTarget(key, value.target),
         );
       }
       state = state.copyWith(counters: counters, isLoading: false);

@@ -1,5 +1,15 @@
-/// দুটি জিকির: key দিয়ে চেনা যায় (এই key-ই লোকালাইজেশনেও ব্যবহার হয়)।
-const List<String> dhikrKeys = ['durood', 'istighfar'];
+/// প্রতিটি preset-এর জন্য আলাদা counter এবং progress সংরক্ষিত হয়।
+const List<String> dhikrKeys = [
+  'general',
+  'subhanallah',
+  'alhamdulillah',
+  'allahu_akbar',
+  'la_ilaha_illallah',
+  'istighfar',
+  'subhanallah_bihamdihi',
+  'la_hawla',
+  'durood',
+];
 
 /// বেছে নেওয়ার মতো লক্ষ্য।
 const List<int> tasbihTargets = [33, 100, 500, 1000];
@@ -11,7 +21,7 @@ class TasbihCounter {
   final int total; // মোট গণনা (রিসেটে মুছে না)
   final int target;
 
-  const TasbihCounter({required this.key, this.session = 0, this.total = 0, this.target = 33});
+  const TasbihCounter({required this.key, this.session = 0, this.total = 0, this.target = 100});
 
   bool get completed => target > 0 && session >= target;
 
