@@ -635,7 +635,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   const IbadahToolsScreen(section: IbadahToolsSection.prayers),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
                                   child: Row(
                                     children: [
                                       Icon(
@@ -686,8 +686,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       IconButton(
                                         key: Key('home_prayer_toggle_${entry.key}'),
                                         constraints: const BoxConstraints(
-                                          minWidth: 36,
-                                          minHeight: 36,
+                                          minWidth: 48,
+                                          minHeight: 48,
                                         ),
                                         padding: EdgeInsets.zero,
                                         tooltip: isDone
