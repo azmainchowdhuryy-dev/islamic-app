@@ -84,6 +84,7 @@ class PrayerCountdownItem {
   final String statusKey;
   final DateTime target;
   final bool isProhibited;
+  final bool isImminent;
   final String? detailKey;
 
   const PrayerCountdownItem({
@@ -91,6 +92,7 @@ class PrayerCountdownItem {
     required this.statusKey,
     required this.target,
     this.isProhibited = false,
+    this.isImminent = false,
     this.detailKey,
   });
 }
@@ -115,6 +117,7 @@ class PrayerCountdownPlan {
       String status,
       DateTime target, {
       bool prohibited = false,
+      bool imminent = false,
       String? detail,
     }) =>
         PrayerCountdownItem(
@@ -122,6 +125,7 @@ class PrayerCountdownPlan {
           statusKey: status,
           target: target,
           isProhibited: prohibited,
+          isImminent: imminent,
           detailKey: detail,
         );
 
@@ -165,7 +169,15 @@ class PrayerCountdownPlan {
 
     if (now.isBefore(today.sunrise)) {
       return pair(
-        item('fajr', 'ends_in', today.sunrise),
+        item(
+          'fajr',
+          'ends_in',
+          today.sunrise,
+          imminent: !now.isBefore(today.sunrise.subtract(const Duration(minutes: 5))),
+          detail: now.isBefore(today.sunrise)
+              ? 'sunrise_window'
+              : null,
+        ),
         item('duha', 'starts_in', duhaStart),
       );
     }
@@ -192,7 +204,13 @@ class PrayerCountdownPlan {
 
     if (now.isBefore(zenithStart)) {
       return pair(
-        item('duha', 'ends_in', zenithStart),
+        item(
+          'duha',
+          'ends_in',
+          zenithStart,
+          imminent: !now.isBefore(zenithStart.subtract(const Duration(minutes: 5))),
+          detail: 'zenith_window',
+        ),
         item('dhuhr', 'starts_in', today.dhuhr),
       );
     }
@@ -219,7 +237,13 @@ class PrayerCountdownPlan {
 
     if (now.isBefore(sunsetStart)) {
       return pair(
-        item('asr', 'ends_in', today.maghrib),
+        item(
+          'asr',
+          'ends_in',
+          today.maghrib,
+          imminent: !now.isBefore(sunsetStart.subtract(const Duration(minutes: 5))),
+          detail: 'sunset_window',
+        ),
         item('maghrib', 'starts_in', today.maghrib),
       );
     }
