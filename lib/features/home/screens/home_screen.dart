@@ -480,7 +480,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      upcoming.key == 'tahajjud_last'\n                                          ? 'শেষ হতে বাকি'\n                                          : 'শুরু হতে বাকি',
+                                      upcoming.key == 'tahajjud_last'
+                                          ? 'শেষ হতে বাকি'
+                                          : 'শুরু হতে বাকি',
                                       key: const Key('next_prayer_remaining_label'),
                                       style: const TextStyle(
                                         color: AppColors.secondaryText,
