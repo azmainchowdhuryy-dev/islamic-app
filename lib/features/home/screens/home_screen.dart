@@ -67,6 +67,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _hijriOffset = 0;
   DateTime _now = DateTime.now();
   Timer? _clock;
+  String? _homePrayerOverrideDateKey;
+  Set<String>? _homePrayerDoneOverride;
+  Future<void> _prayerWriteQueue = Future<void>.value();
 
   @override
   void initState() {
@@ -114,12 +117,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Set<String> current,
     String dateKey,
   ) async {
-    final next = Set<String>.from(current);
+    final base = _homePrayerOverrideDateKey == dateKey
+        ? (_homePrayerDoneOverride ?? current)
+        : current;
+    final next = Set<String>.from(base);
     if (!next.add(key)) next.remove(key);
-    await ref
-        .read(sharedPrefsProvider)
-        .setStringList('prayer_tracker_$dateKey', next.toList());
-    if (mounted) setState(() {});
+
+    setState(() {
+      _homePrayerOverrideDateKey = dateKey;
+      _homePrayerDoneOverride = next;
+    });
+
+    final prefs = ref.read(sharedPrefsProvider);
+    final write = _prayerWriteQueue
+        .catchError((_) {})
+        .then((_) => prefs.setStringList(
+              'prayer_tracker_$dateKey',
+              next.toList(),
+            ));
+    _prayerWriteQueue = write;
+
+    try {
+      await write;
+    } catch (_) {
+      // Keep the optimistic state visible if the local write temporarily fails.
+      return;
+    }
+
+    if (mounted &&
+        _homePrayerOverrideDateKey == dateKey &&
+        identical(_homePrayerDoneOverride, next)) {
+      setState(() {
+        _homePrayerOverrideDateKey = null;
+        _homePrayerDoneOverride = null;
+      });
+    }
   }
 
   String _clockTime(DateTime value, AppStrings s) {
@@ -264,11 +296,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
             final todayPrefs = ref.read(sharedPrefsProvider);
             const validPrayerKeys = {'fajr', 'dhuhr', 'asr', 'maghrib', 'isha'};
-            final prayerDoneKeys = (todayPrefs
+            final savedPrayerKeys = (todayPrefs
                         .getStringList('prayer_tracker_$todayKey') ??
                     [])
                 .where(validPrayerKeys.contains)
                 .toSet();
+            final prayerDoneKeys = _homePrayerOverrideDateKey == todayKey
+                ? Set<String>.from(_homePrayerDoneOverride ?? savedPrayerKeys)
+                : savedPrayerKeys;
             final prayerDone = prayerDoneKeys.length;
             final prayerPercent = (prayerDone / 5 * 100).round();
 
