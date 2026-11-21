@@ -75,6 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Timer? _clock;
   Timer? _prayerSlideTimer;
   int _prayerSlideIndex = 0;
+  int _prayerSlideAnchorIndex = -1;
   String? _homePrayerOverrideDateKey;
   Set<String>? _homePrayerDoneOverride;
   Future<void> _prayerWriteQueue = Future<void>.value();
@@ -275,6 +276,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final firstUpcomingIndex = nextPrayerIndex < 0
                 ? prayerMilestones.length - 1
                 : nextPrayerIndex;
+            // When the real next milestone changes, restart the carousel at
+            // that event so an old slide offset cannot skip it.
+            if (_prayerSlideAnchorIndex != firstUpcomingIndex) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted || _prayerSlideAnchorIndex == firstUpcomingIndex) {
+                  return;
+                }
+                setState(() {
+                  _prayerSlideAnchorIndex = firstUpcomingIndex;
+                  _prayerSlideIndex = 0;
+                });
+              });
+            }
             final remainingMilestones = prayerMilestones.length - firstUpcomingIndex;
             final upcomingIndex = firstUpcomingIndex +
                 (_prayerSlideIndex % remainingMilestones);
@@ -466,7 +480,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      'শুরু হতে বাকি',
+                                      upcoming.key == 'tahajjud_last'\n                                          ? 'শেষ হতে বাকি'\n                                          : 'শুরু হতে বাকি',
                                       key: const Key('next_prayer_remaining_label'),
                                       style: const TextStyle(
                                         color: AppColors.secondaryText,
@@ -878,7 +892,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        mainAxisExtent: 84,
+                        mainAxisExtent: 96,
                         mainAxisSpacing: 6,
                         crossAxisSpacing: 6,
                       ),
