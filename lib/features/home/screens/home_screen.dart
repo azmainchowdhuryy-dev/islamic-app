@@ -444,7 +444,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 42,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: const AppColors.activeSurface,
+                                  color: AppColors.activeSurface,
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
@@ -491,7 +491,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 42,
                                 padding: const EdgeInsets.symmetric(horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: const AppColors.activeSurface,
+                                  color: AppColors.activeSurface,
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
@@ -512,7 +512,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     Container(
                                       height: 22,
                                       width: 1,
-                                      color: const AppColors.subtleBorder,
+                                      color: AppColors.subtleBorder,
                                     ),
                                     Flexible(
                                       child: Text(
@@ -600,7 +600,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: const AppColors.bottomSurface,
+                      color: AppColors.middleSurface,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     clipBehavior: Clip.antiAlias,
@@ -639,10 +639,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         icon,
                                         size: 21,
                                         color: isNext
-                                            ? const AppColors.warmAmber
+                                            ? AppColors.warmAmber
                                             : isDone
-                                                ? const AppColors.primaryAccent
-                                                : const AppColors.secondaryText,
+                                                ? AppColors.primaryAccent
+                                                : AppColors.secondaryText,
                                       ),
                                       const SizedBox(width: 15),
                                       Expanded(
@@ -650,10 +650,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           s.t(entry.key),
                                           style: TextStyle(
                                             color: isNext
-                                                ? const AppColors.primaryText
+                                                ? AppColors.primaryText
                                                 : isDone
-                                                    ? const AppColors.primaryAccent
-                                                    : const AppColors.secondaryText,
+                                                    ? AppColors.primaryAccent
+                                                    : AppColors.secondaryText,
                                             fontSize: 15,
                                             fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                           ),
@@ -673,8 +673,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
                                         style: TextStyle(
                                           color: isNext
-                                              ? const AppColors.primaryText
-                                              : const AppColors.secondaryText,
+                                              ? AppColors.primaryText
+                                              : AppColors.secondaryText,
                                           fontSize: 12,
                                           fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                         ),
@@ -700,8 +700,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               ? Icons.check_circle
                                               : Icons.radio_button_unchecked,
                                           color: isDone
-                                              ? const AppColors.primaryAccent
-                                              : const AppColors.secondaryText,
+                                              ? AppColors.primaryAccent
+                                              : AppColors.secondaryText,
                                           size: 20,
                                         ),
                                       ),
@@ -743,7 +743,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Container(
                                 width: 1,
                                 height: 34,
-                                color: const AppColors.subtleBorder,
+                                color: AppColors.subtleBorder,
                               ),
                               Expanded(
                                 child: PopupMenuButton<int>(
@@ -880,7 +880,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                       error: (error, stack) => Card(
-                        color: const AppColors.middleSurface,
+                        color: AppColors.middleSurface,
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Text(
@@ -895,7 +895,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             .toList();
                         if (eligible.isEmpty) {
                           return Card(
-                            color: const AppColors.middleSurface,
+                            color: AppColors.middleSurface,
                             child: Padding(
                               padding: const EdgeInsets.all(18),
                               child: Text(
@@ -907,7 +907,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         }
                         final item = eligible[dailyHadithIndex(_now, eligible.length)];
                         return Card(
-                          color: const AppColors.middleSurface,
+                          color: AppColors.middleSurface,
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
@@ -988,13 +988,13 @@ class _LanguageChoice extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         decoration: BoxDecoration(
-          color: selected ? const AppColors.activeSurface : Colors.transparent,
+          color: selected ? AppColors.activeSurface : Colors.transparent,
           borderRadius: BorderRadius.circular(18),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: selected ? Colors.white : const AppColors.secondaryText,
+            color: selected ? Colors.white : AppColors.secondaryText,
             fontSize: 12,
             fontWeight: FontWeight.w700,
           ),
@@ -1028,12 +1028,12 @@ class _PrayerCountdownArcPainter extends CustomPainter {
       radius: radius,
     );
     final track = Paint()
-      ..color = const AppColors.subtleBorder
+      ..color = AppColors.subtleBorder
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
     final active = Paint()
-      ..color = const AppColors.primaryAccent
+      ..color = AppColors.primaryAccent
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -1093,7 +1093,7 @@ class _HomeCircleFeature extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 5,
-                        backgroundColor: const AppColors.subtleBorder,
+                        backgroundColor: AppColors.subtleBorder,
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.primaryAccent,
                         ),
@@ -1120,7 +1120,7 @@ class _HomeCircleFeature extends StatelessWidget {
                   else
                     Icon(
                       icon,
-                      color: const AppColors.primaryText,
+                      color: AppColors.primaryText,
                       size: 30,
                     ),
                 ],
