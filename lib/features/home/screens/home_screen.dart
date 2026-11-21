@@ -414,7 +414,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 42,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: const Color(0x55B99E42),
+                                  color: const Color(0x5579B58F),
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
@@ -647,6 +647,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                       const SizedBox(width: 12),
                                       IconButton(
+                                        constraints: const BoxConstraints(
+                                          minWidth: 36,
+                                          minHeight: 36,
+                                        ),
+                                        padding: EdgeInsets.zero,
                                         tooltip: isDone
                                             ? (lang == 'bn' ? 'আদায় করা হয়েছে' : 'Marked complete')
                                             : (lang == 'bn' ? 'নামাজ আদায় হয়েছে চিহ্নিত করুন' : 'Mark prayer complete'),
@@ -766,11 +771,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceEvenly,
-                      runAlignment: WrapAlignment.start,
-                      spacing: 8,
-                      runSpacing: 14,
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 0.95,
                       children: [
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'ট্র্যাকার' : 'Tracker',
@@ -984,7 +991,7 @@ class _PrayerCountdownArcPainter extends CustomPainter {
       radius: radius,
     );
     final track = Paint()
-      ..color = const Color(0xFFDAC66D)
+      ..color = const Color(0xFFB6D9C0)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -1047,7 +1054,7 @@ class _HomeCircleFeature extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 5,
-                        backgroundColor: const Color(0xFF7A4141),
+                        backgroundColor: const Color(0xFF456451),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF46B98D),
                         ),
