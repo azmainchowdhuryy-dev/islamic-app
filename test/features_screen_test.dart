@@ -76,7 +76,8 @@ void main() {
     await pumpFeatures(tester);
     await _openFeature(tester, 'দৈনিক আমল');
 
-    expect(find.text('দৈনিক আমল'), findsNWidgets(2));
+    expect(find.text('দৈনিক আমল'), findsOneWidget);
+    expect(find.text('আজকের আমলের তালিকা'), findsOneWidget);
     expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsNothing);
   });
