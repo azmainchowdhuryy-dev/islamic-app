@@ -325,9 +325,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     decoration: AppSurfaceStyles.hero(),
                     padding: EdgeInsets.fromLTRB(
                       16,
-                      MediaQuery.of(context).padding.top + 4,
+                      MediaQuery.of(context).padding.top + 2,
                       16,
-                      6,
+                      4,
                     ),
                     child: Column(
                       children: [
@@ -391,7 +391,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 0),
                         SizedBox(
                           key: const Key('next_prayer_arc'),
-                          height: 120,
+                          height: 112,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
@@ -407,7 +407,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 3),
                                   child: Column(
-                                  mainAxisSize: MainAxisSize.min,
+                                    mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       nextName,
@@ -437,7 +437,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
-                                  ],
+                                    ],
                                   ),
                                 ),
                               ),
@@ -449,7 +449,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Expanded(
                               flex: 4,
                               child: Container(
-                                height: 38,
+                                height: 36,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: AppColors.activeSurface,
@@ -540,7 +540,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 3),
+                        const SizedBox(height: 2),
                         Text(
                           lang == 'bn'
                               ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সমতুল্য ধরে দেখানো হয়েছে'
@@ -1023,21 +1023,12 @@ class _PrayerCountdownArcPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const strokeWidth = 11.0;
-    // Keep the complete upper semicircle inside the available paint area.
-    // The old fixed 210px minimum diameter pushed the arc outside this
-    // 174px-high widget, clipping the top or bottom on different screens.
-    // Place the arc's baseline at the lower edge while keeping the upper
-    // semicircle fully inside the compact header on narrow and tall screens.
+    // The curve is drawn as a wide ellipse. This keeps it above the
+    // countdown text while spanning nearly the full available width.
     final centerY = size.height - strokeWidth / 2 - 1;
-    final maxRadiusByWidth = (size.width - strokeWidth - 20) / 2;
-    final maxRadiusByHeight = centerY - strokeWidth / 2 - 5;
-    final radius = math.min(maxRadiusByWidth, maxRadiusByHeight);
-    if (radius <= 0) return;
-
-    final rect = Rect.fromCircle(
-      center: Offset(size.width / 2, centerY),
-      radius: radius,
-    );
+    final horizontalInset = math.min(18.0, size.width / 8);
+    final arcTop = strokeWidth / 2 + 1;
+    if (centerY <= arcTop || size.width <= horizontalInset * 2) return;
     final track = Paint()
       ..color = AppColors.subtleBorder
       ..style = PaintingStyle.stroke
@@ -1051,8 +1042,6 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 
     // Use a wide, shallow ellipse so the arch spans the text block instead
     // of cutting through it. The label and countdown sit below the arch apex.
-    final horizontalInset = math.min(18.0, size.width / 8);
-    final arcTop = strokeWidth / 2 + 1;
     final arcRect = Rect.fromLTRB(
       horizontalInset,
       arcTop,
