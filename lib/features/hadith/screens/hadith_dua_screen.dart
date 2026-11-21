@@ -266,8 +266,8 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                       padding: const EdgeInsets.only(top: 4, bottom: 8),
                       child: Text(
                         lang == 'bn'
-                            ? 'প্রতিটি হাদিসের সঙ্গে গ্রন্থ, রেফারেন্স ও মান উল্লেখ করা হয়েছে। বাংলা ও ইংরেজি অর্থ সংক্ষিপ্ত ভাবানুবাদ।'
-                            : 'Each hadith displays its cited collection, reference and grade. Bengali and English meanings are concise project paraphrases.',
+                            ? 'দীর্ঘ বর্ণনার ক্ষেত্রে প্রাসঙ্গিক আরবি অংশ দেখানো হয়েছে। প্রতিটি হাদিসের গ্রন্থ ও পূর্ণ রেফারেন্স দেওয়া আছে। বাংলা ও ইংরেজি অর্থ সংক্ষিপ্ত ভাবানুবাদ।'
+                            : 'For longer narrations, a relevant Arabic excerpt is shown with the full collection reference. Bengali and English meanings are concise project paraphrases.',
                         style: theme.textTheme.bodySmall,
                       ),
                     ),
