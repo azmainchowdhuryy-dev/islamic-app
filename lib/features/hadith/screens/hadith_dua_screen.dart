@@ -8,7 +8,7 @@ import '../../../core/localization/app_strings.dart';
 import '../models/hadith.dart';
 import '../providers/hadith_provider.dart';
 
-final _verifiedDuasProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final verifiedDuasProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final raw = await rootBundle.loadString('assets/data/dua.json');
   final decoded = jsonDecode(raw) as List<dynamic>;
   return decoded
@@ -184,8 +184,12 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
   Widget build(BuildContext context) {
     final strings = ref.watch(stringsProvider);
     final lang = strings.lang;
-    final hadithAsync = ref.watch(hadithListProvider);
-    final duaAsync = ref.watch(_verifiedDuasProvider);
+    final hadithAsync = widget.section == HadithDuaSection.dua
+        ? const AsyncData<List<Hadith>>([])
+        : ref.watch(hadithListProvider);
+    final duaAsync = widget.section == HadithDuaSection.hadith
+        ? const AsyncData<List<Map<String, dynamic>>>([])
+        : ref.watch(verifiedDuasProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
