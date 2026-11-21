@@ -136,18 +136,41 @@ void main() {
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
-    expect(hadith.length, 38);
-    expect(duas.length, 31);
+    expect(hadith.length, 88);
+    expect(duas.length, 81);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
     );
+    final newHadith = hadith.where((item) =>
+        item['collection_batch'] == 'expanded-50-hadith-2026-11-21').toList();
+    expect(newHadith, hasLength(50));
+    for (final item in newHadith) {
+      expect(
+        (item['verified_by'] as String).contains('https://sunnah.com/bukhari:'),
+        isTrue,
+        reason: '${item['id']}: direct Sahih al-Bukhari reference is missing',
+      );
+      expect(item['grade'], 'সহিহ');
+      expect(item['daily_eligible'], isTrue);
+    }
+    final newDuas = duas.where((item) =>
+        item['collection_batch'] == 'expanded-50-dua-2026-11-21').toList();
+    expect(newDuas, hasLength(50));
     expect(
-      duas.where((item) =>
-          (item['id'] as String).startsWith('quran-') &&
-          item['verified_date'] == '2026-11-21').length,
-      25,
+      newDuas.where((item) => (item['id'] as String).startsWith('quran-')).length,
+      40,
     );
+    expect(
+      newDuas.where((item) => (item['id'] as String).startsWith('bukhari-dua-')).length,
+      10,
+    );
+    for (final item in newDuas) {
+      expect((item['verified_by'] as String).trim(), isNotEmpty);
+      expect(item['verified_date'], '2026-11-21');
+      expect((item['translation_source'] as String).trim(), isNotEmpty);
+      expect((item['license_note'] as String).trim(), isNotEmpty);
+    }
   });
 
   test('daily hadith collection contains multiple distinct entries', () {
