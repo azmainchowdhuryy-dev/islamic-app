@@ -77,3 +77,183 @@ class DailyPrayerTimes {
         MapEntry('isha', isha),
       ];
 }
+
+/// A single live countdown shown in the Home prayer card.
+class PrayerCountdownItem {
+  final String nameKey;
+  final String statusKey;
+  final DateTime target;
+  final bool isProhibited;
+  final String? detailKey;
+
+  const PrayerCountdownItem({
+    required this.nameKey,
+    required this.statusKey,
+    required this.target,
+    this.isProhibited = false,
+    this.detailKey,
+  });
+}
+
+/// Selects the two most relevant prayer milestones for the current time.
+class PrayerCountdownPlan {
+  final List<PrayerCountdownItem> items;
+
+  const PrayerCountdownPlan(this.items);
+
+  factory PrayerCountdownPlan.calculate({
+    required DateTime now,
+    required DailyPrayerTimes yesterday,
+    required DailyPrayerTimes today,
+    required DailyPrayerTimes tomorrow,
+    int sunriseProhibitedMinutes = 15,
+    int zenithProhibitedMinutes = 10,
+    int sunsetProhibitedMinutes = 15,
+  }) {
+    PrayerCountdownItem item(
+      String name,
+      String status,
+      DateTime target, {
+      bool prohibited = false,
+      String? detail,
+    }) =>
+        PrayerCountdownItem(
+          nameKey: name,
+          statusKey: status,
+          target: target,
+          isProhibited: prohibited,
+          detailKey: detail,
+        );
+
+    PrayerCountdownPlan pair(
+      PrayerCountdownItem first,
+      PrayerCountdownItem second,
+    ) =>
+        PrayerCountdownPlan([first, second]);
+
+    final beforeTodayFajr = now.isBefore(today.fajr);
+    final nightMaghrib = beforeTodayFajr ? yesterday.maghrib : today.maghrib;
+    final nextFajr = beforeTodayFajr ? today.fajr : tomorrow.fajr;
+    final tahajjudStart = DailyPrayerTimes.tahajjudStart(
+      nightMaghrib,
+      nextFajr,
+    );
+    final sunriseEnd = today.sunrise.add(
+      Duration(minutes: sunriseProhibitedMinutes),
+    );
+    final duhaStart = DailyPrayerTimes.duhaStart(today.sunrise);
+    final zenithStart = today.dhuhr.subtract(
+      Duration(minutes: zenithProhibitedMinutes),
+    );
+    final sunsetStart = today.maghrib.subtract(
+      Duration(minutes: sunsetProhibitedMinutes),
+    );
+
+    // Midnight through Fajr uses yesterday's Maghrib and today's Fajr.
+    if (beforeTodayFajr) {
+      if (now.isBefore(tahajjudStart)) {
+        return pair(
+          item('tahajjud', 'starts_in', tahajjudStart),
+          item('fajr', 'starts_in', today.fajr),
+        );
+      }
+      return pair(
+        item('tahajjud', 'ends_in', today.fajr),
+        item('fajr', 'starts_in', today.fajr),
+      );
+    }
+
+    if (now.isBefore(today.sunrise)) {
+      return pair(
+        item('fajr', 'ends_in', today.sunrise),
+        item('duha', 'starts_in', duhaStart),
+      );
+    }
+
+    if (now.isBefore(sunriseEnd)) {
+      return pair(
+        item(
+          'prohibited_time',
+          'ends_in',
+          sunriseEnd,
+          prohibited: true,
+          detail: 'sunrise_window',
+        ),
+        item('duha', 'starts_in', duhaStart),
+      );
+    }
+
+    if (now.isBefore(duhaStart)) {
+      return pair(
+        item('duha', 'starts_in', duhaStart),
+        item('dhuhr', 'starts_in', today.dhuhr),
+      );
+    }
+
+    if (now.isBefore(zenithStart)) {
+      return pair(
+        item('duha', 'ends_in', zenithStart),
+        item('dhuhr', 'starts_in', today.dhuhr),
+      );
+    }
+
+    if (now.isBefore(today.dhuhr)) {
+      return pair(
+        item(
+          'prohibited_time',
+          'ends_in',
+          today.dhuhr,
+          prohibited: true,
+          detail: 'zenith_window',
+        ),
+        item('dhuhr', 'starts_in', today.dhuhr),
+      );
+    }
+
+    if (now.isBefore(today.asr)) {
+      return pair(
+        item('dhuhr', 'ends_in', today.asr),
+        item('asr', 'starts_in', today.asr),
+      );
+    }
+
+    if (now.isBefore(sunsetStart)) {
+      return pair(
+        item('asr', 'ends_in', today.maghrib),
+        item('maghrib', 'starts_in', today.maghrib),
+      );
+    }
+
+    if (now.isBefore(today.maghrib)) {
+      return pair(
+        item(
+          'prohibited_time',
+          'ends_in',
+          today.maghrib,
+          prohibited: true,
+          detail: 'sunset_window',
+        ),
+        item('maghrib', 'starts_in', today.maghrib),
+      );
+    }
+
+    if (now.isBefore(today.isha)) {
+      return pair(
+        item('maghrib', 'ends_in', today.isha),
+        item('isha', 'starts_in', today.isha),
+      );
+    }
+
+    if (now.isBefore(tahajjudStart)) {
+      return pair(
+        item('isha', 'ends_in', tomorrow.fajr),
+        item('tahajjud', 'starts_in', tahajjudStart),
+      );
+    }
+
+    return pair(
+      item('tahajjud', 'ends_in', tomorrow.fajr),
+      item('fajr', 'starts_in', tomorrow.fajr),
+    );
+  }
+}
