@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
 import '../../../core/services/feedback_service.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_surface_styles.dart';
 import '../models/tasbih_preset.dart';
 import '../models/tasbih_state.dart';
 import '../providers/tasbih_provider.dart';
@@ -99,7 +97,7 @@ class TasbihScreen extends ConsumerWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(28),
               ),
-              border: Border.all(color: AppColors.subtleBorder),
+              border: Border.all(color: scheme.outlineVariant),
             ),
             child: Column(
               children: [
@@ -201,7 +199,7 @@ class TasbihScreen extends ConsumerWidget {
                                           child: Text(
                                             preset.arabic,
                                             textAlign: TextAlign.right,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: scheme.onSurfaceVariant,
                                               fontSize: 17,
                                               height: 1.6,
@@ -225,8 +223,8 @@ class TasbihScreen extends ConsumerWidget {
                                   ),
                                 ),
                                 if (preset.requiresPremium)
-                                  const Padding(
-                                    padding: EdgeInsets.only(right: 8),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Icons.workspace_premium,
                                       color: scheme.tertiary,
@@ -238,8 +236,8 @@ class TasbihScreen extends ConsumerWidget {
                                       ? Icons.check_circle
                                       : Icons.radio_button_unchecked,
                                   color: selected
-                                      ? AppColors.primaryAccent
-                                      : AppColors.secondaryText,
+                                      ? scheme.primary
+                                      : scheme.onSurfaceVariant,
                                   size: 23,
                                 ),
                               ],
@@ -400,8 +398,8 @@ class TasbihScreen extends ConsumerWidget {
                                 textDirection: TextDirection.rtl,
                                 child: Text(
                                   preset.arabic,
-                                  style: const TextStyle(
-                                    color: AppColors.secondaryText,
+                                  style: TextStyle(
+                                    color: scheme.onSurfaceVariant,
                                     fontSize: 15,
                                   ),
                                 ),
@@ -410,9 +408,9 @@ class TasbihScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.secondaryText,
+                        color: scheme.onSurfaceVariant,
                         size: 28,
                       ),
                     ],
@@ -535,7 +533,7 @@ class TasbihScreen extends ConsumerWidget {
                 children: [
                   const Icon(
                     Icons.all_inclusive,
-                    color: AppColors.primaryAccent,
+                    color: scheme.primary,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -550,7 +548,7 @@ class TasbihScreen extends ConsumerWidget {
                     strings.digits(counter.total),
                     key: const Key('total_count'),
                     style: textTheme.titleLarge?.copyWith(
-                      color: AppColors.primaryText,
+                      color: scheme.onSurface,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -591,7 +589,7 @@ class TasbihScreen extends ConsumerWidget {
               color: scheme.surfaceContainerLow,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
-                side: const BorderSide(color: AppColors.subtleBorder),
+                side: BorderSide(color: scheme.outlineVariant),
               ),
               clipBehavior: Clip.antiAlias,
               child: Column(
