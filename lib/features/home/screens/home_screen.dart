@@ -440,7 +440,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           ),
                                         ),
                                       ],
-                                      const SizedBox(height: 3),
+                                      const SizedBox(height: 1),
                                       Text(
                                         s.t(primaryCountdown.statusKey),
                                         key: const Key('next_prayer_remaining_label'),
@@ -458,7 +458,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           fontWeight: FontWeight.w800,
                                         ),
                                       ),
-                                      const SizedBox(height: 2),
+                                      const SizedBox(height: 0),
                                       SizedBox(
                                         width: double.infinity,
                                         child: Row(
