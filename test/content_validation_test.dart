@@ -40,6 +40,13 @@ void main() {
         }
 
         if (file == 'hadith' && record['verified'] == true) {
+          if ((record['id'] as String).startsWith('nawawi-')) {
+            expect(
+              (record['verified_by'] as String).contains('https://sunnah.com/nawawi40'),
+              isTrue,
+              reason: '${record['id']}: direct Hadith source link is missing',
+            );
+          }
           for (final key in [
             'category',
             'category_en',
@@ -59,6 +66,13 @@ void main() {
         }
 
         if (file == 'dua' && record['verified'] == true) {
+          if ((record['id'] as String).startsWith('quran-')) {
+            expect(
+              (record['verified_by'] as String).contains('https://quran.com/'),
+              isTrue,
+              reason: '${record['id']}: direct Quran source link is missing',
+            );
+          }
           for (final key in [
             'category_bn',
             'category_en',
