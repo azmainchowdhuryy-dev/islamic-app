@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
 import '../providers/settings_provider.dart';
-import 'ibadah_tools_screen.dart';
 
 class MoreScreen extends ConsumerWidget {
   const MoreScreen({super.key});
@@ -17,20 +16,6 @@ class MoreScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(t('more'))),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        Card(
-          child: ListTile(
-            leading: const CircleAvatar(child: Icon(Icons.volunteer_activism_outlined)),
-            title: Text(lang == 'bn' ? 'ইবাদত ও আল্লাহর ৯৯ নাম' : 'Worship & 99 Names of Allah'),
-            subtitle: Text(lang == 'bn'
-                ? 'নামাজ ট্র্যাকার, দৈনিক আমল ও প্রিয় নাম'
-                : 'Prayer tracker, daily deeds and favorite names'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const IbadahToolsScreen()),
-            ),
-          ),
-        ),
-        const SizedBox(height: 24),
         Text(t('language'), style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         SegmentedButton<String>(
