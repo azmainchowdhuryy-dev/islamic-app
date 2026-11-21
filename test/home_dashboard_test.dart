@@ -16,7 +16,7 @@ Future<SharedPreferences> _pumpMainShell(WidgetTester tester) async {
     overrides: [
       sharedPrefsProvider.overrideWithValue(prefs),
       homeCitiesProvider.overrideWith(
-        (ref) async => const [
+        (ref) => const [
           HomeCity(
             id: 'dhaka',
             nameBn: 'ঢাকা',
@@ -26,9 +26,9 @@ Future<SharedPreferences> _pumpMainShell(WidgetTester tester) async {
           ),
         ],
       ),
-      hadithListProvider.overrideWith((ref) async => <Hadith>[]),
+      hadithListProvider.overrideWith((ref) => <Hadith>[]),
       verifiedDuasProvider.overrideWith(
-        (ref) async => <Map<String, dynamic>>[],
+        (ref) => <Map<String, dynamic>>[],
       ),
     ],
     child: const MaterialApp(home: MainShell()),
