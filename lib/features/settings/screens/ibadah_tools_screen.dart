@@ -149,6 +149,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
   String _query = '';
   String _dateKey = '';
   Timer? _dayWatcher;
+  Future<void> _preferenceWriteQueue = Future<void>.value();
   Set<String> _donePrayers = {};
   Set<String> _doneAmal = {};
   Set<int> _favorites = {};
@@ -208,23 +209,47 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
     });
   }
 
-  Future<void> _toggle(String key, Set<String> current, String prefKey) async {
+  Future<void> _saveStringList(String key, List<String> values) async {
+    final prefs = ref.read(sharedPrefsProvider);
+    final write = _preferenceWriteQueue
+        .catchError((_) {})
+        .then<void>((_) async {
+          await prefs.setStringList(key, values);
+        });
+    _preferenceWriteQueue = write;
+    await write;
+  }
+
+  Future<void> _toggle(String key, String prefKey) async {
+    final current = prefKey.startsWith('prayer') ? _donePrayers : _doneAmal;
     final next = Set<String>.from(current);
     if (!next.add(key)) next.remove(key);
     setState(() {
-      if (prefKey.startsWith('prayer')) _donePrayers = next;
-      else _doneAmal = next;
+      if (prefKey.startsWith('prayer')) {
+        _donePrayers = next;
+      } else {
+        _doneAmal = next;
+      }
     });
-    await ref.read(sharedPrefsProvider).setStringList(prefKey, next.toList());
+    try {
+      await _saveStringList(prefKey, next.toList());
+    } catch (_) {
+      // Keep the updated checklist visible if local storage is temporarily unavailable.
+    }
   }
 
   Future<void> _toggleFavorite(int number) async {
     final next = Set<int>.from(_favorites);
     if (!next.add(number)) next.remove(number);
     setState(() => _favorites = next);
-    await ref.read(sharedPrefsProvider).setStringList(
-      'asma_favorites', next.map((e) => e.toString()).toList(),
-    );
+    try {
+      await _saveStringList(
+        'asma_favorites',
+        next.map((e) => e.toString()).toList(),
+      );
+    } catch (_) {
+      // Keep the current screen responsive if local storage is temporarily unavailable.
+    }
   }
 
   @override
@@ -274,7 +299,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
                     dense: true,
                     value: _donePrayers.contains(p.$1),
                     title: Text(lang == 'bn' ? p.$2 : p.$3),
-                    onChanged: (_) => _toggle(p.$1, _donePrayers, 'prayer_tracker_$_dateKey'),
+                    onChanged: (_) => _toggle(p.$1, 'prayer_tracker_$_dateKey'),
                   ),
                 Text(lang == 'bn'
                     ? 'এটি ব্যক্তিগত হিসাব রাখার সুবিধা, নামাজের সময়সূচি নয়।'
@@ -302,7 +327,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
                     dense: true,
                     value: _doneAmal.contains(a.$1),
                     title: Text(lang == 'bn' ? a.$2 : a.$3),
-                    onChanged: (_) => _toggle(a.$1, _doneAmal, 'daily_amal_$_dateKey'),
+                    onChanged: (_) => _toggle(a.$1, 'daily_amal_$_dateKey'),
                   ),
                 Text(lang == 'bn'
                     ? 'প্রতিদিন নতুন তালিকা শুরু হবে।'
