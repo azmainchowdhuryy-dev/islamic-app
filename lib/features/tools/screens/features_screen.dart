@@ -2,6 +2,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_surface_styles.dart';
 import '../../hadith/screens/hadith_dua_screen.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
@@ -47,7 +49,7 @@ class FeaturesScreen extends ConsumerWidget {
             children: [
               CircleAvatar(
                 radius: 22,
-                backgroundColor: tint.withValues(alpha: .10),
+                backgroundColor: AppColors.iconBadge,
                 child: Icon(icon, color: tint),
               ),
               const SizedBox(height: 12),
@@ -84,7 +86,7 @@ class FeaturesScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: AppColors.heroSurface,
               borderRadius: BorderRadius.circular(18),
             ),
             child: Row(
@@ -92,7 +94,7 @@ class FeaturesScreen extends ConsumerWidget {
                 Icon(
                   Icons.auto_awesome,
                   size: 34,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: AppColors.primaryAccent,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
