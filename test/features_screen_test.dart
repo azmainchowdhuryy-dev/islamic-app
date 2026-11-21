@@ -96,5 +96,20 @@ void main() {
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
     expect(find.text('দৈনিক আমল'), findsNothing);
+
+  testWidgets('Hadith and Dua feature opens the combined library', (tester) async {
+    await pumpFeatures(tester);
+    await tester.scrollUntilVisible(
+      find.text('হাদিস ও দোয়া'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('হাদিস ও দোয়া'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
+    expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
+  });
   });
 }
