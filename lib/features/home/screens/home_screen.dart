@@ -461,7 +461,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 42,
                                 padding: const EdgeInsets.symmetric(horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: const Color(0x55B99E42),
+                                  color: const Color(0x5579B58F),
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
@@ -508,7 +508,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সমতুল্য ধরে দেখানো হয়েছে'
                               : 'Sunset is approximated by the calculated Maghrib time',
                           style: const TextStyle(
-                            color: Color(0xFF5A542F),
+                            color: Color(0xFF375646),
                             fontSize: 10,
                           ),
                         ),
