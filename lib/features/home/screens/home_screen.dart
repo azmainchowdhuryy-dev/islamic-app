@@ -11,6 +11,8 @@ import 'package:hijri_date_time/hijri_date_time.dart';
 import '../../../core/localization/app_strings.dart';
 import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_surface_styles.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
@@ -191,17 +193,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xFF101A1E),
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: AppColors.bottomSurface,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFF1B2529),
+        backgroundColor: AppColors.middleSurface,
         body: citiesAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stack) => Center(
             child: Text(s.t('prayer_error'),
-                style: const TextStyle(color: Color(0xFFE6EEF0))),
+                style: const TextStyle(color: AppColors.primaryText)),
           ),
           data: (cities) {
             final city = cities.firstWhere(
@@ -319,20 +321,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 padding: EdgeInsets.zero,
                 children: [
                   Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xFFDDF3E5),
-                          Color(0xFFCBEBD7),
-                          Color(0xFFE8F7EC),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(28),
-                      ),
-                    ),
+                    decoration: AppSurfaceStyles.hero(),
                     padding: EdgeInsets.fromLTRB(
                       16,
                       MediaQuery.of(context).padding.top + 8,
@@ -344,7 +333,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         Row(
                           children: [
                             const Icon(Icons.calendar_month_outlined,
-                                color: Color(0xFF252719), size: 27),
+                                color: AppColors.primaryText, size: 27),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Column(
@@ -355,7 +344,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      color: Color(0xFF29291F),
+                                      color: AppColors.primaryText,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -366,7 +355,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      color: Color(0xFF3B3A2E),
+                                      color: AppColors.secondaryText,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -419,7 +408,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     Text(
                                       nextName,
                                       style: const TextStyle(
-                                        color: Color(0xFF202A22),
+                                        color: AppColors.primaryText,
                                         fontSize: 23,
                                         fontWeight: FontWeight.w800,
                                       ),
@@ -428,7 +417,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     Text(
                                       lang == 'bn' ? 'শুরু হতে বাকি' : 'Time remaining',
                                       style: const TextStyle(
-                                        color: Color(0xFF554C2D),
+                                        color: AppColors.secondaryText,
                                         fontSize: 15,
                                       ),
                                     ),
@@ -436,7 +425,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     Text(
                                       _countdown(remaining, s),
                                       style: const TextStyle(
-                                        color: Color(0xFF1D2821),
+                                        color: AppColors.primaryText,
                                         fontSize: 26,
                                         fontWeight: FontWeight.w800,
                                       ),
@@ -455,13 +444,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 42,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: const Color(0x5579B58F),
+                                  color: const AppColors.activeSurface,
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
                                   children: [
                                     const Icon(Icons.location_on,
-                                        size: 18, color: Color(0xFF28291D)),
+                                        size: 18, color: AppColors.primaryText),
                                     const SizedBox(width: 4),
                                     Expanded(
                                       child: DropdownButtonHideUnderline(
@@ -469,9 +458,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           value: city.id,
                                           isExpanded: true,
                                           icon: const Icon(Icons.keyboard_arrow_down,
-                                              color: Color(0xFF28291D)),
+                                              color: AppColors.primaryText),
                                           style: const TextStyle(
-                                            color: Color(0xFF28291D),
+                                            color: AppColors.primaryText,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -502,7 +491,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 42,
                                 padding: const EdgeInsets.symmetric(horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: const Color(0x5579B58F),
+                                  color: const AppColors.activeSurface,
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
@@ -514,7 +503,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             _clockTime(prayers.sunrise, s),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          color: Color(0xFF28291D),
+                                          color: AppColors.primaryText,
                                           fontSize: 11,
                                           fontWeight: FontWeight.w700,
                                         ),
@@ -523,7 +512,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     Container(
                                       height: 22,
                                       width: 1,
-                                      color: const Color(0x77584D2C),
+                                      color: const AppColors.subtleBorder,
                                     ),
                                     Flexible(
                                       child: Text(
@@ -531,7 +520,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             _clockTime(prayers.maghrib, s),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          color: Color(0xFF28291D),
+                                          color: AppColors.primaryText,
                                           fontSize: 11,
                                           fontWeight: FontWeight.w700,
                                         ),
@@ -549,7 +538,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সমতুল্য ধরে দেখানো হয়েছে'
                               : 'Sunset is approximated by the calculated Maghrib time',
                           style: const TextStyle(
-                            color: Color(0xFF375646),
+                            color: AppColors.secondaryText,
                             fontSize: 10,
                           ),
                         ),
@@ -564,7 +553,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: Text(
                             lang == 'bn' ? 'নামাজের সময়সূচি' : 'Prayer Times',
                             style: const TextStyle(
-                              color: Color(0xFFE5EDEF),
+                              color: AppColors.primaryText,
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                             ),
@@ -572,7 +561,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         PopupMenuButton<PrayerCalculation>(
                           tooltip: s.t('calculation_method'),
-                          icon: const Icon(Icons.tune, color: Color(0xFFB9C7CB)),
+                          icon: const Icon(Icons.tune, color: AppColors.secondaryText),
                           initialValue: _method,
                           onSelected: _saveMethod,
                           itemBuilder: (context) => [
@@ -596,7 +585,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         PopupMenuButton<bool>(
                           tooltip: s.t('asr_method'),
-                          icon: const Icon(Icons.access_time, color: Color(0xFFB9C7CB)),
+                          icon: const Icon(Icons.access_time, color: AppColors.secondaryText),
                           initialValue: _hanafi,
                           onSelected: _saveAsr,
                           itemBuilder: (context) => [
@@ -611,7 +600,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF202B30),
+                      color: const AppColors.bottomSurface,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     clipBehavior: Clip.antiAlias,
@@ -638,18 +627,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   const IbadahToolsScreen(section: IbadahToolsSection.prayers),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
-                                  child: Row(
-                                    children: [
+                                child: Container(
+                                  decoration: isNext
+                                      ? AppSurfaceStyles.activeRow(radius: 12)
+                                      : null,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                                    child: Row(
+                                      children: [
                                       Icon(
                                         icon,
                                         size: 21,
                                         color: isNext
-                                            ? const Color(0xFFFFD66B)
+                                            ? const AppColors.warmAmber
                                             : isDone
-                                                ? const Color(0xFF63C99A)
-                                                : const Color(0xFFAAB6BB),
+                                                ? const AppColors.primaryAccent
+                                                : const AppColors.secondaryText,
                                       ),
                                       const SizedBox(width: 15),
                                       Expanded(
@@ -657,10 +650,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           s.t(entry.key),
                                           style: TextStyle(
                                             color: isNext
-                                                ? const Color(0xFFF4F7F8)
+                                                ? const AppColors.primaryText
                                                 : isDone
-                                                    ? const Color(0xFF8ECBAF)
-                                                    : const Color(0xFFB6C1C5),
+                                                    ? const AppColors.primaryAccent
+                                                    : const AppColors.secondaryText,
                                             fontSize: 15,
                                             fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                           ),
@@ -672,7 +665,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           height: 8,
                                           margin: const EdgeInsets.only(right: 10),
                                           decoration: const BoxDecoration(
-                                            color: Color(0xFFD99B26),
+                                            color: AppColors.warmAmber,
                                             shape: BoxShape.circle,
                                           ),
                                         ),
@@ -680,8 +673,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
                                         style: TextStyle(
                                           color: isNext
-                                              ? const Color(0xFFE8EFF1)
-                                              : const Color(0xFF9BA9AE),
+                                              ? const AppColors.primaryText
+                                              : const AppColors.secondaryText,
                                           fontSize: 12,
                                           fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                         ),
@@ -707,12 +700,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               ? Icons.check_circle
                                               : Icons.radio_button_unchecked,
                                           color: isDone
-                                              ? const Color(0xFF58C78F)
-                                              : const Color(0xFF69777D),
+                                              ? const AppColors.primaryAccent
+                                              : const AppColors.secondaryText,
                                           size: 20,
                                         ),
                                       ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -724,10 +718,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               thickness: .5,
                               indent: 54,
                               endIndent: 16,
-                              color: Color(0xFF354248),
+                              color: AppColors.subtleBorder,
                             ),
                         ],
-                        const Divider(height: 1, color: Color(0xFF354248)),
+                        const Divider(height: 1, color: AppColors.subtleBorder),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           child: Row(
@@ -739,17 +733,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     const IbadahToolsScreen(section: IbadahToolsSection.prayers),
                                   ),
                                   icon: const Icon(Icons.notifications_none,
-                                      color: Color(0xFFE2EBEE)),
+                                      color: AppColors.primaryText),
                                   label: Text(
                                     lang == 'bn' ? 'নামাজের হিসাব' : 'Prayer tracker',
-                                    style: const TextStyle(color: Color(0xFFE2EBEE)),
+                                    style: const TextStyle(color: AppColors.primaryText),
                                   ),
                                 ),
                               ),
                               Container(
                                 width: 1,
                                 height: 34,
-                                color: const Color(0xFF667278),
+                                color: const AppColors.subtleBorder,
                               ),
                               Expanded(
                                 child: PopupMenuButton<int>(
@@ -767,11 +761,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         const Icon(Icons.calendar_month_outlined,
-                                            color: Color(0xFFE2EBEE)),
+                                            color: AppColors.primaryText),
                                         const SizedBox(width: 8),
                                         Text(
                                           lang == 'bn' ? 'ক্যালেন্ডার' : 'Calendar',
-                                          style: const TextStyle(color: Color(0xFFE2EBEE)),
+                                          style: const TextStyle(color: AppColors.primaryText),
                                         ),
                                       ],
                                     ),
@@ -792,7 +786,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: Text(
                             lang == 'bn' ? 'টপ ফিচার' : 'Top Features',
                             style: const TextStyle(
-                              color: Color(0xFFE7EFF1),
+                              color: AppColors.primaryText,
                               fontSize: 21,
                               fontWeight: FontWeight.w800,
                             ),
@@ -803,7 +797,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: Text(
                             lang == 'bn' ? 'আরও দেখুন' : 'See all',
                             style: const TextStyle(
-                              color: Color(0xFF36AA82),
+                              color: AppColors.primaryAccent,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -869,7 +863,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Text(
                       s.t('daily_hadith'),
                       style: const TextStyle(
-                        color: Color(0xFFE7EFF1),
+                        color: AppColors.primaryText,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
@@ -879,19 +873,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: hadithAsync.when(
                       loading: () => const Card(
-                        color: Color(0xFF26343A),
+                        color: AppColors.middleSurface,
                         child: Padding(
                           padding: EdgeInsets.all(18),
                           child: LinearProgressIndicator(),
                         ),
                       ),
                       error: (error, stack) => Card(
-                        color: const Color(0xFF26343A),
+                        color: const AppColors.middleSurface,
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Text(
                             s.t('daily_hadith_empty'),
-                            style: const TextStyle(color: Color(0xFFE6EEF0)),
+                            style: const TextStyle(color: AppColors.primaryText),
                           ),
                         ),
                       ),
@@ -901,19 +895,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             .toList();
                         if (eligible.isEmpty) {
                           return Card(
-                            color: const Color(0xFF26343A),
+                            color: const AppColors.middleSurface,
                             child: Padding(
                               padding: const EdgeInsets.all(18),
                               child: Text(
                                 s.t('daily_hadith_empty'),
-                                style: const TextStyle(color: Color(0xFFE6EEF0)),
+                                style: const TextStyle(color: AppColors.primaryText),
                               ),
                             ),
                           );
                         }
                         final item = eligible[dailyHadithIndex(_now, eligible.length)];
                         return Card(
-                          color: const Color(0xFF26343A),
+                          color: const AppColors.middleSurface,
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
@@ -922,7 +916,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   lang == 'bn' ? item.category : item.categoryEn,
                                   style: const TextStyle(
-                                    color: Color(0xFF66C69C),
+                                    color: AppColors.primaryAccent,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -934,7 +928,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       item.arabicText,
                                       textAlign: TextAlign.right,
                                       style: const TextStyle(
-                                        color: Color(0xFFF2F5F6),
+                                        color: AppColors.primaryText,
                                         fontSize: 22,
                                         height: 1.8,
                                       ),
@@ -944,7 +938,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   lang == 'bn' ? item.banglaTranslation : item.englishTranslation,
                                   style: const TextStyle(
-                                    color: Color(0xFFE3EAEC),
+                                    color: AppColors.primaryText,
                                     height: 1.5,
                                   ),
                                 ),
@@ -952,7 +946,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   '${s.t('source')}: ${item.source}  •  ${s.t('reference')}: ${item.reference}',
                                   style: const TextStyle(
-                                    color: Color(0xFFAAB7BC),
+                                    color: AppColors.secondaryText,
                                     fontSize: 11,
                                   ),
                                 ),
@@ -994,13 +988,13 @@ class _LanguageChoice extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         decoration: BoxDecoration(
-          color: selected ? const Color(0xFF243B2D) : Colors.transparent,
+          color: selected ? const AppColors.activeSurface : Colors.transparent,
           borderRadius: BorderRadius.circular(18),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: selected ? Colors.white : const Color(0xFF343321),
+            color: selected ? Colors.white : const AppColors.secondaryText,
             fontSize: 12,
             fontWeight: FontWeight.w700,
           ),
@@ -1034,12 +1028,12 @@ class _PrayerCountdownArcPainter extends CustomPainter {
       radius: radius,
     );
     final track = Paint()
-      ..color = const Color(0xFFB6D9C0)
+      ..color = const AppColors.subtleBorder
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
     final active = Paint()
-      ..color = const Color(0xFF203B31)
+      ..color = const AppColors.primaryAccent
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -1099,9 +1093,9 @@ class _HomeCircleFeature extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 5,
-                        backgroundColor: const Color(0xFF456451),
+                        backgroundColor: const AppColors.subtleBorder,
                         valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF46B98D),
+                          AppColors.primaryAccent,
                         ),
                       ),
                     )
@@ -1110,7 +1104,7 @@ class _HomeCircleFeature extends StatelessWidget {
                       width: 66,
                       height: 66,
                       decoration: const BoxDecoration(
-                        color: Color(0xFF173B2C),
+                        color: AppColors.iconBadge,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -1118,7 +1112,7 @@ class _HomeCircleFeature extends StatelessWidget {
                     Text(
                       detail!,
                       style: const TextStyle(
-                        color: Color(0xFFEAF2F3),
+                        color: AppColors.primaryText,
                         fontWeight: FontWeight.w800,
                         fontSize: 15,
                       ),
@@ -1126,7 +1120,7 @@ class _HomeCircleFeature extends StatelessWidget {
                   else
                     Icon(
                       icon,
-                      color: const Color(0xFFF1F6F3),
+                      color: const AppColors.primaryText,
                       size: 30,
                     ),
                 ],
@@ -1138,7 +1132,7 @@ class _HomeCircleFeature extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                color: Color(0xFFC6D0D3),
+                color: AppColors.secondaryText,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
