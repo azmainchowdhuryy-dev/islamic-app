@@ -48,9 +48,13 @@ class HomeCity {
 final homeCitiesProvider = FutureProvider<List<HomeCity>>((ref) async {
   final raw = await rootBundle.loadString('assets/data/cities_bd.json');
   final data = jsonDecode(raw) as List<dynamic>;
-  return data
+  final cities = data
       .map((item) => HomeCity.fromJson(item as Map<String, dynamic>))
       .toList();
+  if (cities.isEmpty) {
+    throw const FormatException('The Bangladesh city list is empty.');
+  }
+  return cities;
 });
 
 class HomeScreen extends ConsumerStatefulWidget {
