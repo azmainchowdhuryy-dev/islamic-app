@@ -258,7 +258,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(lang == 'bn' ? 'দৈনিক আমল' : 'Daily Good Deeds',
+                Text(lang == 'bn' ? 'আজকের আমলের তালিকা' : 'Today’s Amal Checklist',
                     style: theme.textTheme.titleLarge),
                 const SizedBox(height: 8),
                 Text(lang == 'bn'
