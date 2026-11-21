@@ -82,6 +82,16 @@ void main() {
     expect(find.text('টপ ফিচার'), findsOneWidget);
     expect(find.text('ট্র্যাকার'), findsOneWidget);
     expect(find.text('কিবলা'), findsNothing);
+    expect(find.text('দৈনিক আমল'), findsNothing);
+
+    // The quick links must stay in exactly two rows, including on wide screens.
+    final firstRowY = tester.getCenter(find.text('ট্র্যাকার')).dy;
+    expect(tester.getCenter(find.text('হাদিস')).dy, closeTo(firstRowY, 1));
+    expect(tester.getCenter(find.text('রুকইয়াহ')).dy, closeTo(firstRowY, 1));
+    final secondRowY = tester.getCenter(find.text('৯৯ নাম')).dy;
+    expect(secondRowY, greaterThan(firstRowY + 40));
+    expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
+    expect(tester.getCenter(find.text('দোয়া')).dy, closeTo(secondRowY, 1));
   });
 
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
