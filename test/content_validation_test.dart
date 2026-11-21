@@ -96,8 +96,18 @@ void main() {
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
-    expect(hadith.length, greaterThanOrEqualTo(38));
-    expect(duas.length, greaterThanOrEqualTo(31));
+    expect(hadith.length, 38);
+    expect(duas.length, 31);
+    expect(
+      hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
+      25,
+    );
+    expect(
+      duas.where((item) =>
+          (item['id'] as String).startsWith('quran-') &&
+          item['verified_date'] == '2026-11-21').length,
+      25,
+    );
   });
 
   test('daily hadith collection contains multiple distinct entries', () {
