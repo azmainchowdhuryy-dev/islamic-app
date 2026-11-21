@@ -269,15 +269,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     [])
                 .where(validPrayerKeys.contains)
                 .toSet();
-            const validAmalKeys = {
-              'quran', 'morning', 'evening', 'charity', 'parents', 'istighfar',
-            };
-            final amalDone = (todayPrefs
-                        .getStringList('daily_amal_$todayKey') ??
-                    [])
-                .where(validAmalKeys.contains)
-                .toSet()
-                .length;
             final prayerDone = prayerDoneKeys.length;
             final prayerPercent = (prayerDone / 5 * 100).round();
 
