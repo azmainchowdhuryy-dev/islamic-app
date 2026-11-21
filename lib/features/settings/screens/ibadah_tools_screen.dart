@@ -129,8 +129,15 @@ const _dailyAmal = [
   ('istighfar','ইস্তিগফার','Seek forgiveness'),
 ];
 
+enum IbadahToolsSection { all, prayers, dailyAmal, names }
+
 class IbadahToolsScreen extends ConsumerStatefulWidget {
-  const IbadahToolsScreen({super.key});
+  final IbadahToolsSection section;
+
+  const IbadahToolsScreen({
+    super.key,
+    this.section = IbadahToolsSection.all,
+  });
 
   @override
   ConsumerState<IbadahToolsScreen> createState() => _IbadahToolsScreenState();
@@ -195,6 +202,19 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
   Widget build(BuildContext context) {
     final lang = ref.watch(stringsProvider).lang;
     final theme = Theme.of(context);
+    final showPrayers = widget.section == IbadahToolsSection.all ||
+        widget.section == IbadahToolsSection.prayers;
+    final showDailyAmal = widget.section == IbadahToolsSection.all ||
+        widget.section == IbadahToolsSection.dailyAmal;
+    final showNames = widget.section == IbadahToolsSection.all ||
+        widget.section == IbadahToolsSection.names;
+    final screenTitle = widget.section == IbadahToolsSection.prayers
+        ? (lang == 'bn' ? 'আজকের নামাজ' : 'Prayer Tracker')
+        : widget.section == IbadahToolsSection.dailyAmal
+            ? (lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal')
+            : widget.section == IbadahToolsSection.names
+                ? (lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah')
+                : (lang == 'bn' ? 'ইবাদত ও আল্লাহর নাম' : 'Worship & Names of Allah');
     final visible = _names.where((n) {
       final q = _query.toLowerCase();
       return q.isEmpty || n.transliteration.toLowerCase().contains(q) ||
@@ -202,11 +222,11 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
     }).toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text(lang == 'bn' ? 'ইবাদত ও আল্লাহর নাম' : 'Worship & Names of Allah')),
+      appBar: AppBar(title: Text(screenTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Card(
+          if (showPrayers) Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -233,8 +253,8 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
               ]),
             ),
           ),
-          const SizedBox(height: 12),
-          Card(
+          if (showDailyAmal) const SizedBox(height: 12),
+          if (showDailyAmal) Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -261,8 +281,8 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
               ]),
             ),
           ),
-          const SizedBox(height: 12),
-          Card(
+          if (showNames) const SizedBox(height: 12),
+          if (showNames) Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -307,8 +327,8 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
               ]),
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
+          if (showNames) const SizedBox(height: 12),
+          if (showNames) Text(
             lang == 'bn'
                 ? 'তথ্যসূত্র: সূরা আল-আ‘রাফ ৭:১৮০, সূরা আল-হাশর ৫৯:২৪, সহিহ বুখারি ২৭৩৬। প্রচলিত ৯৯ নামের তালিকা জামি‘ আত-তিরমিজি ৩৫০৭-এর সংকলনের সঙ্গে মেলে, তবে তালিকার সনদ নিয়ে মতভেদ রয়েছে।'
                 : 'References: Quran 7:180, 59:24 and Sahih al-Bukhari 2736. The customary enumeration follows Jami at-Tirmidhi 3507, whose list transmission has been discussed by hadith scholars.',
