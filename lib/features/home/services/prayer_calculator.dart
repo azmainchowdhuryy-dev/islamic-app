@@ -52,9 +52,9 @@ class DailyPrayerTimes {
   }
 
   /// Duha begins after the sun has risen by approximately one spear-length.
-  /// Twenty minutes after the calculated sunrise is used as a practical buffer.
+  /// Duha begins when the fifteen-minute sunrise restriction has ended.
   static DateTime duhaStart(DateTime sunrise) =>
-      sunrise.add(const Duration(minutes: 20));
+      sunrise.add(const Duration(minutes: 15));
 
   static CalculationParameters _parameters(PrayerCalculation method) {
     switch (method) {
