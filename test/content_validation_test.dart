@@ -173,6 +173,60 @@ void main() {
     }
   });
 
+  test('Hadith and Dua folders are grouped into six compact topics', () {
+    final hadith =
+        jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
+    final duas =
+        jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
+
+    expect(
+      hadith.map((item) => item['category']).toSet(),
+      {
+        'ঈমান ও আকিদা',
+        'ইবাদত ও সালাত',
+        'কুরআন ও জ্ঞান',
+        'আদব ও চরিত্র',
+        'পরিবার ও সমাজ',
+        'যিকির ও দোয়া',
+      },
+    );
+    expect(
+      duas.map((item) => item['category_bn']).toSet(),
+      {
+        'ক্ষমা ও তাওবা',
+        'হিদায়াত ও ঈমান',
+        'পরিবার ও সন্তান',
+        'রিজিক ও কল্যাণ',
+        'বিপদ ও নিরাপত্তা',
+        'যিকির ও ইবাদত',
+      },
+    );
+  });
+
+  test('new Arabic content has no accidental ellipsis truncation', () {
+    final hadith =
+        jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
+    final duas =
+        jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
+
+    for (final item in hadith.where((item) =>
+        item['collection_batch'] == 'expanded-50-hadith-2026-11-21')) {
+      expect(
+        (item['arabic_text'] as String).contains('...'),
+        isFalse,
+        reason: '${item['id']}: Arabic text has an unmarked omission',
+      );
+    }
+    for (final item in duas.where((item) =>
+        item['collection_batch'] == 'expanded-50-dua-2026-11-21')) {
+      expect(
+        (item['arabic_text'] as String).contains('...'),
+        isFalse,
+        reason: '${item['id']}: Arabic text has an unmarked omission',
+      );
+    }
+  });
+
   test('daily hadith collection contains multiple distinct entries', () {
     final list =
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
