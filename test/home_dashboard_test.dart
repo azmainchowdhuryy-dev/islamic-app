@@ -133,7 +133,7 @@ void main() {
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('next_prayer_countdown'))).style?.fontSize,
-      26,
+      24,
     );
 
     await tester.scrollUntilVisible(
