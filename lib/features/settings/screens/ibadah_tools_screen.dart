@@ -268,7 +268,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
         : widget.section == IbadahToolsSection.dailyAmal
             ? (lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal')
             : widget.section == IbadahToolsSection.names
-                ? "Allah's 99 Names"
+                ? "99 Names of Allah"
                 : (lang == 'bn' ? 'ইবাদত ও আল্লাহর নাম' : 'Worship & Names of Allah');
     final visible = _names.where((n) {
       final q = _query.toLowerCase();
@@ -341,7 +341,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(lang == 'bn' ? 'আল্লাহর সুন্দর নামসমূহ' : "Allah's 99 Names",
+                Text(lang == 'bn' ? 'আল্লাহর সুন্দর নামসমূহ' : "99 Names of Allah",
                     style: theme.textTheme.titleLarge),
                 const SizedBox(height: 4),
                 Text(lang == 'bn'

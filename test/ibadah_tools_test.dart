@@ -119,7 +119,7 @@ void main() {
     final prefs = await _prefs();
     await _pumpSection(tester, prefs, IbadahToolsSection.names);
 
-    expect(find.text("Allah's 99 Names"), findsOneWidget);
+    expect(find.text("99 Names of Allah"), findsOneWidget);
     expect(find.text('আল্লাহর সুন্দর নামসমূহ'), findsOneWidget);
     expect(find.text('পাঁচ ওয়াক্ত নামাজের হিসাব'), findsNothing);
     expect(find.text('দৈনিক আমল'), findsNothing);

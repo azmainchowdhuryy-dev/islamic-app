@@ -164,7 +164,7 @@ class FeaturesScreen extends ConsumerWidget {
               _featureCard(
                 context: context,
                 icon: Icons.favorite_outline,
-                title: "Allah's 99 Names",
+                title: "99 Names of Allah",
                 description: bn ? 'আরবি, উচ্চারণ ও অর্থ' : 'Arabic, transliteration and meanings',
                 onTap: () => _open(
                   context,

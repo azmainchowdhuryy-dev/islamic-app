@@ -839,7 +839,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         _HomeCircleFeature(
-                          title: "Allah's 99 Names",
+                          title: "99 Names of Allah",
                           icon: Icons.favorite_outline,
                           titleFontSize: 11,
                           titleMaxLines: 2,

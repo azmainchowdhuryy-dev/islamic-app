@@ -108,7 +108,7 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pump();
-    expect(find.text("Allah's 99 Names"), findsOneWidget);
+    expect(find.text("99 Names of Allah"), findsOneWidget);
     expect(find.text('তাসবিহ'), findsOneWidget);
 
     await tester.scrollUntilVisible(
@@ -186,12 +186,12 @@ void main() {
   testWidgets('Allah names feature opens only the 99 names list', (tester) async {
     await pumpFeatures(tester);
     await tester.scrollUntilVisible(
-      find.text("Allah's 99 Names"),
+      find.text("99 Names of Allah"),
       300,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pump();
-    await _openFeature(tester, "Allah's 99 Names");
+    await _openFeature(tester, "99 Names of Allah");
 
     final namesScreen = find.byType(IbadahToolsScreen);
     expect(namesScreen, findsOneWidget);
