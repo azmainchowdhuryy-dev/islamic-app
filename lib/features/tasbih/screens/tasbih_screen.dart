@@ -286,7 +286,6 @@ class TasbihScreen extends ConsumerWidget {
     final state = ref.watch(tasbihProvider);
     final counter = state.active;
     final notifier = ref.read(tasbihProvider.notifier);
-    final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final preset = tasbihPresetForKey(state.activeKey);
     final ringSize = math.min(MediaQuery.of(context).size.width - 48, 260.0);
