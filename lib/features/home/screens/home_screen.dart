@@ -1145,10 +1145,14 @@ class _HomeCircleFeature extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return SizedBox(
       width: 76,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
-        child: Column(
+      child: Material(
+        color: scheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(14),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: onTap,
+          child: Column(
           children: [
             SizedBox(
               width: 53,
@@ -1207,6 +1211,7 @@ class _HomeCircleFeature extends StatelessWidget {
               ),
             ),
           ],
+          ),
         ),
       ),
     );
