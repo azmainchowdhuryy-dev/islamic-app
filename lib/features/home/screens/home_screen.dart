@@ -1179,7 +1179,7 @@ class _HomeCircleFeature extends StatelessWidget {
                   if (detail != null)
                     Text(
                       detail!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: scheme.onSurface,
                         fontWeight: FontWeight.w800,
                         fontSize: 15,
