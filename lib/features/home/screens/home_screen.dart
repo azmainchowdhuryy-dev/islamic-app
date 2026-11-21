@@ -986,11 +986,12 @@ class _PrayerCountdownArcPainter extends CustomPainter {
       ..strokeWidth = 11
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawArc(rect, math.pi, math.pi, false, track);
+    // Negative sweep draws the upper half of the circle, like a prayer-time arch.
+    canvas.drawArc(rect, math.pi, -math.pi, false, track);
     canvas.drawArc(
       rect,
       math.pi,
-      math.pi * progress.clamp(0.0, 1.0).toDouble(),
+      -math.pi * progress.clamp(0.0, 1.0).toDouble(),
       false,
       active,
     );
