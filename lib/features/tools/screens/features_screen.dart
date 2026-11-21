@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
 import '../../hadith/screens/hadith_dua_screen.dart';
-import '../../../core/navigation/navigation_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
 import 'qibla_screen.dart';
