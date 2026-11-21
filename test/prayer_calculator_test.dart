@@ -17,6 +17,8 @@ void main() {
       final times = result.entries().map((entry) => entry.value).toList();
       expect(times.every((time) => time.isAfter(DateTime(2026, 11, 18))), isTrue);
       expect(times.every((time) => time.isBefore(DateTime(2026, 11, 21))), isTrue);
+      expect(result.sunrise.isAfter(result.fajr), isTrue);
+      expect(result.sunrise.isBefore(result.dhuhr), isTrue);
       for (var i = 1; i < times.length; i++) {
         expect(times[i].isAfter(times[i - 1]), isTrue,
             reason: 'Prayer times should be in chronological order');
