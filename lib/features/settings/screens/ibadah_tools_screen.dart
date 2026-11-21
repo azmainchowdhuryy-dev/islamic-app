@@ -205,11 +205,12 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
     final showPrayers = widget.section == IbadahToolsSection.all ||
         widget.section == IbadahToolsSection.prayers;
     final showDailyAmal = widget.section == IbadahToolsSection.all ||
-        widget.section == IbadahToolsSection.dailyAmal;
+        widget.section == IbadahToolsSection.dailyAmal ||
+        widget.section == IbadahToolsSection.prayers;
     final showNames = widget.section == IbadahToolsSection.all ||
         widget.section == IbadahToolsSection.names;
     final screenTitle = widget.section == IbadahToolsSection.prayers
-        ? (lang == 'bn' ? 'আজকের নামাজ' : 'Prayer Tracker')
+        ? (lang == 'bn' ? 'ইবাদত ট্র্যাকার' : 'Worship Tracker')
         : widget.section == IbadahToolsSection.dailyAmal
             ? (lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal')
             : widget.section == IbadahToolsSection.names
