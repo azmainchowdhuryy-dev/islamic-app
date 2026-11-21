@@ -12,11 +12,14 @@ Future<SharedPreferences> _pumpMainShell(WidgetTester tester) async {
     overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
     child: const MaterialApp(home: MainShell()),
   ));
-  // The Home screen runs a one-second countdown timer. Pump only a few
-  // short frames rather than waiting for pumpAndSettle to stop a live clock.
-  for (var i = 0; i < 6; i++) {
-    await tester.pump(const Duration(milliseconds: 80));
+  // Wait for the bundled city data without pumpAndSettle because the
+  // Home countdown intentionally has a live one-second timer.
+  for (var i = 0;
+      i < 20 && find.text('নামাজের সময়সূচি').evaluate().isEmpty;
+      i++) {
+    await tester.pump(const Duration(milliseconds: 50));
   }
+  expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
   return prefs;
 }
 
@@ -38,6 +41,7 @@ void main() {
 
     expect(find.text('টপ ফিচার'), findsOneWidget);
     expect(find.text('ট্র্যাকার'), findsOneWidget);
+    expect(find.text('কিবলা'), findsNothing);
   });
 
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
@@ -58,6 +62,14 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
+
+    await tester.tap(find.text('আরও'));
+    await tester.pump();
+    expect(find.text('ফন্টের আকার'), findsOneWidget);
+
+    await tester.tap(find.text('হোম'));
+    await tester.pump();
+    expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
   });
 
   testWidgets('Prayer status circle updates the daily saved tracker', (tester) async {
