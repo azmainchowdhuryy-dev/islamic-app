@@ -73,6 +73,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _hijriOffset = 0;
   DateTime _now = DateTime.now();
   Timer? _clock;
+  Timer? _prayerSlideTimer;
+  int _prayerSlideIndex = 0;
   String? _homePrayerOverrideDateKey;
   Set<String>? _homePrayerDoneOverride;
   Future<void> _prayerWriteQueue = Future<void>.value();
@@ -90,11 +92,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() => _now = DateTime.now());
     });
+    _prayerSlideTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      if (mounted) {
+        setState(() => _prayerSlideIndex = (_prayerSlideIndex + 1) % 2);
+      }
+    });
   }
 
   @override
   void dispose() {
     _clock?.cancel();
+    _prayerSlideTimer?.cancel();
     super.dispose();
   }
 
@@ -238,10 +246,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               today: prayers,
               tomorrow: tomorrow,
             );
-            final primaryCountdown = countdownPlan.items.first;
-            final secondaryCountdown = countdownPlan.items[1];
-            final nextName = s.t(primaryCountdown.nameKey);
-            final remaining = primaryCountdown.target.difference(_now);
+            final displayedCountdown =
+                countdownPlan.items[_prayerSlideIndex % countdownPlan.items.length];
+            final nextName = s.t(displayedCountdown.nameKey);
+            final remaining = displayedCountdown.target.difference(_now);
             final countdownProgress = (1 -
                     remaining.inSeconds / const Duration(days: 1).inSeconds)
                 .clamp(0.0, 1.0)
@@ -405,95 +413,83 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 alignment: Alignment.bottomCenter,
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 3),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        nextName,
-                                        key: const Key('next_prayer_name'),
-                                        style: TextStyle(
-                                          color: (primaryCountdown.isProhibited || primaryCountdown.isImminent)
-                                              ? AppColors.warmAmber
-                                              : AppColors.primaryText,
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w800,
-                                        ),
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 450),
+                                    switchInCurve: Curves.easeOutCubic,
+                                    switchOutCurve: Curves.easeInCubic,
+                                    transitionBuilder: (child, animation) =>
+                                        SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(0.18, 0),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: FadeTransition(
+                                        opacity: animation,
+                                        child: child,
                                       ),
-                                      if (primaryCountdown.detailKey != null) ...[
-                                        const SizedBox(height: 1),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 2,
+                                    ),
+                                    child: Column(
+                                      key: ValueKey(
+                                        '$_prayerSlideIndex-${displayedCountdown.nameKey}-${displayedCountdown.statusKey}-${displayedCountdown.detailKey}',
+                                      ),
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          nextName,
+                                          key: const Key('next_prayer_name'),
+                                          style: TextStyle(
+                                            color: (displayedCountdown.isProhibited ||
+                                                    displayedCountdown.isImminent)
+                                                ? AppColors.warmAmber
+                                                : AppColors.primaryText,
+                                            fontSize: 21,
+                                            fontWeight: FontWeight.w800,
                                           ),
-                                          decoration: BoxDecoration(
-                                            color: AppColors.warmAmber,
-                                            borderRadius: BorderRadius.circular(12),
-                                          ),
-                                          child: Text(
-                                            s.t(primaryCountdown.detailKey!),
-                                            style: const TextStyle(
-                                              color: Color(0xFF241407),
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w800,
+                                        ),
+                                        if (displayedCountdown.detailKey != null) ...[
+                                          const SizedBox(height: 1),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 2,
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                      const SizedBox(height: 1),
-                                      Text(
-                                        s.t(primaryCountdown.statusKey),
-                                        key: const Key('next_prayer_remaining_label'),
-                                        style: const TextStyle(
-                                          color: AppColors.secondaryText,
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      Text(
-                                        _countdown(remaining, s),
-                                        key: const Key('next_prayer_countdown'),
-                                        style: const TextStyle(
-                                          color: AppColors.primaryText,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w800,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 0),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Row(
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                '${s.t(secondaryCountdown.nameKey)} · ${s.t(secondaryCountdown.statusKey)}',
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: AppColors.secondaryText,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.warmAmber,
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
-                                            const SizedBox(width: 8),
-                                            Text(
-                                              _countdown(
-                                                secondaryCountdown.target.difference(_now),
-                                                s,
-                                              ),
+                                            child: Text(
+                                              s.t(displayedCountdown.detailKey!),
                                               style: const TextStyle(
-                                                color: AppColors.primaryText,
-                                                fontSize: 13,
+                                                color: Color(0xFF241407),
+                                                fontSize: 10,
                                                 fontWeight: FontWeight.w800,
                                               ),
                                             ),
-                                          ],
+                                          ),
+                                        ],
+                                        const SizedBox(height: 1),
+                                        Text(
+                                          s.t(displayedCountdown.statusKey),
+                                          key: const Key('next_prayer_remaining_label'),
+                                          style: const TextStyle(
+                                            color: AppColors.secondaryText,
+                                            fontSize: 13,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          _countdown(remaining, s),
+                                          key: const Key('next_prayer_countdown'),
+                                          style: const TextStyle(
+                                            color: AppColors.primaryText,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),
