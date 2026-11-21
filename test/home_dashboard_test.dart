@@ -55,5 +55,34 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
+
+  testWidgets('Prayer status circle updates the daily saved tracker', (tester) async {
+    final prefs = await SharedPreferences.getInstance();
+    await tester.pumpWidget(ProviderScope(
+      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      child: const MaterialApp(home: MainShell()),
+    ));
+    await tester.pumpAndSettle();
+
+    final now = DateTime.now();
+    final dateKey =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+
+    await tester.tap(find.byIcon(Icons.radio_button_unchecked).first);
+    await tester.pumpAndSettle();
+
+    expect(
+      prefs.getStringList('prayer_tracker_$dateKey'),
+      contains('fajr'),
+    );
+
+    await tester.tap(find.byIcon(Icons.check_circle).first);
+    await tester.pumpAndSettle();
+
+    expect(
+      prefs.getStringList('prayer_tracker_$dateKey'),
+      isNot(contains('fajr')),
+    );
+  });
   });
 }
