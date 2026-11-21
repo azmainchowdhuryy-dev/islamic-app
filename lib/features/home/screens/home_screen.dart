@@ -73,9 +73,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _hijriOffset = 0;
   DateTime _now = DateTime.now();
   Timer? _clock;
-  Timer? _prayerSlideTimer;
-  int _prayerSlideIndex = 0;
-  int _prayerSlideAnchorIndex = -1;
   String? _homePrayerOverrideDateKey;
   Set<String>? _homePrayerDoneOverride;
   Future<void> _prayerWriteQueue = Future<void>.value();
@@ -93,15 +90,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() => _now = DateTime.now());
     });
-    _prayerSlideTimer = Timer.periodic(const Duration(seconds: 5), (_) {
-      if (mounted) setState(() => _prayerSlideIndex++);
-    });
   }
 
   @override
   void dispose() {
     _clock?.cancel();
-    _prayerSlideTimer?.cancel();
     super.dispose();
   }
 
@@ -239,74 +232,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               hanafi: _hanafi,
               method: _method,
             );
-            final prayerMilestones = <MapEntry<String, DateTime>>[
-              MapEntry('isha', yesterday.isha),
-              MapEntry(
-                'tahajjud',
-                DailyPrayerTimes.tahajjudStart(yesterday.maghrib, prayers.fajr),
-              ),
-              MapEntry('tahajjud_last', prayers.fajr),
-              MapEntry('fajr', prayers.fajr),
-              MapEntry('duha', DailyPrayerTimes.duhaStart(prayers.sunrise)),
-              MapEntry('dhuhr', prayers.dhuhr),
-              MapEntry('asr', prayers.asr),
-              MapEntry('maghrib', prayers.maghrib),
-              MapEntry('isha', prayers.isha),
-              MapEntry(
-                'tahajjud',
-                DailyPrayerTimes.tahajjudStart(prayers.maghrib, tomorrow.fajr),
-              ),
-              MapEntry('tahajjud_last', tomorrow.fajr),
-              MapEntry('fajr', tomorrow.fajr),
-              MapEntry('duha', DailyPrayerTimes.duhaStart(tomorrow.sunrise)),
-              MapEntry('dhuhr', tomorrow.dhuhr),
-              MapEntry('asr', tomorrow.asr),
-              MapEntry('maghrib', tomorrow.maghrib),
-              MapEntry('isha', tomorrow.isha),
-            ]..sort((a, b) {
-                final timeOrder = a.value.compareTo(b.value);
-                if (timeOrder != 0) return timeOrder;
-                if (a.key == 'tahajjud_last') return -1;
-                if (b.key == 'tahajjud_last') return 1;
-                return 0;
-              });
-            final nextPrayerIndex = prayerMilestones.indexWhere(
-              (entry) => entry.value.isAfter(_now),
+            final countdownPlan = PrayerCountdownPlan.calculate(
+              now: _now,
+              yesterday: yesterday,
+              today: prayers,
+              tomorrow: tomorrow,
             );
-            final firstUpcomingIndex = nextPrayerIndex < 0
-                ? prayerMilestones.length - 1
-                : nextPrayerIndex;
-            // When the real next milestone changes, restart the carousel at
-            // that event so an old slide offset cannot skip it.
-            if (_prayerSlideAnchorIndex != firstUpcomingIndex) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (!mounted || _prayerSlideAnchorIndex == firstUpcomingIndex) {
-                  return;
-                }
-                setState(() {
-                  _prayerSlideAnchorIndex = firstUpcomingIndex;
-                  _prayerSlideIndex = 0;
-                });
-              });
-            }
-            final remainingMilestones = prayerMilestones.length - firstUpcomingIndex;
-            final upcomingIndex = firstUpcomingIndex +
-                (_prayerSlideIndex % remainingMilestones);
-            final upcoming = prayerMilestones[upcomingIndex];
-            final nextName = s.t(upcoming.key);
-            final remaining = upcoming.value.difference(_now);
-            final previousPrayerTime = prayerMilestones[
-              upcomingIndex > 0 ? upcomingIndex - 1 : 0
-            ].value;
-            final intervalSeconds =
-                upcoming.value.difference(previousPrayerTime).inSeconds;
-            final elapsedSeconds = _now
-                .difference(previousPrayerTime)
-                .inSeconds
-                .clamp(0, intervalSeconds > 0 ? intervalSeconds : 0);
-            final countdownProgress = intervalSeconds > 0
-                ? elapsedSeconds / intervalSeconds
-                : 0.0;
+            final primaryCountdown = countdownPlan.items.first;
+            final secondaryCountdown = countdownPlan.items[1];
+            final nextName = s.t(primaryCountdown.nameKey);
+            final remaining = primaryCountdown.target.difference(_now);
+            final countdownProgress = (1 -
+                    remaining.inSeconds / const Duration(days: 1).inSeconds)
+                .clamp(0.0, 1.0)
+                .toDouble();
 
             final banglaDate = BanglaDate.fromDateTime(_now);
             const banglaMonthsEn = [
@@ -468,38 +407,91 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   padding: const EdgeInsets.only(bottom: 3),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      nextName,
-                                      key: const Key('next_prayer_name'),
-                                      style: const TextStyle(
-                                        color: AppColors.primaryText,
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w800,
+                                    children: [
+                                      Text(
+                                        nextName,
+                                        key: const Key('next_prayer_name'),
+                                        style: TextStyle(
+                                          color: primaryCountdown.isProhibited
+                                              ? AppColors.warmAmber
+                                              : AppColors.primaryText,
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.w800,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      upcoming.key == 'tahajjud_last'
-                                          ? 'শেষ হতে বাকি'
-                                          : 'শুরু হতে বাকি',
-                                      key: const Key('next_prayer_remaining_label'),
-                                      style: const TextStyle(
-                                        color: AppColors.secondaryText,
-                                        fontSize: 15,
+                                      if (primaryCountdown.detailKey != null) ...[
+                                        const SizedBox(height: 1),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.warmAmber,
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            s.t(primaryCountdown.detailKey!),
+                                            style: const TextStyle(
+                                              color: Color(0xFF241407),
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                      const SizedBox(height: 3),
+                                      Text(
+                                        s.t(primaryCountdown.statusKey),
+                                        key: const Key('next_prayer_remaining_label'),
+                                        style: const TextStyle(
+                                          color: AppColors.secondaryText,
+                                          fontSize: 13,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      _countdown(remaining, s),
-                                      key: const Key('next_prayer_countdown'),
-                                      style: const TextStyle(
-                                        color: AppColors.primaryText,
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.w800,
+                                      Text(
+                                        _countdown(remaining, s),
+                                        key: const Key('next_prayer_countdown'),
+                                        style: const TextStyle(
+                                          color: AppColors.primaryText,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w800,
+                                        ),
                                       ),
-                                    ),
+                                      const SizedBox(height: 2),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                '${s.t(secondaryCountdown.nameKey)} · ${s.t(secondaryCountdown.statusKey)}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  color: AppColors.secondaryText,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              _countdown(
+                                                secondaryCountdown.target.difference(_now),
+                                                s,
+                                              ),
+                                              style: const TextStyle(
+                                                color: AppColors.primaryText,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ],
+                                  )
                                   ),
                                 ),
                               ),
