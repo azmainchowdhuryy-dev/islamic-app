@@ -1,22 +1,57 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/services/prefs.dart';
+import 'package:islamic_app/features/hadith/models/hadith.dart';
+import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
 import 'package:islamic_app/features/hadith/screens/hadith_dua_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+late List<Hadith> _hadithFixture;
+late List<Map<String, dynamic>> _duaFixture;
+
 void main() {
+  setUpAll(() {
+    _hadithFixture = (jsonDecode(
+      File('assets/data/hadith.json').readAsStringSync(),
+    ) as List)
+        .map((item) => Hadith.fromJson(item as Map<String, dynamic>))
+        .where((item) => item.verified)
+        .toList();
+
+    _duaFixture = (jsonDecode(
+      File('assets/data/dua.json').readAsStringSync(),
+    ) as List)
+        .cast<Map<String, dynamic>>()
+        .where((item) => item['verified'] == true)
+        .toList();
+  });
+
   setUp(() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  testWidgets('Combined Hadith and Dua view keeps both collections', (tester) async {
+  Future<void> pumpScreen(
+    WidgetTester tester,
+    HadithDuaSection section,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(ProviderScope(
-      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
-      child: const MaterialApp(home: HadithDuaScreen()),
+      overrides: [
+        sharedPrefsProvider.overrideWithValue(prefs),
+        hadithListProvider.overrideWith((ref) async => _hadithFixture),
+        verifiedDuasProvider.overrideWith((ref) async => _duaFixture),
+      ],
+      child: MaterialApp(home: HadithDuaScreen(section: section)),
     ));
     await tester.pumpAndSettle();
+  }
+
+  testWidgets('Combined Hadith and Dua view keeps both collections', (tester) async {
+    await pumpScreen(tester, HadithDuaSection.all);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
     expect(find.text('38টি হাদিস'), findsOneWidget);
@@ -33,7 +68,7 @@ void main() {
       350,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('31টি দোয়া'), findsOneWidget);
@@ -47,14 +82,7 @@ void main() {
   });
 
   testWidgets('Hadith tab contains no Dua section', (tester) async {
-    final prefs = await SharedPreferences.getInstance();
-    await tester.pumpWidget(ProviderScope(
-      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
-      child: const MaterialApp(
-        home: HadithDuaScreen(section: HadithDuaSection.hadith),
-      ),
-    ));
-    await tester.pumpAndSettle();
+    await pumpScreen(tester, HadithDuaSection.hadith);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
     expect(find.text('38টি হাদিস'), findsOneWidget);
@@ -62,14 +90,7 @@ void main() {
   });
 
   testWidgets('Dua tab contains no Hadith section', (tester) async {
-    final prefs = await SharedPreferences.getInstance();
-    await tester.pumpWidget(ProviderScope(
-      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
-      child: const MaterialApp(
-        home: HadithDuaScreen(section: HadithDuaSection.dua),
-      ),
-    ));
-    await tester.pumpAndSettle();
+    await pumpScreen(tester, HadithDuaSection.dua);
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('31টি দোয়া'), findsOneWidget);
