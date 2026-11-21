@@ -672,7 +672,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               final endTime = i < todayEntries.length - 1
                                   ? todayEntries[i + 1].value.subtract(const Duration(minutes: 1))
                                   : tomorrow.fajr.subtract(const Duration(minutes: 1));
-                              final isNext = entry.key == upcoming.key;
+                              final isNext = countdownPlan.items.any(
+                                (item) => item.nameKey == entry.key && item.statusKey == 'starts_in',
+                              );
                               final isDone = prayerDoneKeys.contains(entry.key);
                               final icon = switch (entry.key) {
                                 'fajr' => Icons.wb_twilight,
