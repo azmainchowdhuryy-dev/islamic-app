@@ -43,6 +43,7 @@ class DelayedFirstSaveStore extends FakeCounterStore {
     saveCalls++;
     if (saveCalls == 1) await firstWriteGate.future;
     persistedSessions.add(counter.session);
+    data[counter.key] = counter;
     if (persistedSessions.length == 2 && !bothWritesCompleted.isCompleted) {
       bothWritesCompleted.complete();
     }
