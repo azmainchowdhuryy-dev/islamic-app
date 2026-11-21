@@ -1074,7 +1074,7 @@ class _HomeCircleFeature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 88,
+      width: 84,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
         onTap: onTap,
