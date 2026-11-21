@@ -25,6 +25,30 @@ void main() {
       }
     });
 
+    test('Tahajjud milestone starts at the beginning of the final third', () {
+      final maghrib = DateTime(2026, 11, 20, 17, 30);
+      final nextFajr = DateTime(2026, 11, 21, 4, 45);
+      final nightSeconds = nextFajr.difference(maghrib).inSeconds;
+      final start = DailyPrayerTimes.tahajjudStart(maghrib, nextFajr);
+
+      expect(
+        start.difference(maghrib).inSeconds,
+        closeTo(nightSeconds * 2 / 3, 1),
+      );
+      expect(
+        nextFajr.difference(start).inSeconds,
+        closeTo(nightSeconds / 3, 1),
+      );
+    });
+
+    test('Duha milestone starts twenty minutes after sunrise', () {
+      final sunrise = DateTime(2026, 11, 21, 6, 10);
+      expect(
+        DailyPrayerTimes.duhaStart(sunrise),
+        DateTime(2026, 11, 21, 6, 30),
+      );
+    });
+
     test('Hanafi Asr is later than Shafi Asr for the same date and place', () {
       final hanafi = DailyPrayerTimes.calculate(
         latitude: 24.2513,

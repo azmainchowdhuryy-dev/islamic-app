@@ -108,6 +108,11 @@ void main() {
     expect(tester.getSize(header).height, lessThan(250));
 
     final arcRect = tester.getRect(arc);
+    final curveSize = tester.getSize(
+      find.byKey(const Key('next_prayer_curve')),
+    );
+    expect(curveSize.width, lessThan(arcRect.width * 0.75));
+    expect(curveSize.width, lessThanOrEqualTo(260));
     for (final key in [
       'next_prayer_name',
       'next_prayer_remaining_label',

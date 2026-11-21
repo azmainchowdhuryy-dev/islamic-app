@@ -41,6 +41,21 @@ class DailyPrayerTimes {
     );
   }
 
+  /// Start of the final third of the night, used as the Tahajjud
+  /// countdown milestone. The night runs from Maghrib to the following Fajr.
+  static DateTime tahajjudStart(DateTime maghrib, DateTime nextFajr) {
+    final night = nextFajr.difference(maghrib);
+    if (night.inSeconds <= 0) {
+      throw ArgumentError('The next Fajr must be after Maghrib.');
+    }
+    return maghrib.add(Duration(seconds: (night.inSeconds * 2 / 3).round()));
+  }
+
+  /// Duha begins after the sun has risen by approximately one spear-length.
+  /// Twenty minutes after the calculated sunrise is used as a practical buffer.
+  static DateTime duhaStart(DateTime sunrise) =>
+      sunrise.add(const Duration(minutes: 20));
+
   static CalculationParameters _parameters(PrayerCalculation method) {
     switch (method) {
       case PrayerCalculation.karachi:

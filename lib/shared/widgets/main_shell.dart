@@ -16,6 +16,17 @@ class MainShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = ref.watch(stringsProvider).t;
     final index = ref.watch(mainNavigationIndexProvider);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final navigationBackground =
+        isDark ? AppColors.bottomSurface : scheme.surface;
+    final navigationIndicator =
+        isDark ? AppColors.activeSurface : scheme.primaryContainer;
+    final selectedNavigationColor =
+        isDark ? AppColors.primaryAccent : scheme.primary;
+    final unselectedNavigationColor =
+        isDark ? AppColors.secondaryText : scheme.onSurfaceVariant;
     return Scaffold(
       body: IndexedStack(index: index, children: const [
         HomeScreen(),
@@ -26,14 +37,16 @@ class MainShell extends ConsumerWidget {
       ]),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          backgroundColor: AppColors.bottomSurface,
-          indicatorColor: AppColors.activeSurface,
+          backgroundColor: navigationBackground,
+          indicatorColor: navigationIndicator,
+          surfaceTintColor: Colors.transparent,
+          elevation: 0,
           height: 76,
           labelTextStyle: WidgetStateProperty.resolveWith(
             (states) => TextStyle(
               color: states.contains(WidgetState.selected)
-                  ? AppColors.primaryAccent
-                  : AppColors.secondaryText,
+                  ? selectedNavigationColor
+                  : unselectedNavigationColor,
               fontSize: 11,
               fontWeight: states.contains(WidgetState.selected)
                   ? FontWeight.w700
@@ -43,8 +56,8 @@ class MainShell extends ConsumerWidget {
           iconTheme: WidgetStateProperty.resolveWith(
             (states) => IconThemeData(
               color: states.contains(WidgetState.selected)
-                  ? AppColors.primaryAccent
-                  : AppColors.secondaryText,
+                  ? selectedNavigationColor
+                  : unselectedNavigationColor,
               size: 24,
             ),
           ),

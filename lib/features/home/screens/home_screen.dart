@@ -232,22 +232,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               hanafi: _hanafi,
               method: _method,
             );
-            final upcoming = todayEntries.firstWhere(
+            final prayerMilestones = <MapEntry<String, DateTime>>[
+              MapEntry('isha', yesterday.isha),
+              MapEntry(
+                'tahajjud',
+                DailyPrayerTimes.tahajjudStart(yesterday.maghrib, prayers.fajr),
+              ),
+              MapEntry('fajr', prayers.fajr),
+              MapEntry('duha', DailyPrayerTimes.duhaStart(prayers.sunrise)),
+              MapEntry('dhuhr', prayers.dhuhr),
+              MapEntry('asr', prayers.asr),
+              MapEntry('maghrib', prayers.maghrib),
+              MapEntry('isha', prayers.isha),
+              MapEntry(
+                'tahajjud',
+                DailyPrayerTimes.tahajjudStart(prayers.maghrib, tomorrow.fajr),
+              ),
+              MapEntry('fajr', tomorrow.fajr),
+              MapEntry('duha', DailyPrayerTimes.duhaStart(tomorrow.sunrise)),
+              MapEntry('dhuhr', tomorrow.dhuhr),
+              MapEntry('asr', tomorrow.asr),
+              MapEntry('maghrib', tomorrow.maghrib),
+              MapEntry('isha', tomorrow.isha),
+            ]..sort((a, b) => a.value.compareTo(b.value));
+            final nextPrayerIndex = prayerMilestones.indexWhere(
               (entry) => entry.value.isAfter(_now),
-              orElse: () => MapEntry('fajr', tomorrow.fajr),
             );
+            final upcomingIndex = nextPrayerIndex < 0
+                ? prayerMilestones.length - 1
+                : nextPrayerIndex;
+            final upcoming = prayerMilestones[upcomingIndex];
             final nextName = s.t(upcoming.key);
             final remaining = upcoming.value.difference(_now);
-            final isTomorrowFajr =
-                !todayEntries.any((entry) => entry.value.isAfter(_now));
-            final nextIndex = todayEntries.indexWhere(
-              (entry) => entry.key == upcoming.key,
-            );
-            final previousPrayerTime = isTomorrowFajr
-                ? todayEntries.last.value
-                : nextIndex == 0
-                    ? yesterday.isha
-                    : todayEntries[nextIndex - 1].value;
+            final previousPrayerTime = prayerMilestones[
+              upcomingIndex > 0 ? upcomingIndex - 1 : 0
+            ].value;
             final intervalSeconds =
                 upcoming.value.difference(previousPrayerTime).inSeconds;
             final elapsedSeconds = _now
@@ -396,9 +415,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             alignment: Alignment.center,
                             children: [
                               Positioned.fill(
-                                child: CustomPaint(
-                                  painter: _PrayerCountdownArcPainter(
-                                    progress: countdownProgress.toDouble(),
+                                child: Center(
+                                  child: SizedBox(
+                                    key: const Key('next_prayer_curve'),
+                                    width: math.min(
+                                      MediaQuery.of(context).size.width * 0.72,
+                                      260.0,
+                                    ),
+                                    height: 122,
+                                    child: CustomPaint(
+                                      painter: _PrayerCountdownArcPainter(
+                                        progress: countdownProgress.toDouble(),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1024,26 +1053,25 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const strokeWidth = 11.0;
-    // The curve is drawn as a wide ellipse. This keeps it above the
-    // countdown text while spanning nearly the full available width.
+    const strokeWidth = 9.0;
+    // A compact, almost circular arch leaves breathing room at both sides.
     final centerY = size.height - strokeWidth / 2 - 1;
-    final horizontalInset = math.min(18.0, size.width / 8);
+    final horizontalInset = math.min(10.0, size.width / 12);
     final arcTop = strokeWidth / 2 + 1;
     if (centerY <= arcTop || size.width <= horizontalInset * 2) return;
     final track = Paint()
-      ..color = AppColors.subtleBorder
+      ..color = const Color(0x66FFFFFF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
     final active = Paint()
-      ..color = AppColors.primaryAccent
+      ..color = const Color(0xFFE8F4F2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
-    // Use a wide, shallow ellipse so the arch spans the text block instead
-    // of cutting through it. The label and countdown sit below the arch apex.
+    // The narrowed ellipse makes the arch rounder. The prayer name and
+    // countdown remain centered inside its open lower half.
     final arcRect = Rect.fromLTRB(
       horizontalInset,
       arcTop,
