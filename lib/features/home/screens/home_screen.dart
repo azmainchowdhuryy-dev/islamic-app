@@ -116,16 +116,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return s.digits('$hour:$minute');
   }
 
-  String _date(DateTime date, AppStrings s) {
-    const weekdaysBn = ['সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার', 'রবিবার'];
-    const weekdaysEn = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const monthsBn = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
-    const monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    final weekday = s.lang == 'bn' ? weekdaysBn[date.weekday - 1] : weekdaysEn[date.weekday - 1];
-    final month = s.lang == 'bn' ? monthsBn[date.month - 1] : monthsEn[date.month - 1];
-    return '$weekday, ${s.digits(date.day)} $month ${s.digits(date.year)}';
-  }
-
   String _countdown(Duration duration, AppStrings s) {
     if (duration.isNegative) duration = Duration.zero;
     final hours = duration.inHours;
@@ -147,9 +137,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final lang = s.lang;
     final citiesAsync = ref.watch(_citiesProvider);
     final hadithAsync = ref.watch(hadithListProvider);
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -201,8 +188,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final nextIndex = todayEntries.indexWhere(
               (entry) => entry.key == upcoming.key,
             );
-            final previousPrayerTime =
-                nextIndex <= 0 ? yesterday.isha : todayEntries[nextIndex - 1].value;
+            final previousPrayerTime = nextIndex < 0
+                ? todayEntries.last.value
+                : nextIndex == 0
+                    ? yesterday.isha
+                    : todayEntries[nextIndex - 1].value;
             final intervalSeconds =
                 upcoming.value.difference(previousPrayerTime).inSeconds;
             final elapsedSeconds = _now
@@ -232,14 +222,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               DateTime(_now.year, _now.month, _now.day),
             ).add(Duration(days: _hijriOffset));
             final banglaDateLabel = lang == 'bn'
-                ? '\${banglaDate.weekday}, \${banglaDate.day} \${banglaDate.monthName} \${banglaDate.year}'
-                : '\${banglaDate.dayInt} \${banglaMonthsEn[banglaDate.monthInt - 1]} \${banglaDate.yearInt}';
+                ? '${banglaDate.weekday}, ${banglaDate.day} ${banglaDate.monthName} ${banglaDate.year}'
+                : '${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
             final hijriDateLabel = lang == 'bn'
-                ? '\${s.digits(hijriDate.day)} \${hijriMonthsBn[hijriDate.month - 1]} \${s.digits(hijriDate.year)} হিজরি'
-                : '\${hijriDate.day} \${hijriMonthsEn[hijriDate.month - 1]} \${hijriDate.year} AH';
+                ? '${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)} হিজরি'
+                : '${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year} AH';
 
             final todayKey =
-                '\${_now.year}-\${_now.month.toString().padLeft(2, '0')}-\${_now.day.toString().padLeft(2, '0')}';
+                '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
             final todayPrefs = ref.read(sharedPrefsProvider);
             const validPrayerKeys = {'fajr', 'dhuhr', 'asr', 'maghrib', 'isha'};
             final prayerDoneKeys = (todayPrefs
@@ -454,14 +444,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const Icon(Icons.wb_twilight,
-                                        size: 17, color: Color(0xFF28291D)),
-                                    Text(
-                                      _clockTime(prayers.sunrise, s),
-                                      style: const TextStyle(
-                                        color: Color(0xFF28291D),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
+                                    Flexible(
+                                      child: Text(
+                                        (lang == 'bn' ? 'উদয় ' : 'Rise ') +
+                                            _clockTime(prayers.sunrise, s),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Color(0xFF28291D),
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -469,15 +461,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       width: 1,
                                       color: const Color(0x77584D2C),
                                     ),
-                                    const Icon(Icons.wb_sunny_outlined,
-                                        size: 16, color: Color(0xFF28291D)),
                                     Flexible(
                                       child: Text(
-                                        _clockTime(prayers.maghrib, s),
+                                        (lang == 'bn' ? 'অস্ত ' : 'Set ') +
+                                            _clockTime(prayers.maghrib, s),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           color: Color(0xFF28291D),
-                                          fontSize: 12,
+                                          fontSize: 11,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
@@ -491,8 +482,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 5),
                         Text(
                           lang == 'bn'
-                              ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সঙ্গে দেখানো হয়েছে'
-                              : 'Sunset is represented by the calculated Maghrib time',
+                              ? 'সূর্যাস্তের সময় মাগরিবের গণনাকৃত সময়ের সমতুল্য ধরে দেখানো হয়েছে'
+                              : 'Sunset is approximated by the calculated Maghrib time',
                           style: const TextStyle(
                             color: Color(0xFF5A542F),
                             fontSize: 10,
@@ -501,7 +492,58 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 2, 16, 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            lang == 'bn' ? 'নামাজের সময়সূচি' : 'Prayer Times',
+                            style: const TextStyle(
+                              color: Color(0xFFE5EDEF),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        PopupMenuButton<PrayerCalculation>(
+                          tooltip: s.t('calculation_method'),
+                          icon: const Icon(Icons.tune, color: Color(0xFFB9C7CB)),
+                          initialValue: _method,
+                          onSelected: _saveMethod,
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: PrayerCalculation.karachi,
+                              child: Text(s.t('karachi')),
+                            ),
+                            PopupMenuItem(
+                              value: PrayerCalculation.muslimWorldLeague,
+                              child: Text(s.t('mwl')),
+                            ),
+                            PopupMenuItem(
+                              value: PrayerCalculation.egyptian,
+                              child: Text(s.t('egypt')),
+                            ),
+                            PopupMenuItem(
+                              value: PrayerCalculation.dubai,
+                              child: Text(s.t('dubai')),
+                            ),
+                          ],
+                        ),
+                        PopupMenuButton<bool>(
+                          tooltip: s.t('asr_method'),
+                          icon: const Icon(Icons.access_time, color: Color(0xFFB9C7CB)),
+                          initialValue: _hanafi,
+                          onSelected: _saveAsr,
+                          itemBuilder: (context) => [
+                            PopupMenuItem(value: true, child: Text(s.t('hanafi'))),
+                            PopupMenuItem(value: false, child: Text(s.t('shafi'))),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 6),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
@@ -571,7 +613,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           ),
                                         ),
                                       Text(
-                                        '\${_clockTime(entry.value, s)} - \${_clockTime(endTime, s)}',
+                                        '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
                                         style: TextStyle(
                                           color: isNext
                                               ? const Color(0xFFE8EFF1)
