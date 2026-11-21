@@ -86,12 +86,12 @@ void main() {
 
     // The quick links must stay in exactly two rows, including on wide screens.
     final firstRowY = tester.getCenter(find.text('ট্র্যাকার')).dy;
-    expect(tester.getCenter(find.text('হাদিস')).dy, closeTo(firstRowY, 1));
+    expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));
     expect(tester.getCenter(find.text('রুকইয়াহ')).dy, closeTo(firstRowY, 1));
     final secondRowY = tester.getCenter(find.text('৯৯ নাম')).dy;
     expect(secondRowY, greaterThan(firstRowY + 40));
     expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
-    expect(tester.getCenter(find.text('দোয়া')).dy, closeTo(secondRowY, 1));
+    expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
   });
 
   testWidgets('Five bottom tabs open their matching sections', (tester) async {
@@ -129,11 +129,12 @@ void main() {
     final dateKey =
         '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
 
-    final prayerButton = find.byIcon(Icons.radio_button_unchecked).first;
-    await tester.tap(prayerButton);
-    await tester.tap(prayerButton);
+    final fajrButton = find.byKey(const Key('home_prayer_toggle_fajr'));
+    expect(fajrButton, findsOneWidget);
+    await tester.tap(fajrButton);
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 20));
+    await tester.tap(fajrButton);
+    await tester.pump();
     await tester.pump(const Duration(milliseconds: 20));
 
     expect(
