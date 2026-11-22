@@ -78,6 +78,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
   String _districtId = 'dhaka';
   PrayerCalculation _method = PrayerCalculation.karachi;
   int _hijriOffset = 0;
+  bool _hanafi = true;
   bool _preferencesLoaded = false;
 
   static Future<List<_District>> _loadDistricts() async {
@@ -108,6 +109,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
       _districtId = prefs.getString('home_city') ?? 'dhaka';
       _method = PrayerCalculation.values[index];
       _hijriOffset = (prefs.getInt('hijri_offset') ?? 0).clamp(-1, 1).toInt();
+      _hanafi = prefs.getBool('home_hanafi') ?? true;
       _preferencesLoaded = true;
     });
   }
@@ -124,12 +126,27 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
   String _range(DateTime start, DateTime end) =>
       _time(start) + ' – ' + _time(end);
 
+  String get _calculationMethodLabel {
+    switch (_method) {
+      case PrayerCalculation.karachi:
+        return 'করাচি';
+      case PrayerCalculation.muslimWorldLeague:
+        return 'মুসলিম ওয়ার্ল্ড লীগ';
+      case PrayerCalculation.egyptian:
+        return 'মিশরীয়';
+      case PrayerCalculation.dubai:
+        return 'দুবাই';
+    }
+  }
+
+  String get _asrMethodLabel => _hanafi ? 'হানাফি' : 'শাফেয়ি';
+
   DailyPrayerTimes _calculate(_District district, DateTime date) {
     return DailyPrayerTimes.calculate(
       latitude: district.latitude,
       longitude: district.longitude,
       date: date,
-      hanafi: true,
+      hanafi: _hanafi,
       method: _method,
     );
   }
@@ -254,7 +271,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
       'ইশা: ' + _time(prayers.isha),
       'রাতের শেষ ১/৩ শুরু: ' + _time(lastThird),
       '',
-      'হিসাব: Adhan, Karachi method, Hanafi, বাংলাদেশ সময় (UTC+৬)।',
+      'হিসাব: Adhan, $_calculationMethodLabel পদ্ধতি, $_asrMethodLabel আসর, বাংলাদেশ সময় (UTC+৬)।',
     ].join('\n');
     await SharePlus.instance.share(ShareParams(text: shareText));
   }
@@ -367,6 +384,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
   Widget _prayerRow(
     String title,
     DateTime time, {
+    Key? timeKey,
     String? firstDetail,
     Color firstColor = _muted,
     String? secondDetail,
@@ -389,7 +407,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          Text(_time(time), style: const TextStyle(
+          Text(_time(time), key: timeKey, style: const TextStyle(
               color: Colors.white, fontSize: 16,
               fontWeight: FontWeight.w800,
               fontFeatures: [FontFeature.tabularFigures()])),
@@ -624,6 +642,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
             _prayerRow('যুহর', prayers.dhuhr),
             const Divider(height: 1, color: _divider),
             _prayerRow('আসর', prayers.asr,
+                timeKey: const Key('calendar_asr_time'),
                 firstDetail: 'মাকরূহ: ' + _time(sunsetStart),
                 firstColor: _danger),
             const Divider(height: 1, color: _divider),
@@ -724,7 +743,8 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
         ),
         const SizedBox(height: 14),
         const Text(
-          'হিসাবের পদ্ধতি: Adhan • Karachi • Hanafi • বাংলাদেশ সময় (UTC+৬)। স্থানীয় মসজিদের সময়সূচির সঙ্গে মিলিয়ে নিন।',
+          'হিসাবের পদ্ধতি: Adhan • $_calculationMethodLabel • $_asrMethodLabel • বাংলাদেশ সময় (UTC+৬)। স্থানীয় মসজিদের সময়সূচির সঙ্গে মিলিয়ে নিন।',
+          key: const Key('calendar_calculation_method_note'),
           textAlign: TextAlign.center,
           style: TextStyle(color: _muted, fontSize: 10.5, height: 1.5),
         ),
