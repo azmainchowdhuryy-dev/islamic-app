@@ -27,7 +27,13 @@ void main() {
       tester.widget<Scaffold>(find.byType(Scaffold).last).backgroundColor,
       Colors.white,
     );
-    expect(find.byType(CustomPaint), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(IslamicAppLogo),
+        matching: find.byType(CustomPaint),
+      ),
+      findsOneWidget,
+    );
 
     await tester.pageBack();
     await tester.pumpAndSettle();
