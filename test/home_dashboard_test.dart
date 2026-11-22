@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
 import 'package:islamic_app/core/time/bangladesh_clock.dart';
+import 'package:islamic_app/core/theme/app_theme.dart';
 import 'package:islamic_app/core/localization/bn_digits.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/hadith/models/hadith.dart';
@@ -19,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<SharedPreferences> _pumpMainShell(
   WidgetTester tester, {
   DateTime Function()? clock,
+  ThemeMode themeMode = ThemeMode.light,
 }) async {
   SharedPreferences.setMockInitialValues({});
   final prefs = await SharedPreferences.getInstance();
@@ -35,6 +37,13 @@ Future<SharedPreferences> _pumpMainShell(
             lat: 23.8103,
             lng: 90.4125,
           ),
+          HomeCity(
+            id: 'tangail',
+            nameBn: 'টাঙ্গাইল',
+            nameEn: 'Tangail',
+            lat: 24.2513,
+            lng: 89.9167,
+          ),
         ],
       ),
       hadithListProvider.overrideWith((ref) => <Hadith>[]),
@@ -42,7 +51,12 @@ Future<SharedPreferences> _pumpMainShell(
         (ref) => <Map<String, dynamic>>[],
       ),
     ],
-    child: const MaterialApp(home: MainShell()),
+    child: MaterialApp(
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: themeMode,
+      home: const MainShell(),
+    ),
   ));
 
   // Home has a live countdown timer, so never use pumpAndSettle here.
@@ -72,6 +86,44 @@ void main() {
       expect(city.lng, inInclusiveRange(-180, 180));
     }
   });
+  for (final themeMode in [
+    ThemeMode.light,
+    ThemeMode.system,
+    ThemeMode.dark,
+  ]) {
+    testWidgets(
+      'Home location dropdown remains readable in ${themeMode.name} theme',
+      (tester) async {
+        if (themeMode == ThemeMode.system) {
+          tester.binding.platformDispatcher.platformBrightnessTestValue =
+              Brightness.light;
+          addTearDown(
+            tester.binding.platformDispatcher.clearPlatformBrightnessTestValue,
+          );
+        }
+
+        await _pumpMainShell(tester, themeMode: themeMode);
+
+        final dropdownFinder =
+            find.byKey(const Key('home_location_dropdown'));
+        final dropdown =
+            tester.widget<DropdownButton<String>>(dropdownFinder);
+        final scheme = Theme.of(tester.element(dropdownFinder)).colorScheme;
+
+        expect(dropdown.dropdownColor, scheme.surface);
+        expect(dropdown.style?.color, scheme.onPrimaryContainer);
+
+        await tester.tap(dropdownFinder);
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 350));
+
+        final districtOption = tester.widget<Text>(find.text('টাঙ্গাইল'));
+        expect(districtOption.style?.color, scheme.onSurface);
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
   testWidgets('Home dashboard displays the redesigned prayer header and features', (tester) async {
     await _pumpMainShell(tester);
 
