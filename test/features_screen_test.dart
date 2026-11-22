@@ -85,6 +85,65 @@ void main() {
     expect(darkIcon.color, AppColors.primaryAccent);
   });
 
+  testWidgets('Featured banner keeps readable theme-aware contrast', (tester) async {
+    tester.binding.platformDispatcher.platformBrightnessTestValue = Brightness.light;
+    addTearDown(tester.binding.platformDispatcher.clearPlatformBrightnessTestValue);
+
+    Future<void> expectBannerColors({
+      required Color background,
+      required Color foreground,
+      required Color iconColor,
+    }) async {
+      final banner = find.byKey(const Key('features_highlight_banner'));
+      expect(banner, findsOneWidget);
+
+      final container = tester.widget<Container>(banner);
+      final decoration = container.decoration! as BoxDecoration;
+      expect(decoration.color, background);
+
+      final bannerText = tester.widget<Text>(
+        find.descendant(of: banner, matching: find.byType(Text)),
+      );
+      expect(bannerText.style?.color, foreground);
+
+      final bannerIcon = tester.widget<Icon>(
+        find.descendant(of: banner, matching: find.byType(Icon)),
+      );
+      expect(bannerIcon.color, iconColor);
+    }
+
+    await pumpFeatures(tester, themeMode: ThemeMode.light);
+    await expectBannerColors(
+      background: AppTheme.light.colorScheme.primaryContainer,
+      foreground: AppTheme.light.colorScheme.onPrimaryContainer,
+      iconColor: AppTheme.light.colorScheme.primary,
+    );
+
+    await pumpFeatures(tester, themeMode: ThemeMode.system);
+    await expectBannerColors(
+      background: AppTheme.light.colorScheme.primaryContainer,
+      foreground: AppTheme.light.colorScheme.onPrimaryContainer,
+      iconColor: AppTheme.light.colorScheme.primary,
+    );
+
+    tester.binding.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+    await tester.pumpWidget(const SizedBox.shrink());
+    await pumpFeatures(tester, themeMode: ThemeMode.dark);
+    await expectBannerColors(
+      background: AppColors.heroSurface,
+      foreground: AppColors.primaryText,
+      iconColor: AppColors.primaryAccent,
+    );
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await pumpFeatures(tester, themeMode: ThemeMode.system);
+    await expectBannerColors(
+      background: AppColors.heroSurface,
+      foreground: AppColors.primaryText,
+      iconColor: AppColors.primaryAccent,
+    );
+  });
+
   testWidgets('Features screen exposes the remaining supported tools', (tester) async {
     await pumpFeatures(tester);
 
