@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/localization/app_strings.dart';
 import '../../../core/services/prefs.dart';
+import '../../../core/time/bangladesh_clock.dart';
 
 class _Name {
   final int number;
@@ -157,7 +158,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
   @override
   void initState() {
     super.initState();
-    _dateKey = _makeDateKey(DateTime.now());
+    _dateKey = _makeDateKey(bangladeshCalendarDate(DateTime.now()));
     _load();
     _dayWatcher = Timer.periodic(
       const Duration(minutes: 1),
@@ -170,7 +171,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
 
   void _refreshForNewDay() {
     if (!mounted) return;
-    final nextDateKey = _makeDateKey(DateTime.now());
+    final nextDateKey = _makeDateKey(bangladeshCalendarDate(DateTime.now()));
     if (nextDateKey == _dateKey) return;
     setState(() {
       _dateKey = nextDateKey;
