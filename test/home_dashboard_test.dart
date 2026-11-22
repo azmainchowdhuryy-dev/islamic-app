@@ -109,11 +109,23 @@ void main() {
     }
 
     expect(find.text('ক্যালেন্ডার').last, findsOneWidget);
-    expect(find.text('সালাতের সময়'), findsOneWidget);
-    expect(find.text('নফল সালাতের সময়'), findsOneWidget);
-    expect(find.text('সালাতের নিষিদ্ধ সময়'), findsOneWidget);
-    expect(find.text('সাওমের সময়সূচী'), findsOneWidget);
-    expect(find.text('সূর্যোদয় ও সূর্যাস্ত'), findsOneWidget);
+    final calendarScroll = find.byKey(const Key('prayer_calendar_scroll_view'));
+    expect(calendarScroll, findsOneWidget);
+
+    for (final section in [
+      'সালাতের সময়',
+      'নফল সালাতের সময়',
+      'সালাতের নিষিদ্ধ সময়',
+      'সাওমের সময়সূচী',
+      'সূর্যোদয় ও সূর্যাস্ত',
+    ]) {
+      await tester.scrollUntilVisible(
+        find.text(section),
+        260,
+        scrollable: calendarScroll,
+      );
+      expect(find.text(section), findsOneWidget);
+    }
 
     await tester.tap(find.byTooltip('ফিরে যান'));
     await tester.pump();
