@@ -640,7 +640,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       ConstrainedBox(
-                                        constraints: const BoxConstraints(maxWidth: 112),
+                                        constraints: const BoxConstraints(maxWidth: 90),
                                         child: Text(
                                           city.name(lang),
                                           key: const Key('home_location_name'),
