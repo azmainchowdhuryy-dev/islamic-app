@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:bangla_utilities/bangla_utilities.dart';
+import 'package:hijri_date_time/hijri_date_time.dart';
+import 'package:islamic_app/core/time/bangladesh_clock.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/hadith/models/hadith.dart';
 import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
@@ -12,12 +15,16 @@ import 'package:islamic_app/features/home/screens/home_screen.dart';
 import 'package:islamic_app/shared/widgets/main_shell.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<SharedPreferences> _pumpMainShell(WidgetTester tester) async {
+Future<SharedPreferences> _pumpMainShell(
+  WidgetTester tester, {
+  DateTime Function()? clock,
+}) async {
   SharedPreferences.setMockInitialValues({});
   final prefs = await SharedPreferences.getInstance();
   await tester.pumpWidget(ProviderScope(
     overrides: [
       sharedPrefsProvider.overrideWithValue(prefs),
+      appClockProvider.overrideWithValue(clock ?? DateTime.now),
       homeCitiesProvider.overrideWith(
         (ref) => const [
           HomeCity(
@@ -97,6 +104,35 @@ void main() {
     expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
   });
 
+
+  testWidgets('Home shows all three full dates for the Bangladesh calendar day', (tester) async {
+    // 18:30 UTC is already 00:30 on the following day in Bangladesh.
+    final instant = DateTime.utc(2026, 11, 21, 18, 30);
+    await _pumpMainShell(tester, clock: () => instant);
+
+    expect(
+      tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
+      'ইংরেজি: ২২ নভেম্বর ২০২৬',
+    );
+
+    final date = DateTime.utc(2026, 11, 22);
+    final bangla = BanglaDate.fromDateTime(date);
+    expect(
+      tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
+      'বাংলা: ${bangla.dayInt} ${bangla.monthName} ${bangla.yearInt}'
+          .replaceFirst('বাংলা:', 'বাংলা:'),
+    );
+
+    final hijri = HijriDateTime.fromGregorian(date);
+    const hijriMonthsBn = [
+      'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
+      'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ',
+    ];
+    expect(
+      tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
+      'হিজরি: রবি, ${hijri.day} ${hijriMonthsBn[hijri.month - 1]} ${hijri.year}',
+    );
+  });
 
   testWidgets('Home calendar icon opens the separate prayer calendar screen', (tester) async {
     await _pumpMainShell(tester);
