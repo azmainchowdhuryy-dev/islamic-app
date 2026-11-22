@@ -44,7 +44,11 @@ void main() {
       const MaterialApp(home: PrayerCalendarScreen()),
     );
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 600));
+    for (var i = 0;
+        i < 30 && find.byKey(const Key('calendar_asr_time')).evaluate().isEmpty;
+        i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
 
     final expected = DailyPrayerTimes.calculate(
       latitude: 23.8103,
