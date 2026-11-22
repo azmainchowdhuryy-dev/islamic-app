@@ -1181,30 +1181,40 @@ class _HomeInfoChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 126,
       height: 34,
-      padding: const EdgeInsets.symmetric(horizontal: 9),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         color: AppColors.activeSurface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: AppColors.secondaryText,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.secondaryText,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           const SizedBox(width: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              color: AppColors.primaryText,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
+          Flexible(
+            child: Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.primaryText,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
