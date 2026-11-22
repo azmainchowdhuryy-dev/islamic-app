@@ -87,32 +87,51 @@ class FeaturesScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
         children: [
-          Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: AppColors.heroSurface,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.auto_awesome,
-                  size: 34,
-                  color: AppColors.primaryAccent,
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Text(
-                    bn
-                        ? 'ইবাদত, যিকির ও দৈনন্দিন ইসলামী প্রয়োজনের সব টুল এক জায়গায়'
-                        : 'Daily worship, remembrance and Islamic tools in one place',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+          Builder(
+            builder: (context) {
+              final theme = Theme.of(context);
+              final scheme = theme.colorScheme;
+              final isDark = theme.brightness == Brightness.dark;
+              final bannerBackground =
+                  isDark ? AppColors.heroSurface : scheme.primaryContainer;
+              final bannerForeground =
+                  isDark ? AppColors.primaryText : scheme.onPrimaryContainer;
+              final bannerIconColor =
+                  isDark ? AppColors.primaryAccent : scheme.primary;
+
+              return Container(
+                key: const Key('features_highlight_banner'),
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: bannerBackground,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: isDark ? AppColors.subtleBorder : scheme.outlineVariant,
                   ),
                 ),
-              ],
-            ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.auto_awesome,
+                      size: 34,
+                      color: bannerIconColor,
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Text(
+                        bn
+                            ? 'ইবাদত, যিকির ও দৈনন্দিন ইসলামী প্রয়োজনের সব টুল এক জায়গায়'
+                            : 'Daily worship, remembrance and Islamic tools in one place',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: bannerForeground,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
           _sectionTitle(context, bn ? 'ট্র্যাকার' : 'Trackers'),
           GridView.count(
