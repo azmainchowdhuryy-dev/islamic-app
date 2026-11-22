@@ -13,6 +13,24 @@ void main() {
     expect(toBanglaDigits('12:30 PM'), '১২:৩০ PM');
   });
 
+  testWidgets('Hijri date adjustment can be changed from the calendar screen',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({'hijri_offset': 0});
+    final prefs = await SharedPreferences.getInstance();
+
+    await tester.pumpWidget(
+      const MaterialApp(home: PrayerCalendarScreen()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('calendar_hijri_adjustment')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('১ দিন এগিয়ে'));
+    await tester.pumpAndSettle();
+
+    expect(prefs.getInt('hijri_offset'), 1);
+  });
+
   testWidgets('calendar uses saved calculation method and Shafi Asr setting',
       (tester) async {
     SharedPreferences.setMockInitialValues({
