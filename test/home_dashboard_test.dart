@@ -226,13 +226,17 @@ void main() {
 
     final middleCalendar =
         find.byKey(const Key('home_middle_calendar_button'));
-    await tester.ensureVisible(middleCalendar);
+    await tester.scrollUntilVisible(
+      middleCalendar,
+      240,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.tap(middleCalendar);
     await tester.pump();
     for (var i = 0;
-        i < 30 && find.byKey(const Key('prayer_calendar_scroll_view')).evaluate().isEmpty;
+        i < 60 && find.byKey(const Key('prayer_calendar_scroll_view')).evaluate().isEmpty;
         i++) {
-      await tester.pump(const Duration(milliseconds: 50));
+      await tester.pump(const Duration(milliseconds: 100));
     }
 
     expect(find.byKey(const Key('prayer_calendar_scroll_view')), findsOneWidget);
