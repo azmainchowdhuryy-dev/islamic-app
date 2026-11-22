@@ -408,32 +408,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                             ),
                           ],
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 4),
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                              color: const Color(0x55FFFFFF),
-                              borderRadius: BorderRadius.circular(22),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                color: const Color(0x55FFFFFF),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _LanguageChoice(
+                                    label: 'বাংলা',
+                                    selected: lang == 'bn',
+                                    onTap: () => ref.read(settingsProvider.notifier).setLang('bn'),
+                                  ),
+                                  _LanguageChoice(
+                                    label: 'EN',
+                                    selected: lang == 'en',
+                                    onTap: () => ref.read(settingsProvider.notifier).setLang('en'),
+                                  ),
+                                ],
+                              ),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                _LanguageChoice(
-                                  label: 'বাংলা',
-                                  selected: lang == 'bn',
-                                  onTap: () => ref.read(settingsProvider.notifier).setLang('bn'),
-                                ),
-                                _LanguageChoice(
-                                  label: 'EN',
-                                  selected: lang == 'en',
-                                  onTap: () => ref.read(settingsProvider.notifier).setLang('en'),
-                                ),
-                              ],
-                            ),
-                          ),
+                          ],
                         ),
                         SizedBox(
                           key: const Key('next_prayer_arc'),
