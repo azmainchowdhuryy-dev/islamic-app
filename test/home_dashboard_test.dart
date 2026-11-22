@@ -175,7 +175,12 @@ void main() {
       expect(dateText.overflow, isNull, reason: '$key must wrap instead of using ellipsis');
       expect(dateText.data, isNotEmpty);
     }
-    expect(tester.takeException(), isNull);
+    final layoutException = tester.takeException();
+    if (layoutException != null) {
+      debugPrint(layoutException.toString());
+      debugDumpRenderTree();
+    }
+    expect(layoutException, isNull);
   });
 
   testWidgets('Home calendar icon opens the separate prayer calendar screen', (tester) async {
