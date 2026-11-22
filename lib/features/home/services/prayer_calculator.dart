@@ -30,7 +30,12 @@ class DailyPrayerTimes {
     final components = DateComponents(date.year, date.month, date.day);
     final params = _parameters(method);
     params.madhab = hanafi ? Madhab.hanafi : Madhab.shafi;
-    final times = PrayerTimes(coordinates, components, params);
+    final times = PrayerTimes(
+      coordinates,
+      components,
+      params,
+      utcOffset: const Duration(hours: 6),
+    );
     return DailyPrayerTimes(
       fajr: times.fajr,
       sunrise: times.sunrise,
