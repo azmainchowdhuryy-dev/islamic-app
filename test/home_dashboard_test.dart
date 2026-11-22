@@ -56,7 +56,7 @@ void main() {
         .map((item) => HomeCity.fromJson(item as Map<String, dynamic>))
         .toList();
 
-    expect(cities.length, greaterThanOrEqualTo(20));
+    expect(cities, hasLength(64));
     expect(cities.map((city) => city.id).toSet().length, cities.length);
     expect(cities.any((city) => city.id == 'dhaka'), isTrue);
     for (final city in cities) {
