@@ -334,6 +334,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 : savedPrayerKeys;
             final prayerDone = prayerDoneKeys.length;
             final prayerPercent = (prayerDone / 5 * 100).round();
+            final isNarrowHome = MediaQuery.of(context).size.width < 360;
+            final languageToggle = Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: const Color(0x55FFFFFF),
+                borderRadius: BorderRadius.circular(22),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _LanguageChoice(
+                    label: 'বাংলা',
+                    selected: lang == 'bn',
+                    onTap: () => ref.read(settingsProvider.notifier).setLang('bn'),
+                  ),
+                  _LanguageChoice(
+                    label: 'EN',
+                    selected: lang == 'en',
+                    onTap: () => ref.read(settingsProvider.notifier).setLang('en'),
+                  ),
+                ],
+              ),
+            );
 
             return SafeArea(
               top: false,
@@ -407,31 +430,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                color: const Color(0x55FFFFFF),
-                                borderRadius: BorderRadius.circular(22),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  _LanguageChoice(
-                                    label: 'বাংলা',
-                                    selected: lang == 'bn',
-                                    onTap: () => ref.read(settingsProvider.notifier).setLang('bn'),
-                                  ),
-                                  _LanguageChoice(
-                                    label: 'EN',
-                                    selected: lang == 'en',
-                                    onTap: () => ref.read(settingsProvider.notifier).setLang('en'),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            if (!isNarrowHome) ...[
+                              const SizedBox(width: 8),
+                              languageToggle,
+                            ],
                           ],
                         ),
+                        if (isNarrowHome)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: languageToggle,
+                            ),
+                          ),
                         SizedBox(
                           key: const Key('next_prayer_arc'),
                           height: 122,
