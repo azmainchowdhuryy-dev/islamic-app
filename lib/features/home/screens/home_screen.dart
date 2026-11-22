@@ -1376,8 +1376,6 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 class _HomeCircleFeature extends StatelessWidget {
   final String title;
   final IconData icon;
-  final String? detail;
-  final double? progress;
   final double titleFontSize;
   final int titleMaxLines;
   final VoidCallback onTap;
@@ -1386,8 +1384,6 @@ class _HomeCircleFeature extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
-    this.detail,
-    this.progress,
     this.titleFontSize = 11.2,
     this.titleMaxLines = 1,
   });
@@ -1412,41 +1408,19 @@ class _HomeCircleFeature extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (progress != null)
-                    SizedBox(
-                      width: 53,
-                      height: 53,
-                      child: CircularProgressIndicator(
-                        value: progress,
-                        strokeWidth: 4,
-                        backgroundColor: AppColors.subtleBorder,
-                        valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primaryAccent),
-                      ),
-                    )
-                  else
-                    Container(
-                      width: 66,
-                      height: 66,
-                      decoration: BoxDecoration(
-                        color: AppColors.activeSurface,
-                        shape: BoxShape.circle,
-                      ),
+                  Container(
+                    width: 53,
+                    height: 53,
+                    decoration: const BoxDecoration(
+                      color: AppColors.activeSurface,
+                      shape: BoxShape.circle,
                     ),
-                  if (detail != null)
-                    Text(
-                      detail!,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 15,
-                      ),
-                    )
-                  else
-                    Icon(
-                      icon,
-                      color: AppColors.primaryText,
-                      size: 24,
-                    ),
+                  ),
+                  Icon(
+                    icon,
+                    color: AppColors.primaryText,
+                    size: 24,
+                  ),
                 ],
               ),
             ),
