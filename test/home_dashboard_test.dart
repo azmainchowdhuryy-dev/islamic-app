@@ -113,14 +113,14 @@ void main() {
 
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
-      'ইংরেজি: ২২ নভেম্বর ২০২৬',
+      '২২ নভেম্বর ২০২৬',
     );
 
     final date = DateTime(2026, 11, 22);
     final bangla = BanglaDate.fromDateTime(date);
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      'বাংলা: ${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
+      '${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
     );
 
     final hijri = HijriDateTime.fromGregorian(date);
@@ -130,28 +130,28 @@ void main() {
     ];
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'হিজরি: রবি, ${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')}',
+      'রবি, ${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')}',
     );
     await tester.tap(find.text('EN'));
     await tester.pump();
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'Hijri: Sun, ${hijri.day} ${[
+      'Sun, ${hijri.day} ${[
         'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
         'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
         'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah',
-      ][hijri.month - 1]} ${hijri.year} AH',
+      ][hijri.month - 1]} ${hijri.year}',
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
-      'Gregorian: 22 November 2026',
+      '22 November 2026',
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      'Bangla: ${bangla.dayInt} ${[
+      '${bangla.dayInt} ${[
         'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
         'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro',
-      ][bangla.monthInt - 1]} ${bangla.yearInt} BS',
+      ][bangla.monthInt - 1]} ${bangla.yearInt}',
     );
 
   });
@@ -219,6 +219,20 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 350));
     expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
+  });
+
+  testWidgets('Home middle calendar button opens the same prayer calendar screen', (tester) async {
+    await _pumpMainShell(tester);
+
+    await tester.tap(find.byKey(const Key('home_middle_calendar_button')));
+    for (var i = 0;
+        i < 30 && find.byKey(const Key('prayer_calendar_scroll_view')).evaluate().isEmpty;
+        i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+
+    expect(find.byKey(const Key('prayer_calendar_scroll_view')), findsOneWidget);
+    expect(find.text('সালাতের সময়'), findsOneWidget);
   });
 
   testWidgets('Home prayer countdown text sits inside the upper arch and panels are compact', (tester) async {
