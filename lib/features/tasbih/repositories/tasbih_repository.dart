@@ -48,7 +48,7 @@ class TasbihPrefsStore {
   }
 
   bool get vibration => _p.getBool('tasbih_vibration') ?? true;
-  bool get sound => _p.getBool('tasbih_sound') ?? false;
+  bool get sound => _p.getBool('tasbih_sound') ?? true;
 
   Future<void> setActiveKey(String v) => _p.setString('tasbih_active', v);
   Future<void> setVibration(bool v) => _p.setBool('tasbih_vibration', v);

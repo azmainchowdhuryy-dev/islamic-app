@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/theme/app_theme.dart';
@@ -20,11 +19,7 @@ class IslamicApp extends ConsumerWidget {
       themeMode: s.themeMode,
       locale: Locale(s.lang),
       supportedLocales: const [Locale('bn'), Locale('en')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       builder: (context, child) => MediaQuery(
         data: MediaQuery.of(context)
             .copyWith(textScaler: TextScaler.linear(s.fontScale)),

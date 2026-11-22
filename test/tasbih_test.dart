@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/localization/app_strings.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/tasbih/models/tasbih_state.dart';
+import 'package:islamic_app/features/tasbih/models/tasbih_preset.dart';
 import 'package:islamic_app/features/tasbih/providers/tasbih_provider.dart';
 import 'package:islamic_app/features/tasbih/repositories/tasbih_repository.dart';
 import 'package:islamic_app/features/tasbih/screens/tasbih_screen.dart';
@@ -22,6 +25,32 @@ class FakeCounterStore implements TasbihCounterStore {
   }
 }
 
+class DelayedCounterStore extends FakeCounterStore {
+  final Completer<Map<String, TasbihCounter>> loadCompleter =
+      Completer<Map<String, TasbihCounter>>();
+
+  @override
+  Future<Map<String, TasbihCounter>> loadCounters() => loadCompleter.future;
+}
+
+class DelayedFirstSaveStore extends FakeCounterStore {
+  final Completer<void> firstWriteGate = Completer<void>();
+  final Completer<void> bothWritesCompleted = Completer<void>();
+  final List<int> persistedSessions = [];
+  int saveCalls = 0;
+
+  @override
+  Future<void> saveCounter(TasbihCounter counter) async {
+    saveCalls++;
+    if (saveCalls == 1) await firstWriteGate.future;
+    persistedSessions.add(counter.session);
+    data[counter.key] = counter;
+    if (persistedSessions.length == 2 && !bothWritesCompleted.isCompleted) {
+      bothWritesCompleted.complete();
+    }
+  }
+}
+
 ProviderContainer makeContainer(FakeCounterStore store, SharedPreferences prefs) {
   final c = ProviderContainer(overrides: [
     sharedPrefsProvider.overrideWithValue(prefs),
@@ -32,6 +61,21 @@ ProviderContainer makeContainer(FakeCounterStore store, SharedPreferences prefs)
 }
 
 void main() {
+  test('Tasbih catalogue contains all nine requested presets in order', () {
+    expect(tasbihPresets.map((preset) => preset.key).toList(), dhikrKeys);
+    expect(tasbihPresets, hasLength(9));
+    expect(tasbihPresets.first.titleBn, 'সাধারণ');
+    expect(tasbihPresets.first.target, 100);
+    expect(tasbihPresets[1].titleBn, 'সুবহানাল্লাহ');
+    expect(tasbihPresets[1].arabic, 'سُبْحَانَ اللَّهِ');
+    expect(tasbihPresets[1].target, 33);
+    expect(tasbihPresets[5].key, 'istighfar');
+    expect(tasbihPresets.last.key, 'durood');
+    expect(tasbihPresets.last.target, 100);
+    expect(tasbihPresets.every((preset) => !preset.requiresPremium), isTrue);
+  });
+
+
   late FakeCounterStore store;
   late SharedPreferences prefs;
 
@@ -42,6 +86,53 @@ void main() {
   });
 
   group('counter logic', () {
+    test('saved counters load before interactions are accepted', () async {
+      final delayedStore = DelayedCounterStore();
+      final container = makeContainer(delayedStore, prefs);
+      final notifier = container.read(tasbihProvider.notifier);
+
+      expect(container.read(tasbihProvider).isLoading, isTrue);
+      expect(notifier.increment(), isFalse);
+      expect(container.read(tasbihProvider).active.session, 0);
+
+      delayedStore.loadCompleter.complete({
+        'general': const TasbihCounter(
+          key: 'general',
+          session: 9,
+          total: 22,
+          target: 100,
+        ),
+      });
+      await notifier.ready;
+
+      final restored = container.read(tasbihProvider);
+      expect(restored.isLoading, isFalse);
+      expect(restored.active.session, 9);
+      expect(restored.active.total, 22);
+
+      notifier.increment();
+      expect(container.read(tasbihProvider).active.session, 10);
+      expect(container.read(tasbihProvider).active.total, 23);
+    });
+
+    test('rapid increments persist in order without stale overwrite', () async {
+      final delayedStore = DelayedFirstSaveStore();
+      final container = makeContainer(delayedStore, prefs);
+      final notifier = container.read(tasbihProvider.notifier);
+      await notifier.ready;
+
+      notifier.increment();
+      notifier.increment();
+      await Future<void>.delayed(Duration.zero);
+      expect(delayedStore.saveCalls, 1);
+
+      delayedStore.firstWriteGate.complete();
+      await delayedStore.bothWritesCompleted.future;
+
+      expect(delayedStore.persistedSessions, [1, 2]);
+      expect(delayedStore.data['general']?.session, 2);
+    });
+
     test('increment raises session and lifetime total by one', () async {
       final c = makeContainer(store, prefs);
       final n = c.read(tasbihProvider.notifier);
@@ -82,12 +173,12 @@ void main() {
       n.increment();
 
       final st = c.read(tasbihProvider);
-      expect(st.counters['durood']!.session, 2);
+      expect(st.counters['general']!.session, 2);
       expect(st.counters['istighfar']!.session, 1);
 
       n.resetSession(); // শুধু ইস্তিগফার রিসেট হবে
       expect(c.read(tasbihProvider).counters['istighfar']!.session, 0);
-      expect(c.read(tasbihProvider).counters['durood']!.session, 2);
+      expect(c.read(tasbihProvider).counters['general']!.session, 2);
     });
 
     test('target completion is reported exactly once', () async {
@@ -122,7 +213,7 @@ void main() {
       final n = first.read(tasbihProvider.notifier);
       await n.ready;
 
-      n.setTarget(500); // durood
+      n.setTarget(500); // general
       for (var i = 0; i < 5; i++) {
         n.increment();
       }
@@ -132,6 +223,7 @@ void main() {
       n.increment();
       n.setVibration(false);
       n.setSound(true);
+      await n.flushPendingWrites();
 
       // অ্যাপ বন্ধ করে আবার খোলা: নতুন container, একই সংরক্ষিত ডেটা
       final second = makeContainer(store, prefs);
@@ -141,21 +233,21 @@ void main() {
       expect(st.activeKey, 'istighfar');
       expect(st.vibration, isFalse);
       expect(st.sound, isTrue);
-      expect(st.counters['durood']!.session, 5);
-      expect(st.counters['durood']!.total, 5);
-      expect(st.counters['durood']!.target, 500);
+      expect(st.counters['general']!.session, 5);
+      expect(st.counters['general']!.total, 5);
+      expect(st.counters['general']!.target, 500);
       expect(st.counters['istighfar']!.session, 2);
       expect(st.counters['istighfar']!.target, 1000);
     });
 
-    test('defaults: durood selected, vibration on, sound off, target 33', () async {
+    test('defaults: General selected, vibration on, sound on, target 100', () async {
       final c = makeContainer(store, prefs);
       await c.read(tasbihProvider.notifier).ready;
       final st = c.read(tasbihProvider);
-      expect(st.activeKey, 'durood');
+      expect(st.activeKey, 'general');
       expect(st.vibration, isTrue);
-      expect(st.sound, isFalse);
-      expect(st.active.target, 33);
+      expect(st.sound, isTrue);
+      expect(st.active.target, 100);
     });
 
     test('lifetime total stays after reset and reopen', () async {
@@ -166,6 +258,7 @@ void main() {
         n.increment();
       }
       n.resetSession();
+      await n.flushPendingWrites();
 
       final second = makeContainer(store, prefs);
       await second.read(tasbihProvider.notifier).ready;
@@ -206,6 +299,11 @@ void main() {
         child: const MaterialApp(home: TasbihScreen()),
       ));
       await tester.pump();
+      for (var i = 0;
+          i < 5 && find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+          i++) {
+        await tester.pump(const Duration(milliseconds: 20));
+      }
     }
 
     String textOf(WidgetTester tester, String key) =>
@@ -222,6 +320,34 @@ void main() {
 
       expect(textOf(tester, 'session_count'), '২');
       expect(textOf(tester, 'total_count'), '২');
+    });
+
+    testWidgets('preset bottom sheet selects a Tasbih and its target', (tester) async {
+      await pumpScreen(tester);
+
+      expect(find.text('সাধারণ'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('select_tasbih_button')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('তাসবীহ নির্বাচন করুন'), findsOneWidget);
+      expect(find.text('سُبْحَانَ اللَّهِ'), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('tasbih_option_subhanallah')));
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<Text>(find.byKey(const Key('active_tasbih_title'))).data,
+        'সুবহানাল্লাহ',
+      );
+      expect(
+        tester.widget<Text>(find.byKey(const Key('session_of_target'))).data,
+        '/ ৩৩',
+      );
+      expect(prefs.getString('tasbih_active'), 'subhanallah');
+
+      await tester.tap(find.byKey(const Key('tap_button')));
+      await tester.pump();
+      expect(textOf(tester, 'session_count'), '১');
     });
 
     testWidgets('reset asks for confirmation and keeps lifetime total', (tester) async {

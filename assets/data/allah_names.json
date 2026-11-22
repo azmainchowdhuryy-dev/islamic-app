@@ -1,1 +1,794 @@
-[]
+[
+  {
+    "id": "allah-name-1",
+    "order": 1,
+    "arabic": "اللَّهُ",
+    "transliteration": "Allah",
+    "bangla": "আল্লাহ",
+    "english": "Allah"
+  },
+  {
+    "id": "allah-name-2",
+    "order": 2,
+    "arabic": "الرَّحْمَٰنُ",
+    "transliteration": "Ar-Rahman",
+    "bangla": "পরম করুণাময়",
+    "english": "The Most Compassionate"
+  },
+  {
+    "id": "allah-name-3",
+    "order": 3,
+    "arabic": "الرَّحِيمُ",
+    "transliteration": "Ar-Raheem",
+    "bangla": "অতি দয়ালু",
+    "english": "The Most Merciful"
+  },
+  {
+    "id": "allah-name-4",
+    "order": 4,
+    "arabic": "الْمَلِكُ",
+    "transliteration": "Al-Malik",
+    "bangla": "সর্বময় অধিপতি",
+    "english": "The King"
+  },
+  {
+    "id": "allah-name-5",
+    "order": 5,
+    "arabic": "الْقُدُّوسُ",
+    "transliteration": "Al-Quddus",
+    "bangla": "পবিত্রতম",
+    "english": "The Most Holy"
+  },
+  {
+    "id": "allah-name-6",
+    "order": 6,
+    "arabic": "السَّلَامُ",
+    "transliteration": "As-Salam",
+    "bangla": "শান্তি ও নিরাপত্তার উৎস",
+    "english": "The Source of Peace"
+  },
+  {
+    "id": "allah-name-7",
+    "order": 7,
+    "arabic": "الْمُؤْمِنُ",
+    "transliteration": "Al-Mumin",
+    "bangla": "নিরাপত্তা দানকারী",
+    "english": "The Giver of Security"
+  },
+  {
+    "id": "allah-name-8",
+    "order": 8,
+    "arabic": "الْمُهَيْمِنُ",
+    "transliteration": "Al-Muhaymin",
+    "bangla": "সর্বতত্ত্বাবধায়ক",
+    "english": "The Guardian"
+  },
+  {
+    "id": "allah-name-9",
+    "order": 9,
+    "arabic": "الْعَزِيزُ",
+    "transliteration": "Al-Aziz",
+    "bangla": "মহাপরাক্রমশালী",
+    "english": "The Almighty"
+  },
+  {
+    "id": "allah-name-10",
+    "order": 10,
+    "arabic": "الْجَبَّارُ",
+    "transliteration": "Al-Jabbar",
+    "bangla": "মহাপ্রতাপশালী",
+    "english": "The Compeller"
+  },
+  {
+    "id": "allah-name-11",
+    "order": 11,
+    "arabic": "الْمُتَكَبِّرُ",
+    "transliteration": "Al-Mutakabbir",
+    "bangla": "সুমহান",
+    "english": "The Supreme"
+  },
+  {
+    "id": "allah-name-12",
+    "order": 12,
+    "arabic": "الْخَالِقُ",
+    "transliteration": "Al-Khaliq",
+    "bangla": "সৃষ্টিকর্তা",
+    "english": "The Creator"
+  },
+  {
+    "id": "allah-name-13",
+    "order": 13,
+    "arabic": "الْبَارِئُ",
+    "transliteration": "Al-Bari",
+    "bangla": "উদ্ভাবনকারী",
+    "english": "The Originator"
+  },
+  {
+    "id": "allah-name-14",
+    "order": 14,
+    "arabic": "الْمُصَوِّرُ",
+    "transliteration": "Al-Musawwir",
+    "bangla": "আকৃতি দানকারী",
+    "english": "The Fashioner"
+  },
+  {
+    "id": "allah-name-15",
+    "order": 15,
+    "arabic": "الْغَفَّارُ",
+    "transliteration": "Al-Ghaffar",
+    "bangla": "বারবার ক্ষমাকারী",
+    "english": "The All-Forgiving"
+  },
+  {
+    "id": "allah-name-16",
+    "order": 16,
+    "arabic": "الْقَهَّارُ",
+    "transliteration": "Al-Qahhar",
+    "bangla": "প্রবল পরাক্রমশালী",
+    "english": "The Subduer"
+  },
+  {
+    "id": "allah-name-17",
+    "order": 17,
+    "arabic": "الْوَهَّابُ",
+    "transliteration": "Al-Wahhab",
+    "bangla": "মহাদাতা",
+    "english": "The Bestower"
+  },
+  {
+    "id": "allah-name-18",
+    "order": 18,
+    "arabic": "الرَّزَّاقُ",
+    "transliteration": "Ar-Razzaq",
+    "bangla": "রিজিকদাতা",
+    "english": "The Provider"
+  },
+  {
+    "id": "allah-name-19",
+    "order": 19,
+    "arabic": "الْفَتَّاحُ",
+    "transliteration": "Al-Fattah",
+    "bangla": "উন্মুক্তকারী ও ফয়সালাকারী",
+    "english": "The Opener"
+  },
+  {
+    "id": "allah-name-20",
+    "order": 20,
+    "arabic": "الْعَلِيمُ",
+    "transliteration": "Al-Alim",
+    "bangla": "সর্বজ্ঞ",
+    "english": "The All-Knowing"
+  },
+  {
+    "id": "allah-name-21",
+    "order": 21,
+    "arabic": "الْقَابِضُ",
+    "transliteration": "Al-Qabid",
+    "bangla": "সংকুচিতকারী",
+    "english": "The Withholder"
+  },
+  {
+    "id": "allah-name-22",
+    "order": 22,
+    "arabic": "الْبَاسِطُ",
+    "transliteration": "Al-Basit",
+    "bangla": "প্রশস্তকারী",
+    "english": "The Expander"
+  },
+  {
+    "id": "allah-name-23",
+    "order": 23,
+    "arabic": "الْخَافِضُ",
+    "transliteration": "Al-Khafid",
+    "bangla": "অবনতকারী",
+    "english": "The Abaser"
+  },
+  {
+    "id": "allah-name-24",
+    "order": 24,
+    "arabic": "الرَّافِعُ",
+    "transliteration": "Ar-Rafi",
+    "bangla": "উন্নতকারী",
+    "english": "The Exalter"
+  },
+  {
+    "id": "allah-name-25",
+    "order": 25,
+    "arabic": "الْمُعِزُّ",
+    "transliteration": "Al-Muizz",
+    "bangla": "সম্মানদাতা",
+    "english": "The Honorer"
+  },
+  {
+    "id": "allah-name-26",
+    "order": 26,
+    "arabic": "الْمُذِلُّ",
+    "transliteration": "Al-Mudhill",
+    "bangla": "অপমানিতকারী",
+    "english": "The Humiliator"
+  },
+  {
+    "id": "allah-name-27",
+    "order": 27,
+    "arabic": "السَّمِيعُ",
+    "transliteration": "As-Sami",
+    "bangla": "সর্বশ্রোতা",
+    "english": "The All-Hearing"
+  },
+  {
+    "id": "allah-name-28",
+    "order": 28,
+    "arabic": "الْبَصِيرُ",
+    "transliteration": "Al-Basir",
+    "bangla": "সর্বদ্রষ্টা",
+    "english": "The All-Seeing"
+  },
+  {
+    "id": "allah-name-29",
+    "order": 29,
+    "arabic": "الْحَكَمُ",
+    "transliteration": "Al-Hakam",
+    "bangla": "বিচারক",
+    "english": "The Judge"
+  },
+  {
+    "id": "allah-name-30",
+    "order": 30,
+    "arabic": "الْعَدْلُ",
+    "transliteration": "Al-Adl",
+    "bangla": "পরিপূর্ণ ন্যায়বিচারক",
+    "english": "The Just"
+  },
+  {
+    "id": "allah-name-31",
+    "order": 31,
+    "arabic": "اللَّطِيفُ",
+    "transliteration": "Al-Latif",
+    "bangla": "সূক্ষ্মদর্শী ও অনুগ্রহশীল",
+    "english": "The Subtle"
+  },
+  {
+    "id": "allah-name-32",
+    "order": 32,
+    "arabic": "الْخَبِيرُ",
+    "transliteration": "Al-Khabir",
+    "bangla": "সর্ববিষয়ে অবহিত",
+    "english": "The All-Aware"
+  },
+  {
+    "id": "allah-name-33",
+    "order": 33,
+    "arabic": "الْحَلِيمُ",
+    "transliteration": "Al-Halim",
+    "bangla": "পরম সহনশীল",
+    "english": "The Forbearing"
+  },
+  {
+    "id": "allah-name-34",
+    "order": 34,
+    "arabic": "الْعَظِيمُ",
+    "transliteration": "Al-Azim",
+    "bangla": "মহামহিমান্বিত",
+    "english": "The Magnificent"
+  },
+  {
+    "id": "allah-name-35",
+    "order": 35,
+    "arabic": "الْغَفُورُ",
+    "transliteration": "Al-Ghafur",
+    "bangla": "পরম ক্ষমাশীল",
+    "english": "The Forgiving"
+  },
+  {
+    "id": "allah-name-36",
+    "order": 36,
+    "arabic": "الشَّكُورُ",
+    "transliteration": "Ash-Shakur",
+    "bangla": "গুণগ্রাহী",
+    "english": "The Appreciative"
+  },
+  {
+    "id": "allah-name-37",
+    "order": 37,
+    "arabic": "الْعَلِيُّ",
+    "transliteration": "Al-Ali",
+    "bangla": "সুউচ্চ",
+    "english": "The Most High"
+  },
+  {
+    "id": "allah-name-38",
+    "order": 38,
+    "arabic": "الْكَبِيرُ",
+    "transliteration": "Al-Kabir",
+    "bangla": "সুমহান",
+    "english": "The Most Great"
+  },
+  {
+    "id": "allah-name-39",
+    "order": 39,
+    "arabic": "الْحَفِيظُ",
+    "transliteration": "Al-Hafiz",
+    "bangla": "সংরক্ষণকারী",
+    "english": "The Preserver"
+  },
+  {
+    "id": "allah-name-40",
+    "order": 40,
+    "arabic": "الْمُقِيتُ",
+    "transliteration": "Al-Muqit",
+    "bangla": "জীবনোপকরণ দানকারী",
+    "english": "The Sustainer"
+  },
+  {
+    "id": "allah-name-41",
+    "order": 41,
+    "arabic": "الْحَسِيبُ",
+    "transliteration": "Al-Hasib",
+    "bangla": "হিসাব গ্রহণকারী",
+    "english": "The Reckoner"
+  },
+  {
+    "id": "allah-name-42",
+    "order": 42,
+    "arabic": "الْجَلِيلُ",
+    "transliteration": "Al-Jalil",
+    "bangla": "মহিমান্বিত",
+    "english": "The Majestic"
+  },
+  {
+    "id": "allah-name-43",
+    "order": 43,
+    "arabic": "الْكَرِيمُ",
+    "transliteration": "Al-Karim",
+    "bangla": "মহানুভব",
+    "english": "The Generous"
+  },
+  {
+    "id": "allah-name-44",
+    "order": 44,
+    "arabic": "الرَّقِيبُ",
+    "transliteration": "Ar-Raqib",
+    "bangla": "সর্বক্ষণ পর্যবেক্ষক",
+    "english": "The Watchful"
+  },
+  {
+    "id": "allah-name-45",
+    "order": 45,
+    "arabic": "الْمُجِيبُ",
+    "transliteration": "Al-Mujib",
+    "bangla": "দোয়া কবুলকারী",
+    "english": "The Responsive"
+  },
+  {
+    "id": "allah-name-46",
+    "order": 46,
+    "arabic": "الْوَاسِعُ",
+    "transliteration": "Al-Wasi",
+    "bangla": "অসীম প্রাচুর্যের অধিকারী",
+    "english": "The All-Encompassing"
+  },
+  {
+    "id": "allah-name-47",
+    "order": 47,
+    "arabic": "الْحَكِيمُ",
+    "transliteration": "Al-Hakim",
+    "bangla": "প্রজ্ঞাময়",
+    "english": "The All-Wise"
+  },
+  {
+    "id": "allah-name-48",
+    "order": 48,
+    "arabic": "الْوَدُودُ",
+    "transliteration": "Al-Wadud",
+    "bangla": "পরম স্নেহশীল",
+    "english": "The Most Loving"
+  },
+  {
+    "id": "allah-name-49",
+    "order": 49,
+    "arabic": "الْمَجِيدُ",
+    "transliteration": "Al-Majid",
+    "bangla": "মহাগৌরবময়",
+    "english": "The Glorious"
+  },
+  {
+    "id": "allah-name-50",
+    "order": 50,
+    "arabic": "الْبَاعِثُ",
+    "transliteration": "Al-Baith",
+    "bangla": "পুনরুত্থানকারী",
+    "english": "The Resurrector"
+  },
+  {
+    "id": "allah-name-51",
+    "order": 51,
+    "arabic": "الشَّهِيدُ",
+    "transliteration": "Ash-Shahid",
+    "bangla": "সর্বসাক্ষী",
+    "english": "The Witness"
+  },
+  {
+    "id": "allah-name-52",
+    "order": 52,
+    "arabic": "الْحَقُّ",
+    "transliteration": "Al-Haqq",
+    "bangla": "চিরসত্য",
+    "english": "The Truth"
+  },
+  {
+    "id": "allah-name-53",
+    "order": 53,
+    "arabic": "الْوَكِيلُ",
+    "transliteration": "Al-Wakil",
+    "bangla": "পরম নির্ভরযোগ্য কর্মবিধায়ক",
+    "english": "The Trustee"
+  },
+  {
+    "id": "allah-name-54",
+    "order": 54,
+    "arabic": "الْقَوِيُّ",
+    "transliteration": "Al-Qawiyy",
+    "bangla": "পরম শক্তিধর",
+    "english": "The All-Strong"
+  },
+  {
+    "id": "allah-name-55",
+    "order": 55,
+    "arabic": "الْمَتِينُ",
+    "transliteration": "Al-Matin",
+    "bangla": "সুদৃঢ়",
+    "english": "The Firm"
+  },
+  {
+    "id": "allah-name-56",
+    "order": 56,
+    "arabic": "الْوَلِيُّ",
+    "transliteration": "Al-Waliyy",
+    "bangla": "অভিভাবক ও সাহায্যকারী",
+    "english": "The Protecting Friend"
+  },
+  {
+    "id": "allah-name-57",
+    "order": 57,
+    "arabic": "الْحَمِيدُ",
+    "transliteration": "Al-Hamid",
+    "bangla": "সকল প্রশংসার অধিকারী",
+    "english": "The Praiseworthy"
+  },
+  {
+    "id": "allah-name-58",
+    "order": 58,
+    "arabic": "الْمُحْصِي",
+    "transliteration": "Al-Muhsi",
+    "bangla": "সবকিছুর হিসাব সংরক্ষণকারী",
+    "english": "The Accounter"
+  },
+  {
+    "id": "allah-name-59",
+    "order": 59,
+    "arabic": "الْمُبْدِئُ",
+    "transliteration": "Al-Mubdi",
+    "bangla": "প্রথমবার সৃষ্টিকারী",
+    "english": "The Originator"
+  },
+  {
+    "id": "allah-name-60",
+    "order": 60,
+    "arabic": "الْمُعِيدُ",
+    "transliteration": "Al-Muid",
+    "bangla": "পুনরায় সৃষ্টিকারী",
+    "english": "The Restorer"
+  },
+  {
+    "id": "allah-name-61",
+    "order": 61,
+    "arabic": "الْمُحْيِي",
+    "transliteration": "Al-Muhyi",
+    "bangla": "জীবনদানকারী",
+    "english": "The Giver of Life"
+  },
+  {
+    "id": "allah-name-62",
+    "order": 62,
+    "arabic": "الْمُمِيتُ",
+    "transliteration": "Al-Mumit",
+    "bangla": "মৃত্যুদানকারী",
+    "english": "The Bringer of Death"
+  },
+  {
+    "id": "allah-name-63",
+    "order": 63,
+    "arabic": "الْحَيُّ",
+    "transliteration": "Al-Hayy",
+    "bangla": "চিরঞ্জীব",
+    "english": "The Ever-Living"
+  },
+  {
+    "id": "allah-name-64",
+    "order": 64,
+    "arabic": "الْقَيُّومُ",
+    "transliteration": "Al-Qayyum",
+    "bangla": "সর্বসত্তার ধারক",
+    "english": "The Self-Subsisting"
+  },
+  {
+    "id": "allah-name-65",
+    "order": 65,
+    "arabic": "الْوَاجِدُ",
+    "transliteration": "Al-Wajid",
+    "bangla": "অভাবমুক্ত",
+    "english": "The Finder"
+  },
+  {
+    "id": "allah-name-66",
+    "order": 66,
+    "arabic": "الْمَاجِدُ",
+    "transliteration": "Al-Majid",
+    "bangla": "মহামর্যাদাশীল",
+    "english": "The Noble"
+  },
+  {
+    "id": "allah-name-67",
+    "order": 67,
+    "arabic": "الْوَاحِدُ",
+    "transliteration": "Al-Wahid",
+    "bangla": "এক ও অদ্বিতীয়",
+    "english": "The One"
+  },
+  {
+    "id": "allah-name-68",
+    "order": 68,
+    "arabic": "الصَّمَدُ",
+    "transliteration": "As-Samad",
+    "bangla": "অমুখাপেক্ষী",
+    "english": "The Eternal Refuge"
+  },
+  {
+    "id": "allah-name-69",
+    "order": 69,
+    "arabic": "الْقَادِرُ",
+    "transliteration": "Al-Qadir",
+    "bangla": "সর্বক্ষমতাবান",
+    "english": "The All-Powerful"
+  },
+  {
+    "id": "allah-name-70",
+    "order": 70,
+    "arabic": "الْمُقْتَدِرُ",
+    "transliteration": "Al-Muqtadir",
+    "bangla": "পূর্ণ ক্ষমতার অধিকারী",
+    "english": "The Omnipotent"
+  },
+  {
+    "id": "allah-name-71",
+    "order": 71,
+    "arabic": "الْمُقَدِّمُ",
+    "transliteration": "Al-Muqaddim",
+    "bangla": "অগ্রসরকারী",
+    "english": "The Expediter"
+  },
+  {
+    "id": "allah-name-72",
+    "order": 72,
+    "arabic": "الْمُؤَخِّرُ",
+    "transliteration": "Al-Muakhkhir",
+    "bangla": "পিছিয়ে দানকারী",
+    "english": "The Delayer"
+  },
+  {
+    "id": "allah-name-73",
+    "order": 73,
+    "arabic": "الْأَوَّلُ",
+    "transliteration": "Al-Awwal",
+    "bangla": "অনাদি",
+    "english": "The First"
+  },
+  {
+    "id": "allah-name-74",
+    "order": 74,
+    "arabic": "الْآخِرُ",
+    "transliteration": "Al-Akhir",
+    "bangla": "অনন্ত",
+    "english": "The Last"
+  },
+  {
+    "id": "allah-name-75",
+    "order": 75,
+    "arabic": "الظَّاهِرُ",
+    "transliteration": "Az-Zahir",
+    "bangla": "প্রকাশ্য",
+    "english": "The Manifest"
+  },
+  {
+    "id": "allah-name-76",
+    "order": 76,
+    "arabic": "الْبَاطِنُ",
+    "transliteration": "Al-Batin",
+    "bangla": "অপ্রকাশ্য",
+    "english": "The Hidden"
+  },
+  {
+    "id": "allah-name-77",
+    "order": 77,
+    "arabic": "الْوَالِي",
+    "transliteration": "Al-Wali",
+    "bangla": "সর্বময় কর্তৃত্বশীল",
+    "english": "The Governor"
+  },
+  {
+    "id": "allah-name-78",
+    "order": 78,
+    "arabic": "الْمُتَعَالِي",
+    "transliteration": "Al-Mutaali",
+    "bangla": "সবার ঊর্ধ্বে",
+    "english": "The Most Exalted"
+  },
+  {
+    "id": "allah-name-79",
+    "order": 79,
+    "arabic": "الْبَرُّ",
+    "transliteration": "Al-Barr",
+    "bangla": "পরম কল্যাণকারী",
+    "english": "The Source of Goodness"
+  },
+  {
+    "id": "allah-name-80",
+    "order": 80,
+    "arabic": "التَّوَّابُ",
+    "transliteration": "At-Tawwab",
+    "bangla": "তওবা কবুলকারী",
+    "english": "The Accepter of Repentance"
+  },
+  {
+    "id": "allah-name-81",
+    "order": 81,
+    "arabic": "الْمُنْتَقِمُ",
+    "transliteration": "Al-Muntaqim",
+    "bangla": "ন্যায়সঙ্গত প্রতিফলদাতা",
+    "english": "The Avenger"
+  },
+  {
+    "id": "allah-name-82",
+    "order": 82,
+    "arabic": "الْعَفُوُّ",
+    "transliteration": "Al-Afuww",
+    "bangla": "পাপ মোচনকারী",
+    "english": "The Pardoner"
+  },
+  {
+    "id": "allah-name-83",
+    "order": 83,
+    "arabic": "الرَّؤُوفُ",
+    "transliteration": "Ar-Rauf",
+    "bangla": "পরম স্নেহশীল",
+    "english": "The Most Kind"
+  },
+  {
+    "id": "allah-name-84",
+    "order": 84,
+    "arabic": "مَالِكُ الْمُلْكِ",
+    "transliteration": "Malik-ul-Mulk",
+    "bangla": "সমগ্র রাজত্বের মালিক",
+    "english": "Owner of Sovereignty"
+  },
+  {
+    "id": "allah-name-85",
+    "order": 85,
+    "arabic": "ذُو الْجَلَالِ وَالْإِكْرَامِ",
+    "transliteration": "Dhul-Jalali wal-Ikram",
+    "bangla": "মহিমা ও সম্মানের অধিকারী",
+    "english": "Lord of Majesty and Honor"
+  },
+  {
+    "id": "allah-name-86",
+    "order": 86,
+    "arabic": "الْمُقْسِطُ",
+    "transliteration": "Al-Muqsit",
+    "bangla": "ন্যায় প্রতিষ্ঠাকারী",
+    "english": "The Equitable"
+  },
+  {
+    "id": "allah-name-87",
+    "order": 87,
+    "arabic": "الْجَامِعُ",
+    "transliteration": "Al-Jami",
+    "bangla": "একত্রকারী",
+    "english": "The Gatherer"
+  },
+  {
+    "id": "allah-name-88",
+    "order": 88,
+    "arabic": "الْغَنِيُّ",
+    "transliteration": "Al-Ghani",
+    "bangla": "অভাবমুক্ত ও অমুখাপেক্ষী",
+    "english": "The Self-Sufficient"
+  },
+  {
+    "id": "allah-name-89",
+    "order": 89,
+    "arabic": "الْمُغْنِي",
+    "transliteration": "Al-Mughni",
+    "bangla": "অভাবমোচনকারী",
+    "english": "The Enricher"
+  },
+  {
+    "id": "allah-name-90",
+    "order": 90,
+    "arabic": "الْمَانِعُ",
+    "transliteration": "Al-Mani",
+    "bangla": "নিবারণকারী",
+    "english": "The Preventer"
+  },
+  {
+    "id": "allah-name-91",
+    "order": 91,
+    "arabic": "الضَّارُّ",
+    "transliteration": "Ad-Darr",
+    "bangla": "ক্ষতি সংঘটনের ক্ষমতার অধিকারী",
+    "english": "The Distresser"
+  },
+  {
+    "id": "allah-name-92",
+    "order": 92,
+    "arabic": "النَّافِعُ",
+    "transliteration": "An-Nafi",
+    "bangla": "উপকারকারী",
+    "english": "The Benefactor"
+  },
+  {
+    "id": "allah-name-93",
+    "order": 93,
+    "arabic": "النُّورُ",
+    "transliteration": "An-Nur",
+    "bangla": "আলো",
+    "english": "The Light"
+  },
+  {
+    "id": "allah-name-94",
+    "order": 94,
+    "arabic": "الْهَادِي",
+    "transliteration": "Al-Hadi",
+    "bangla": "পথপ্রদর্শক",
+    "english": "The Guide"
+  },
+  {
+    "id": "allah-name-95",
+    "order": 95,
+    "arabic": "الْبَدِيعُ",
+    "transliteration": "Al-Badi",
+    "bangla": "অতুলনীয় স্রষ্টা",
+    "english": "The Incomparable Originator"
+  },
+  {
+    "id": "allah-name-96",
+    "order": 96,
+    "arabic": "الْبَاقِي",
+    "transliteration": "Al-Baqi",
+    "bangla": "চিরস্থায়ী",
+    "english": "The Everlasting"
+  },
+  {
+    "id": "allah-name-97",
+    "order": 97,
+    "arabic": "الْوَارِثُ",
+    "transliteration": "Al-Warith",
+    "bangla": "চূড়ান্ত উত্তরাধিকারী",
+    "english": "The Inheritor"
+  },
+  {
+    "id": "allah-name-98",
+    "order": 98,
+    "arabic": "الرَّشِيدُ",
+    "transliteration": "Ar-Rashid",
+    "bangla": "সঠিক পথপ্রদর্শক",
+    "english": "The Guide to the Right Path"
+  },
+  {
+    "id": "allah-name-99",
+    "order": 99,
+    "arabic": "الصَّبُورُ",
+    "transliteration": "As-Sabur",
+    "bangla": "অসীম ধৈর্যশীল",
+    "english": "The Patient"
+  }
+]

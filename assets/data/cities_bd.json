@@ -1,14 +1,450 @@
 [
-  {"id":"dhaka","name_bn":"ঢাকা","name_en":"Dhaka","lat":23.8103,"lng":90.4125},
-  {"id":"chattogram","name_bn":"চট্টগ্রাম","name_en":"Chattogram","lat":22.3569,"lng":91.7832},
-  {"id":"rajshahi","name_bn":"রাজশাহী","name_en":"Rajshahi","lat":24.3745,"lng":88.6042},
-  {"id":"khulna","name_bn":"খুলনা","name_en":"Khulna","lat":22.8456,"lng":89.5403},
-  {"id":"sylhet","name_bn":"সিলেট","name_en":"Sylhet","lat":24.8949,"lng":91.8687},
-  {"id":"barishal","name_bn":"বরিশাল","name_en":"Barishal","lat":22.7010,"lng":90.3535},
-  {"id":"rangpur","name_bn":"রংপুর","name_en":"Rangpur","lat":25.7439,"lng":89.2752},
-  {"id":"mymensingh","name_bn":"ময়মনসিংহ","name_en":"Mymensingh","lat":24.7471,"lng":90.4203},
-  {"id":"natore","name_bn":"নাটোর","name_en":"Natore","lat":24.4206,"lng":89.0000},
-  {"id":"tangail","name_bn":"টাঙ্গাইল","name_en":"Tangail","lat":24.2513,"lng":89.9167},
-  {"id":"cumilla","name_bn":"কুমিল্লা","name_en":"Cumilla","lat":23.4607,"lng":91.1809},
-  {"id":"bogura","name_bn":"বগুড়া","name_en":"Bogura","lat":24.8465,"lng":89.3773}
+  {
+    "id": "dhaka",
+    "name_bn": "ঢাকা",
+    "name_en": "Dhaka",
+    "lat": 23.8103,
+    "lng": 90.4125
+  },
+  {
+    "id": "chattogram",
+    "name_bn": "চট্টগ্রাম",
+    "name_en": "Chattogram",
+    "lat": 22.3569,
+    "lng": 91.7832
+  },
+  {
+    "id": "rajshahi",
+    "name_bn": "রাজশাহী",
+    "name_en": "Rajshahi",
+    "lat": 24.3745,
+    "lng": 88.6042
+  },
+  {
+    "id": "khulna",
+    "name_bn": "খুলনা",
+    "name_en": "Khulna",
+    "lat": 22.8456,
+    "lng": 89.5403
+  },
+  {
+    "id": "sylhet",
+    "name_bn": "সিলেট",
+    "name_en": "Sylhet",
+    "lat": 24.8949,
+    "lng": 91.8687
+  },
+  {
+    "id": "barishal",
+    "name_bn": "বরিশাল",
+    "name_en": "Barishal",
+    "lat": 22.701,
+    "lng": 90.3535
+  },
+  {
+    "id": "rangpur",
+    "name_bn": "রংপুর",
+    "name_en": "Rangpur",
+    "lat": 25.7439,
+    "lng": 89.2752
+  },
+  {
+    "id": "mymensingh",
+    "name_bn": "ময়মনসিংহ",
+    "name_en": "Mymensingh",
+    "lat": 24.7471,
+    "lng": 90.4203
+  },
+  {
+    "id": "natore",
+    "name_bn": "নাটোর",
+    "name_en": "Natore",
+    "lat": 24.4206,
+    "lng": 89
+  },
+  {
+    "id": "tangail",
+    "name_bn": "টাঙ্গাইল",
+    "name_en": "Tangail",
+    "lat": 24.2513,
+    "lng": 89.9167
+  },
+  {
+    "id": "cumilla",
+    "name_bn": "কুমিল্লা",
+    "name_en": "Cumilla",
+    "lat": 23.4607,
+    "lng": 91.1809
+  },
+  {
+    "id": "bogura",
+    "name_bn": "বগুড়া",
+    "name_en": "Bogura",
+    "lat": 24.8465,
+    "lng": 89.3773
+  },
+  {
+    "id": "narayanganj",
+    "name_bn": "নারায়ণগঞ্জ",
+    "name_en": "Narayanganj",
+    "lat": 23.6238,
+    "lng": 90.5
+  },
+  {
+    "id": "gazipur",
+    "name_bn": "গাজীপুর",
+    "name_en": "Gazipur",
+    "lat": 24.0023,
+    "lng": 90.4264
+  },
+  {
+    "id": "jashore",
+    "name_bn": "যশোর",
+    "name_en": "Jashore",
+    "lat": 23.1667,
+    "lng": 89.2167
+  },
+  {
+    "id": "coxsbazar",
+    "name_bn": "কক্সবাজার",
+    "name_en": "Cox's Bazar",
+    "lat": 21.4272,
+    "lng": 92.0058
+  },
+  {
+    "id": "kushtia",
+    "name_bn": "কুষ্টিয়া",
+    "name_en": "Kushtia",
+    "lat": 23.9013,
+    "lng": 89.1205
+  },
+  {
+    "id": "pabna",
+    "name_bn": "পাবনা",
+    "name_en": "Pabna",
+    "lat": 24.0064,
+    "lng": 89.2372
+  },
+  {
+    "id": "dinajpur",
+    "name_bn": "দিনাজপুর",
+    "name_en": "Dinajpur",
+    "lat": 25.6279,
+    "lng": 88.6332
+  },
+  {
+    "id": "feni",
+    "name_bn": "ফেনী",
+    "name_en": "Feni",
+    "lat": 23.0159,
+    "lng": 91.3976
+  },
+  {
+    "id": "faridpur",
+    "name_bn": "ফরিদপুর",
+    "name_en": "Faridpur",
+    "lat": 23.607,
+    "lng": 89.8429
+  },
+  {
+    "id": "jamalpur",
+    "name_bn": "জামালপুর",
+    "name_en": "Jamalpur",
+    "lat": 24.9375,
+    "lng": 89.937
+  },
+  {
+    "id": "kishoreganj",
+    "name_bn": "কিশোরগঞ্জ",
+    "name_en": "Kishoreganj",
+    "lat": 24.426,
+    "lng": 90.776
+  },
+  {
+    "id": "noakhali",
+    "name_bn": "নোয়াখালী",
+    "name_en": "Noakhali",
+    "lat": 22.8696,
+    "lng": 91.0995
+  },
+  {
+    "id": "brahmanbaria",
+    "name_bn": "ব্রাহ্মণবাড়িয়া",
+    "name_en": "Brahmanbaria",
+    "lat": 23.9571,
+    "lng": 91.1119
+  },
+  {
+    "id": "chandpur",
+    "name_bn": "চাঁদপুর",
+    "name_en": "Chandpur",
+    "lat": 23.2333,
+    "lng": 90.65
+  },
+  {
+    "id": "madaripur",
+    "name_bn": "মাদারীপুর",
+    "name_en": "Madaripur",
+    "lat": 23.1641,
+    "lng": 90.1897
+  },
+  {
+    "id": "satkhira",
+    "name_bn": "সাতক্ষীরা",
+    "name_en": "Satkhira",
+    "lat": 22.7185,
+    "lng": 89.0705
+  },
+  {
+    "id": "sirajganj",
+    "name_bn": "সিরাজগঞ্জ",
+    "name_en": "Sirajganj",
+    "lat": 24.4534,
+    "lng": 89.7007
+  },
+  {
+    "id": "pirojpur",
+    "name_bn": "পিরোজপুর",
+    "name_en": "Pirojpur",
+    "lat": 22.5791,
+    "lng": 89.9759
+  },
+  {
+    "id": "barguna",
+    "name_bn": "বরগুনা",
+    "name_en": "Barguna",
+    "lat": 22.128,
+    "lng": 90.11
+  },
+  {
+    "id": "bhola",
+    "name_bn": "ভোলা",
+    "name_en": "Bhola",
+    "lat": 22.31,
+    "lng": 90.764
+  },
+  {
+    "id": "jhalokati",
+    "name_bn": "ঝালকাঠি",
+    "name_en": "Jhalokati",
+    "lat": 22.572,
+    "lng": 90.182
+  },
+  {
+    "id": "patuakhali",
+    "name_bn": "পটুয়াখালী",
+    "name_en": "Patuakhali",
+    "lat": 22.165,
+    "lng": 90.407
+  },
+  {
+    "id": "bandarban",
+    "name_bn": "বান্দরবান",
+    "name_en": "Bandarban",
+    "lat": 21.805,
+    "lng": 92.365
+  },
+  {
+    "id": "khagrachhari",
+    "name_bn": "খাগড়াছড়ি",
+    "name_en": "Khagrachhari",
+    "lat": 23.172,
+    "lng": 91.956
+  },
+  {
+    "id": "lakshmipur",
+    "name_bn": "লক্ষ্মীপুর",
+    "name_en": "Lakshmipur",
+    "lat": 22.851,
+    "lng": 90.854
+  },
+  {
+    "id": "rangamati",
+    "name_bn": "রাঙ্গামাটি",
+    "name_en": "Rangamati",
+    "lat": 22.825,
+    "lng": 92.281
+  },
+  {
+    "id": "gopalganj",
+    "name_bn": "গোপালগঞ্জ",
+    "name_en": "Gopalganj",
+    "lat": 23.105,
+    "lng": 89.899
+  },
+  {
+    "id": "manikganj",
+    "name_bn": "মানিকগঞ্জ",
+    "name_en": "Manikganj",
+    "lat": 23.841,
+    "lng": 89.951
+  },
+  {
+    "id": "munshiganj",
+    "name_bn": "মুন্সিগঞ্জ",
+    "name_en": "Munshiganj",
+    "lat": 23.526,
+    "lng": 90.416
+  },
+  {
+    "id": "narsingdi",
+    "name_bn": "নরসিংদী",
+    "name_en": "Narsingdi",
+    "lat": 24.003,
+    "lng": 90.774
+  },
+  {
+    "id": "rajbari",
+    "name_bn": "রাজবাড়ী",
+    "name_en": "Rajbari",
+    "lat": 23.729,
+    "lng": 89.561
+  },
+  {
+    "id": "shariatpur",
+    "name_bn": "শরিয়তপুর",
+    "name_en": "Shariatpur",
+    "lat": 23.245,
+    "lng": 90.415
+  },
+  {
+    "id": "bagerhat",
+    "name_bn": "বাগেরহাট",
+    "name_en": "Bagerhat",
+    "lat": 22.329,
+    "lng": 89.744
+  },
+  {
+    "id": "chuadanga",
+    "name_bn": "চুয়াডাঙ্গা",
+    "name_en": "Chuadanga",
+    "lat": 23.609,
+    "lng": 88.849
+  },
+  {
+    "id": "jhenaidah",
+    "name_bn": "ঝিনাইদহ",
+    "name_en": "Jhenaidah",
+    "lat": 23.488,
+    "lng": 89.087
+  },
+  {
+    "id": "magura",
+    "name_bn": "মাগুরা",
+    "name_en": "Magura",
+    "lat": 23.444,
+    "lng": 89.433
+  },
+  {
+    "id": "meherpur",
+    "name_bn": "মেহেরপুর",
+    "name_en": "Meherpur",
+    "lat": 23.794,
+    "lng": 88.707
+  },
+  {
+    "id": "narail",
+    "name_bn": "নড়াইল",
+    "name_en": "Narail",
+    "lat": 23.131,
+    "lng": 89.578
+  },
+  {
+    "id": "netrokona",
+    "name_bn": "নেত্রকোনা",
+    "name_en": "Netrokona",
+    "lat": 24.871,
+    "lng": 90.845
+  },
+  {
+    "id": "sherpur",
+    "name_bn": "শেরপুর",
+    "name_en": "Sherpur",
+    "lat": 25.083,
+    "lng": 90.075
+  },
+  {
+    "id": "joypurhat",
+    "name_bn": "জয়পুরহাট",
+    "name_en": "Joypurhat",
+    "lat": 25.093,
+    "lng": 89.084
+  },
+  {
+    "id": "naogaon",
+    "name_bn": "নওগাঁ",
+    "name_en": "Naogaon",
+    "lat": 24.9,
+    "lng": 88.752
+  },
+  {
+    "id": "chapainawabganj",
+    "name_bn": "চাঁপাইনবাবগঞ্জ",
+    "name_en": "Chapainawabganj",
+    "lat": 24.716,
+    "lng": 88.264
+  },
+  {
+    "id": "gaibandha",
+    "name_bn": "গাইবান্ধা",
+    "name_en": "Gaibandha",
+    "lat": 25.298,
+    "lng": 89.505
+  },
+  {
+    "id": "kurigram",
+    "name_bn": "কুড়িগ্রাম",
+    "name_en": "Kurigram",
+    "lat": 25.79,
+    "lng": 89.695
+  },
+  {
+    "id": "lalmonirhat",
+    "name_bn": "লালমনিরহাট",
+    "name_en": "Lalmonirhat",
+    "lat": 26.063,
+    "lng": 89.237
+  },
+  {
+    "id": "nilphamari",
+    "name_bn": "নীলফামারী",
+    "name_en": "Nilphamari",
+    "lat": 26.026,
+    "lng": 88.93
+  },
+  {
+    "id": "panchagarh",
+    "name_bn": "পঞ্চগড়",
+    "name_en": "Panchagarh",
+    "lat": 26.285,
+    "lng": 88.579
+  },
+  {
+    "id": "thakurgaon",
+    "name_bn": "ঠাকুরগাঁও",
+    "name_en": "Thakurgaon",
+    "lat": 25.99,
+    "lng": 88.345
+  },
+  {
+    "id": "habiganj",
+    "name_bn": "হবিগঞ্জ",
+    "name_en": "Habiganj",
+    "lat": 24.369,
+    "lng": 91.432
+  },
+  {
+    "id": "moulvibazar",
+    "name_bn": "মৌলভীবাজার",
+    "name_en": "Moulvibazar",
+    "lat": 24.481,
+    "lng": 91.916
+  },
+  {
+    "id": "sunamganj",
+    "name_bn": "সুনামগঞ্জ",
+    "name_en": "Sunamganj",
+    "lat": 24.94,
+    "lng": 91.346
+  }
 ]
