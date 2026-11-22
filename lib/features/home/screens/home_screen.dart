@@ -13,6 +13,7 @@ import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_surface_styles.dart';
+import '../../../core/time/bangladesh_clock.dart';
 import '../../calendar/screens/prayer_calendar_screen.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
@@ -72,7 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool _hanafi = true;
   PrayerCalculation _method = PrayerCalculation.karachi;
   int _hijriOffset = 0;
-  DateTime _now = DateTime.now();
+  late DateTime _now;
   Timer? _clock;
   Timer? _prayerSlideTimer;
   int _prayerSlideIndex = 0;
@@ -83,6 +84,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    final clock = ref.read(appClockProvider);
+    _now = bangladeshWallClock(clock());
     final prefs = ref.read(sharedPrefsProvider);
     _cityId = prefs.getString('home_city') ?? 'dhaka';
     _hanafi = prefs.getBool('home_hanafi') ?? true;
@@ -91,7 +94,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _method = PrayerCalculation.values[methodIndex];
     _hijriOffset = (prefs.getInt('hijri_offset') ?? 0).clamp(-1, 1).toInt();
     _clock = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) setState(() => _now = DateTime.now());
+      if (mounted) setState(() => _now = bangladeshWallClock(clock()));
     });
     _prayerSlideTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       if (mounted) {
@@ -269,7 +272,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 .clamp(0.0, 1.0)
                 .toDouble();
 
-            final banglaDate = BanglaDate.fromDateTime(_now);
+            final bangladeshDate = DateTime.utc(
+              _now.year, _now.month, _now.day,
+            );
+            final banglaDate = BanglaDate.fromDateTime(bangladeshDate);
             const banglaMonthsEn = [
               'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
               'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
@@ -299,17 +305,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah'
             ];
             final hijriDate = HijriDateTime.fromGregorian(
-              DateTime(_now.year, _now.month, _now.day),
+              bangladeshDate,
             ).add(Duration(days: _hijriOffset));
             final weekdayLabel = lang == 'bn'
                 ? weekdaysBn[_now.weekday - 1]
                 : weekdaysEn[_now.weekday - 1];
             final hijriDateLabel = lang == 'bn'
-                ? '$weekdayLabel, ${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]}'
-                : '$weekdayLabel, ${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]}';
-            final calendarDateLabel = lang == 'bn'
-                ? '${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]}, ${s.digits(banglaDate.day)} ${banglaDate.monthName}'
-                : '${_now.day} ${gregorianMonthsEn[_now.month - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]}';
+                ? 'হিজরি: $weekdayLabel, ${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)}'
+                : 'Hijri: $weekdayLabel, ${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year} AH';
+            final gregorianDateLabel = lang == 'bn'
+                ? 'ইংরেজি: ${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}'
+                : 'Gregorian: ${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
+            final banglaDateLabel = lang == 'bn'
+                ? 'বাংলা: ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
+                : 'Bangla: ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt} BS';
 
             final todayKey =
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
@@ -366,22 +375,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 children: [
                                   Text(
                                     hijriDateLabel,
+                                    key: const Key('home_hijri_date'),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: AppColors.primaryText,
-                                      fontSize: 15,
+                                      fontSize: 12.5,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  const SizedBox(height: 3),
+                                  const SizedBox(height: 2),
                                   Text(
-                                    calendarDateLabel,
+                                    gregorianDateLabel,
+                                    key: const Key('home_gregorian_date'),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
-                                      fontSize: 14,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 1),
+                                  Text(
+                                    banglaDateLabel,
+                                    key: const Key('home_bangla_date'),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: AppColors.secondaryText,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ],
