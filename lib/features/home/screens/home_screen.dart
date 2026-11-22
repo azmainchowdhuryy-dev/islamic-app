@@ -812,19 +812,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             shape: BoxShape.circle,
                                           ),
                                         ),
-                                      Flexible(
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
+                                      SizedBox(
+                                        width: 150,
+                                        child: Align(
                                           alignment: Alignment.centerRight,
-                                          child: Text(
-                                            '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              color: isNext
-                                                  ? AppColors.primaryText
-                                                  : AppColors.secondaryText,
-                                              fontSize: 14,
-                                              fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            alignment: Alignment.centerRight,
+                                            child: Text(
+                                              '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: isNext
+                                                    ? AppColors.primaryText
+                                                    : AppColors.secondaryText,
+                                                fontSize: 14,
+                                                fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
+                                              ),
                                             ),
                                           ),
                                         ),
