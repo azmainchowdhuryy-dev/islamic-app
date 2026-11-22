@@ -116,7 +116,7 @@ void main() {
       'ইংরেজি: ২২ নভেম্বর ২০২৬',
     );
 
-    final date = DateTime.utc(2026, 11, 22);
+    final date = DateTime(2026, 11, 22);
     final bangla = BanglaDate.fromDateTime(date);
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
@@ -132,6 +132,28 @@ void main() {
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
       'হিজরি: রবি, ${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')}',
     );
+    await tester.tap(find.text('EN'));
+    await tester.pump();
+    expect(
+      tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
+      'Hijri: Sun, ${hijri.day} ${[
+        'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
+        'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
+        'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah',
+      ][hijri.month - 1]} ${hijri.year} AH',
+    );
+    expect(
+      tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
+      'Gregorian: 22 November 2026',
+    );
+    expect(
+      tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
+      'Bangla: ${bangla.dayInt} ${[
+        'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
+        'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro',
+      ][bangla.monthInt - 1]} ${bangla.yearInt} BS',
+    );
+
   });
 
   testWidgets('Home calendar icon opens the separate prayer calendar screen', (tester) async {
@@ -267,7 +289,7 @@ void main() {
   testWidgets('rapid prayer taps toggle from the latest optimistic state', (tester) async {
     final prefs = await _pumpMainShell(tester);
 
-    final now = DateTime.now();
+    final now = bangladeshWallClock(DateTime.now());
     final dateKey =
         '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
 
@@ -288,7 +310,7 @@ void main() {
   testWidgets('Prayer status circle updates the daily saved tracker', (tester) async {
     final prefs = await _pumpMainShell(tester);
 
-    final now = DateTime.now();
+    final now = bangladeshWallClock(DateTime.now());
     final dateKey =
         '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
 
