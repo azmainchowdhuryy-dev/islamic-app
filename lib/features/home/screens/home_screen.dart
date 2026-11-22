@@ -13,6 +13,7 @@ import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_surface_styles.dart';
+import '../../calendar/screens/prayer_calendar_screen.dart';
 import '../../hadith/providers/hadith_provider.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
@@ -185,6 +186,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return '${s.digits(hours.toString().padLeft(2, '0'))}:${s.digits(minutes.toString().padLeft(2, '0'))}:${s.digits(seconds.toString().padLeft(2, '0'))}';
   }
 
+  Future<void> _openPrayerCalendar(BuildContext context) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => const PrayerCalendarScreen(),
+      ),
+    );
+    if (!mounted) return;
+    final savedCity = ref.read(sharedPrefsProvider).getString('home_city');
+    if (savedCity != null && savedCity != _cityId) {
+      setState(() => _cityId = savedCity);
+    }
+  }
+
   Future<void> _openTool(BuildContext context, Widget screen) async {
     await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => screen),
@@ -330,8 +344,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.calendar_month_outlined,
-                                color: AppColors.primaryText, size: 27),
+                            IconButton(
+                              key: const Key('home_open_prayer_calendar'),
+                              tooltip: 'ক্যালেন্ডার',
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints.tightFor(
+                                width: 36,
+                                height: 36,
+                              ),
+                              onPressed: () => _openPrayerCalendar(context),
+                              icon: const Icon(
+                                Icons.calendar_month_outlined,
+                                color: AppColors.primaryText,
+                                size: 27,
+                              ),
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Column(
