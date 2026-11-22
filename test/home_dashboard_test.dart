@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
 import 'package:islamic_app/core/time/bangladesh_clock.dart';
+import 'package:islamic_app/core/localization/bn_digits.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/hadith/models/hadith.dart';
 import 'package:islamic_app/features/hadith/providers/hadith_provider.dart';
@@ -119,8 +120,7 @@ void main() {
     final bangla = BanglaDate.fromDateTime(date);
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      'বাংলা: ${bangla.dayInt} ${bangla.monthName} ${bangla.yearInt}'
-          .replaceFirst('বাংলা:', 'বাংলা:'),
+      'বাংলা: ${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
     );
 
     final hijri = HijriDateTime.fromGregorian(date);
@@ -130,7 +130,7 @@ void main() {
     ];
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'হিজরি: রবি, ${hijri.day} ${hijriMonthsBn[hijri.month - 1]} ${hijri.year}',
+      'হিজরি: রবি, ${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')}',
     );
   });
 
