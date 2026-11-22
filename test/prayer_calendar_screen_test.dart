@@ -50,6 +50,19 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
     }
 
+    final calendarScroll =
+        find.byKey(const Key('prayer_calendar_scroll_view'));
+    expect(calendarScroll, findsOneWidget);
+    final asrTimeFinder = find.byKey(const Key('calendar_asr_time'));
+    await tester.scrollUntilVisible(
+      asrTimeFinder,
+      180,
+      scrollable: find.descendant(
+        of: calendarScroll,
+        matching: find.byType(Scrollable),
+      ),
+    );
+
     final expected = DailyPrayerTimes.calculate(
       latitude: 23.8103,
       longitude: 90.4125,
@@ -63,7 +76,7 @@ void main() {
     );
 
     expect(
-      tester.widget<Text>(find.byKey(const Key('calendar_asr_time'))).data,
+      tester.widget<Text>(asrTimeFinder).data,
       expectedAsr,
     );
     final calculationNoteFinder =
