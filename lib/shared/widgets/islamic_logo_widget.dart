@@ -76,7 +76,7 @@ class _IslamicLogoPainter extends CustomPainter {
     canvas.save();
     canvas.clipPath(
       Path()..addOval(
-        const Rect.fromCircle(center: _center, radius: 110),
+        Rect.fromCircle(center: _center, radius: 110),
       ),
     );
 
