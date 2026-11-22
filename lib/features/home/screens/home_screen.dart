@@ -818,7 +818,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           color: isNext
                                               ? AppColors.primaryText
                                               : AppColors.secondaryText,
-                                          fontSize: 12,
+                                          fontSize: 14,
                                           fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                         ),
                                       ),
