@@ -260,8 +260,7 @@ class _IbadahToolsScreenState extends ConsumerState<IbadahToolsScreen> {
     final showPrayers = widget.section == IbadahToolsSection.all ||
         widget.section == IbadahToolsSection.prayers;
     final showDailyAmal = widget.section == IbadahToolsSection.all ||
-        widget.section == IbadahToolsSection.dailyAmal ||
-        widget.section == IbadahToolsSection.prayers;
+        widget.section == IbadahToolsSection.dailyAmal;
     final showNames = widget.section == IbadahToolsSection.all ||
         widget.section == IbadahToolsSection.names;
     final screenTitle = widget.section == IbadahToolsSection.prayers
