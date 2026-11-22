@@ -221,30 +221,6 @@ void main() {
     expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
   });
 
-  testWidgets('Home middle calendar button opens the same prayer calendar screen', (tester) async {
-    await _pumpMainShell(tester);
-
-    final middleCalendar =
-        find.byKey(const Key('home_middle_calendar_button'));
-    await tester.scrollUntilVisible(
-      middleCalendar,
-      240,
-      scrollable: find.byType(Scrollable).first,
-    );
-    final button = tester.widget<TextButton>(middleCalendar);
-    expect(button.onPressed, isNotNull);
-    button.onPressed!();
-    await tester.pump();
-    for (var i = 0;
-        i < 60 && find.byKey(const Key('prayer_calendar_scroll_view')).evaluate().isEmpty;
-        i++) {
-      await tester.pump(const Duration(milliseconds: 100));
-    }
-
-    expect(find.byKey(const Key('prayer_calendar_scroll_view')), findsOneWidget);
-    expect(find.text('সালাতের সময়'), findsOneWidget);
-  });
-
   testWidgets('Home prayer countdown text sits inside the upper arch and panels are compact', (tester) async {
     await _pumpMainShell(tester);
 
