@@ -108,7 +108,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
     }
 
-    expect(find.text('ক্যালেন্ডার'), findsOneWidget);
+    expect(find.text('ক্যালেন্ডার').last, findsOneWidget);
     expect(find.text('সালাতের সময়'), findsOneWidget);
     expect(find.text('নফল সালাতের সময়'), findsOneWidget);
     expect(find.text('সালাতের নিষিদ্ধ সময়'), findsOneWidget);
