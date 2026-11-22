@@ -152,6 +152,12 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
     );
   }
 
+  Future<void> _setHijriOffset(int value) async {
+    setState(() => _hijriOffset = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('hijri_offset', value);
+  }
+
   Future<void> _setDistrict(_District district) async {
     setState(() => _districtId = district.id);
     final prefs = await SharedPreferences.getInstance();
@@ -773,6 +779,19 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
         title: const Text('ক্যালেন্ডার', style: TextStyle(
             color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700)),
         actions: [
+          PopupMenuButton<int>(
+            key: const Key('calendar_hijri_adjustment'),
+            tooltip: 'হিজরি তারিখ সমন্বয়',
+            initialValue: _hijriOffset,
+            onSelected: _setHijriOffset,
+            icon: const Icon(Icons.event_available_outlined,
+                color: _accent, size: 21),
+            itemBuilder: (context) => [
+              const PopupMenuItem(value: -1, child: Text('১ দিন পিছিয়ে')),
+              const PopupMenuItem(value: 0, child: Text('কোনো পরিবর্তন নয়')),
+              const PopupMenuItem(value: 1, child: Text('১ দিন এগিয়ে')),
+            ],
+          ),
           IconButton(
             tooltip: 'সময়সূচী শেয়ার করুন',
             onPressed: _preferencesLoaded
