@@ -241,6 +241,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 style: const TextStyle(color: AppColors.primaryText)),
           ),
           data: (cities) {
+            final colorScheme = Theme.of(context).colorScheme;
             final city = cities.firstWhere(
               (item) => item.id == _cityId,
               orElse: () => cities.first,
@@ -569,26 +570,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 36,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: AppColors.activeSurface,
+                                  color: colorScheme.primaryContainer,
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.location_on,
-                                        size: 18, color: AppColors.primaryText),
+                                    Icon(Icons.location_on,
+                                        size: 18,
+                                        color: colorScheme.onPrimaryContainer),
                                     const SizedBox(width: 4),
                                     Expanded(
                                       child: DropdownButtonHideUnderline(
                                         child: DropdownButton<String>(
+                                          key: const Key('home_location_dropdown'),
                                           value: city.id,
                                           isExpanded: true,
-                                          icon: const Icon(Icons.keyboard_arrow_down,
-                                              color: AppColors.primaryText),
-                                          style: const TextStyle(
-                                            color: AppColors.primaryText,
+                                          dropdownColor: colorScheme.surface,
+                                          icon: Icon(
+                                            Icons.keyboard_arrow_down,
+                                            color: colorScheme.onPrimaryContainer,
+                                          ),
+                                          style: TextStyle(
+                                            color: colorScheme.onPrimaryContainer,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
                                           ),
+                                          selectedItemBuilder: (context) => [
+                                            for (final item in cities)
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  item.name(lang),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    color: colorScheme.onPrimaryContainer,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
                                           items: [
                                             for (final item in cities)
                                               DropdownMenuItem(
@@ -596,6 +618,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 child: Text(
                                                   item.name(lang),
                                                   overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    color: colorScheme.onSurface,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                           ],
