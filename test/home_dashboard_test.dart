@@ -231,7 +231,9 @@ void main() {
       240,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.tap(middleCalendar);
+    final button = tester.widget<TextButton>(middleCalendar);
+    expect(button.onPressed, isNotNull);
+    button.onPressed!();
     await tester.pump();
     for (var i = 0;
         i < 60 && find.byKey(const Key('prayer_calendar_scroll_view')).evaluate().isEmpty;
