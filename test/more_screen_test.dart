@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/settings/screens/more_screen.dart';
+import 'package:islamic_app/features/settings/screens/logo_preview_screen.dart';
+import 'package:islamic_app/shared/widgets/islamic_logo_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -14,6 +16,20 @@ void main() {
       overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
       child: const MaterialApp(home: MoreScreen()),
     ));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(IslamicAppLogo), findsOneWidget);
+    await tester.tap(find.byKey(const Key('more_logo_preview')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LogoPreviewScreen), findsOneWidget);
+    expect(
+      tester.widget<Scaffold>(find.byType(Scaffold).last).backgroundColor,
+      Colors.white,
+    );
+    expect(find.byType(CustomPaint), findsOneWidget);
+
+    await tester.pageBack();
     await tester.pumpAndSettle();
 
     expect(find.text('আরও'), findsOneWidget);
