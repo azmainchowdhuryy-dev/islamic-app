@@ -43,9 +43,18 @@ void main() {
       tester.widget<Text>(find.byKey(const Key('calendar_asr_time'))).data,
       expectedAsr,
     );
-    final calculationNote = tester
-        .widget<Text>(find.byKey(const Key('calendar_calculation_method_note')))
-        .data!;
+    final calculationNoteFinder =
+        find.byKey(const Key('calendar_calculation_method_note'));
+    await tester.scrollUntilVisible(
+      calculationNoteFinder,
+      240,
+      scrollable: find.descendant(
+        of: find.byKey(const Key('prayer_calendar_scroll_view')),
+        matching: find.byType(Scrollable),
+      ),
+    );
+    final calculationNote =
+        tester.widget<Text>(calculationNoteFinder).data!;
     expect(calculationNote, contains('মুসলিম ওয়ার্ল্ড লীগ'));
     expect(calculationNote, contains('শাফেয়ি'));
   });
