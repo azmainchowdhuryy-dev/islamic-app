@@ -35,7 +35,7 @@ void main() {
       findsOneWidget,
     );
 
-    await tester.pageBack();
+    Navigator.of(tester.element(find.byType(LogoPreviewScreen))).pop();
     await tester.pumpAndSettle();
 
     expect(find.text('আরও'), findsOneWidget);
