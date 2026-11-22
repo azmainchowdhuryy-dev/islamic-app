@@ -742,7 +742,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
           ]),
         ),
         const SizedBox(height: 14),
-        const Text(
+        Text(
           'হিসাবের পদ্ধতি: Adhan • $_calculationMethodLabel • $_asrMethodLabel • বাংলাদেশ সময় (UTC+৬)। স্থানীয় মসজিদের সময়সূচির সঙ্গে মিলিয়ে নিন।',
           key: const Key('calendar_calculation_method_note'),
           textAlign: TextAlign.center,
