@@ -8,6 +8,7 @@ import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
 import 'package:islamic_app/core/time/bangladesh_clock.dart';
 import 'package:islamic_app/core/theme/app_theme.dart';
+import 'package:islamic_app/core/theme/app_colors.dart';
 import 'package:islamic_app/core/localization/bn_digits.dart';
 import 'package:islamic_app/core/services/prefs.dart';
 import 'package:islamic_app/features/hadith/models/hadith.dart';
@@ -21,8 +22,9 @@ Future<SharedPreferences> _pumpMainShell(
   WidgetTester tester, {
   DateTime Function()? clock,
   ThemeMode themeMode = ThemeMode.light,
+  Map<String, Object> initialPreferences = const {},
 }) async {
-  SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues(initialPreferences);
   final prefs = await SharedPreferences.getInstance();
   await tester.pumpWidget(ProviderScope(
     overrides: [
@@ -114,13 +116,25 @@ void main() {
         expect(dropdown.surfaceTintColor, Colors.transparent);
         expect(
           tester.widget<Text>(
-            find.descendant(
-              of: dropdownFinder,
-              matching: find.text('ঢাকা'),
-            ),
+            find.byKey(const Key('home_location_name')),
           ).style?.color,
-          scheme.onPrimaryContainer,
+          AppColors.primaryText,
         );
+        final locationDecoration =
+            tester.widget<Container>(find.byKey(const Key('home_location_chip')));
+        expect(
+          (locationDecoration.decoration as BoxDecoration).color,
+          AppColors.activeSurface,
+        );
+        for (final chipKey in [
+          'home_sunrise_chip',
+          'home_sunset_chip',
+        ]) {
+          expect(
+            tester.getSize(find.byKey(Key(chipKey))).width,
+            lessThan(150),
+          );
+        }
 
         await tester.tap(dropdownFinder);
         await tester.pump();
@@ -133,6 +147,36 @@ void main() {
     );
   }
 
+  testWidgets('Home daily Amal tracker reads saved progress and opens its checklist', (tester) async {
+    const dateKey = '2026-11-22';
+    await _pumpMainShell(
+      tester,
+      clock: () => DateTime.utc(2026, 11, 21, 18, 30),
+      initialPreferences: {
+        'daily_amal_$dateKey': ['quran', 'morning'],
+      },
+    );
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('home_daily_amal_tracker_card')),
+      240,
+      scrollable: find.byType(Scrollable).first,
+    );
+
+    expect(find.text('দৈনিক আমল'), findsOneWidget);
+    expect(find.text('২ / ৬ সম্পন্ন'), findsOneWidget);
+    expect(
+      tester.getSize(find.byKey(const Key('home_daily_amal_tracker_card'))).width,
+      greaterThan(0),
+    );
+
+    await tester.tap(find.byKey(const Key('home_daily_amal_tracker_card')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('আজকের আমলের তালিকা'), findsOneWidget);
+    expect(find.text('২ / ৬ আমল সম্পন্ন'), findsOneWidget);
+  });
+
   testWidgets('Home dashboard displays the redesigned prayer header and features', (tester) async {
     await _pumpMainShell(tester);
 
@@ -142,6 +186,15 @@ void main() {
     expect(find.byType(NavigationDestination), findsNWidgets(5));
 
     await tester.scrollUntilVisible(
+      find.byKey(const Key('home_prayer_tracker_card')),
+      240,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('আজকের ট্র্যাকার'), findsOneWidget);
+    expect(find.text('নামাজ ট্র্যাকার'), findsOneWidget);
+    expect(find.text('দৈনিক আমল'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
       find.text('টপ ফিচার'),
       300,
       scrollable: find.byType(Scrollable).first,
@@ -149,20 +202,15 @@ void main() {
     await tester.pump();
 
     expect(find.text('টপ ফিচার'), findsOneWidget);
-    expect(find.text('ট্র্যাকার'), findsOneWidget);
     expect(find.text('কিবলা'), findsNothing);
-    expect(find.text('দৈনিক আমল'), findsNothing);
 
-    // 99 Names of Allah sits directly to the right of Tracker.
-    final trackerCenter = tester.getCenter(find.text('ট্র্যাকার'));
-    final firstRowY = trackerCenter.dy;
+    // Top feature items keep their three-column arrangement without tracker tiles.
     final namesCenter = tester.getCenter(find.text('আল্লাহর ৯৯ নাম'));
-    expect(namesCenter.dy, closeTo(firstRowY, 3));
-    expect(namesCenter.dx, greaterThan(trackerCenter.dx));
+    final firstRowY = namesCenter.dy;
     expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));
-    final secondRowY = tester.getCenter(find.text('রুকইয়াহ')).dy;
+    expect(tester.getCenter(find.text('রুকইয়াহ')).dy, closeTo(firstRowY, 1));
+    final secondRowY = tester.getCenter(find.text('তাসবিহ')).dy;
     expect(secondRowY, greaterThan(firstRowY + 40));
-    expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
     expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
   });
 
