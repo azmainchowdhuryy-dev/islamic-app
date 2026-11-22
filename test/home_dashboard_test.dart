@@ -156,6 +156,28 @@ void main() {
 
   });
 
+  testWidgets('Home keeps all three full date labels visible on narrow screens', (tester) async {
+    tester.view.physicalSize = const Size(320, 740);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final instant = DateTime.utc(2026, 11, 21, 18, 30);
+    await _pumpMainShell(tester, clock: () => instant);
+
+    for (final key in [
+      'home_hijri_date',
+      'home_gregorian_date',
+      'home_bangla_date',
+    ]) {
+      final dateText = tester.widget<Text>(find.byKey(Key(key)));
+      expect(dateText.maxLines, isNull, reason: '$key must not truncate the date');
+      expect(dateText.overflow, isNull, reason: '$key must wrap instead of using ellipsis');
+      expect(dateText.data, isNotEmpty);
+    }
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('Home calendar icon opens the separate prayer calendar screen', (tester) async {
     await _pumpMainShell(tester);
 
