@@ -126,6 +126,10 @@ void main() {
           (locationDecoration.decoration as BoxDecoration).color,
           AppColors.activeSurface,
         );
+        expect(
+          tester.getSize(find.byKey(const Key('home_location_chip'))).width,
+          lessThan(150),
+        );
         for (final chipKey in [
           'home_sunrise_chip',
           'home_sunset_chip',
