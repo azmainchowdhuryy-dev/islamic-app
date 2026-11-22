@@ -208,5 +208,243 @@
     "name_en": "Pirojpur",
     "lat": 22.5791,
     "lng": 89.9759
+  },
+  {
+    "id": "barguna",
+    "name_bn": "বরগুনা",
+    "name_en": "Barguna",
+    "lat": 22.128,
+    "lng": 90.11
+  },
+  {
+    "id": "bhola",
+    "name_bn": "ভোলা",
+    "name_en": "Bhola",
+    "lat": 22.31,
+    "lng": 90.764
+  },
+  {
+    "id": "jhalokati",
+    "name_bn": "ঝালকাঠি",
+    "name_en": "Jhalokati",
+    "lat": 22.572,
+    "lng": 90.182
+  },
+  {
+    "id": "patuakhali",
+    "name_bn": "পটুয়াখালী",
+    "name_en": "Patuakhali",
+    "lat": 22.165,
+    "lng": 90.407
+  },
+  {
+    "id": "bandarban",
+    "name_bn": "বান্দরবান",
+    "name_en": "Bandarban",
+    "lat": 21.805,
+    "lng": 92.365
+  },
+  {
+    "id": "khagrachhari",
+    "name_bn": "খাগড়াছড়ি",
+    "name_en": "Khagrachhari",
+    "lat": 23.172,
+    "lng": 91.956
+  },
+  {
+    "id": "lakshmipur",
+    "name_bn": "লক্ষ্মীপুর",
+    "name_en": "Lakshmipur",
+    "lat": 22.851,
+    "lng": 90.854
+  },
+  {
+    "id": "rangamati",
+    "name_bn": "রাঙ্গামাটি",
+    "name_en": "Rangamati",
+    "lat": 22.825,
+    "lng": 92.281
+  },
+  {
+    "id": "gopalganj",
+    "name_bn": "গোপালগঞ্জ",
+    "name_en": "Gopalganj",
+    "lat": 23.105,
+    "lng": 89.899
+  },
+  {
+    "id": "manikganj",
+    "name_bn": "মানিকগঞ্জ",
+    "name_en": "Manikganj",
+    "lat": 23.841,
+    "lng": 89.951
+  },
+  {
+    "id": "munshiganj",
+    "name_bn": "মুন্সিগঞ্জ",
+    "name_en": "Munshiganj",
+    "lat": 23.526,
+    "lng": 90.416
+  },
+  {
+    "id": "narsingdi",
+    "name_bn": "নরসিংদী",
+    "name_en": "Narsingdi",
+    "lat": 24.003,
+    "lng": 90.774
+  },
+  {
+    "id": "rajbari",
+    "name_bn": "রাজবাড়ী",
+    "name_en": "Rajbari",
+    "lat": 23.729,
+    "lng": 89.561
+  },
+  {
+    "id": "shariatpur",
+    "name_bn": "শরিয়তপুর",
+    "name_en": "Shariatpur",
+    "lat": 23.245,
+    "lng": 90.415
+  },
+  {
+    "id": "bagerhat",
+    "name_bn": "বাগেরহাট",
+    "name_en": "Bagerhat",
+    "lat": 22.329,
+    "lng": 89.744
+  },
+  {
+    "id": "chuadanga",
+    "name_bn": "চুয়াডাঙ্গা",
+    "name_en": "Chuadanga",
+    "lat": 23.609,
+    "lng": 88.849
+  },
+  {
+    "id": "jhenaidah",
+    "name_bn": "ঝিনাইদহ",
+    "name_en": "Jhenaidah",
+    "lat": 23.488,
+    "lng": 89.087
+  },
+  {
+    "id": "magura",
+    "name_bn": "মাগুরা",
+    "name_en": "Magura",
+    "lat": 23.444,
+    "lng": 89.433
+  },
+  {
+    "id": "meherpur",
+    "name_bn": "মেহেরপুর",
+    "name_en": "Meherpur",
+    "lat": 23.794,
+    "lng": 88.707
+  },
+  {
+    "id": "narail",
+    "name_bn": "নড়াইল",
+    "name_en": "Narail",
+    "lat": 23.131,
+    "lng": 89.578
+  },
+  {
+    "id": "netrokona",
+    "name_bn": "নেত্রকোনা",
+    "name_en": "Netrokona",
+    "lat": 24.871,
+    "lng": 90.845
+  },
+  {
+    "id": "sherpur",
+    "name_bn": "শেরপুর",
+    "name_en": "Sherpur",
+    "lat": 25.083,
+    "lng": 90.075
+  },
+  {
+    "id": "joypurhat",
+    "name_bn": "জয়পুরহাট",
+    "name_en": "Joypurhat",
+    "lat": 25.093,
+    "lng": 89.084
+  },
+  {
+    "id": "naogaon",
+    "name_bn": "নওগাঁ",
+    "name_en": "Naogaon",
+    "lat": 24.9,
+    "lng": 88.752
+  },
+  {
+    "id": "chapainawabganj",
+    "name_bn": "চাঁপাইনবাবগঞ্জ",
+    "name_en": "Chapainawabganj",
+    "lat": 24.716,
+    "lng": 88.264
+  },
+  {
+    "id": "gaibandha",
+    "name_bn": "গাইবান্ধা",
+    "name_en": "Gaibandha",
+    "lat": 25.298,
+    "lng": 89.505
+  },
+  {
+    "id": "kurigram",
+    "name_bn": "কুড়িগ্রাম",
+    "name_en": "Kurigram",
+    "lat": 25.79,
+    "lng": 89.695
+  },
+  {
+    "id": "lalmonirhat",
+    "name_bn": "লালমনিরহাট",
+    "name_en": "Lalmonirhat",
+    "lat": 26.063,
+    "lng": 89.237
+  },
+  {
+    "id": "nilphamari",
+    "name_bn": "নীলফামারী",
+    "name_en": "Nilphamari",
+    "lat": 26.026,
+    "lng": 88.93
+  },
+  {
+    "id": "panchagarh",
+    "name_bn": "পঞ্চগড়",
+    "name_en": "Panchagarh",
+    "lat": 26.285,
+    "lng": 88.579
+  },
+  {
+    "id": "thakurgaon",
+    "name_bn": "ঠাকুরগাঁও",
+    "name_en": "Thakurgaon",
+    "lat": 25.99,
+    "lng": 88.345
+  },
+  {
+    "id": "habiganj",
+    "name_bn": "হবিগঞ্জ",
+    "name_en": "Habiganj",
+    "lat": 24.369,
+    "lng": 91.432
+  },
+  {
+    "id": "moulvibazar",
+    "name_bn": "মৌলভীবাজার",
+    "name_en": "Moulvibazar",
+    "lat": 24.481,
+    "lng": 91.916
+  },
+  {
+    "id": "sunamganj",
+    "name_bn": "সুনামগঞ্জ",
+    "name_en": "Sunamganj",
+    "lat": 24.94,
+    "lng": 91.346
   }
 ]
