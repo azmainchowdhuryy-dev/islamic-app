@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../home/services/prayer_calculator.dart';
+import '../../../core/time/bangladesh_clock.dart';
 
 const Color _background = Color(0xFF121B18);
 const Color _surface = Color(0xFF1A2622);
@@ -74,7 +75,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
   ];
 
   final Future<List<_District>> _districtsFuture = _loadDistricts();
-  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = bangladeshWallClock(DateTime.now());
   String _districtId = 'dhaka';
   PrayerCalculation _method = PrayerCalculation.karachi;
   int _hijriOffset = 0;
@@ -114,7 +115,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
     });
   }
 
-  DateTime _dateOnly(DateTime date) => DateTime(date.year, date.month, date.day);
+  DateTime _dateOnly(DateTime date) => DateTime.utc(date.year, date.month, date.day);
 
   String _time(DateTime value) {
     final hour = value.hour % 12 == 0 ? 12 : value.hour % 12;
@@ -537,8 +538,10 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
         final day = firstDay.add(Duration(days: index));
         final selected = day.year == selectedDate.year &&
             day.month == selectedDate.month && day.day == selectedDate.day;
-        final today = day.year == DateTime.now().year &&
-            day.month == DateTime.now().month && day.day == DateTime.now().day;
+        final bangladeshToday = bangladeshWallClock(DateTime.now());
+        final today = day.year == bangladeshToday.year &&
+            day.month == bangladeshToday.month &&
+            day.day == bangladeshToday.day;
         final dayKey = 'calendar_weekday_' + day.year.toString() + '_' +
             day.month.toString() + '_' + day.day.toString();
         return Expanded(
@@ -920,8 +923,8 @@ class _BengaliDatePickerDialogState extends State<_BengaliDatePickerDialog> {
   }
 
   void _chooseToday() {
-    final today = DateTime.now();
-    Navigator.of(context).pop(DateTime(today.year, today.month, today.day));
+    final today = bangladeshWallClock(DateTime.now());
+    Navigator.of(context).pop(DateTime.utc(today.year, today.month, today.day));
   }
 
   @override
