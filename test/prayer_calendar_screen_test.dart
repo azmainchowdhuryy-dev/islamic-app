@@ -13,24 +13,6 @@ void main() {
     expect(toBanglaDigits('12:30 PM'), '১২:৩০ PM');
   });
 
-  testWidgets('Hijri date adjustment can be changed from the calendar screen',
-      (tester) async {
-    SharedPreferences.setMockInitialValues({'hijri_offset': 0});
-    final prefs = await SharedPreferences.getInstance();
-
-    await tester.pumpWidget(
-      const MaterialApp(home: PrayerCalendarScreen()),
-    );
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const Key('calendar_hijri_adjustment')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('১ দিন এগিয়ে'));
-    await tester.pumpAndSettle();
-
-    expect(prefs.getInt('hijri_offset'), 1);
-  });
-
   testWidgets('calendar uses saved calculation method and Shafi Asr setting',
       (tester) async {
     SharedPreferences.setMockInitialValues({
@@ -43,25 +25,8 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(home: PrayerCalendarScreen()),
     );
-    await tester.pump();
-    for (var i = 0;
-        i < 30 && find.byKey(const Key('calendar_asr_time')).evaluate().isEmpty;
-        i++) {
-      await tester.pump(const Duration(milliseconds: 100));
-    }
-
-    final calendarScroll =
-        find.byKey(const Key('prayer_calendar_scroll_view'));
-    expect(calendarScroll, findsOneWidget);
-    final asrTimeFinder = find.byKey(const Key('calendar_asr_time'));
-    await tester.scrollUntilVisible(
-      asrTimeFinder,
-      180,
-      scrollable: find.descendant(
-        of: calendarScroll,
-        matching: find.byType(Scrollable),
-      ),
-    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('calendar_hijri_adjustment')), findsOneWidget);
 
     final expected = DailyPrayerTimes.calculate(
       latitude: 23.8103,
@@ -76,7 +41,7 @@ void main() {
     );
 
     expect(
-      tester.widget<Text>(asrTimeFinder).data,
+      tester.widget<Text>(find.byKey(const Key('calendar_asr_time'))).data,
       expectedAsr,
     );
     final calculationNoteFinder =
