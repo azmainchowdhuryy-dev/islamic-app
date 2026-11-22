@@ -177,7 +177,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 350));
 
     expect(find.text('আজকের আমলের তালিকা'), findsOneWidget);
-    expect(find.text('২ / ৬ আমল সম্পন্ন'), findsOneWidget);
+    expect(find.text('2 / 6 আমল সম্পন্ন'), findsOneWidget);
   });
 
   testWidgets('Home dashboard displays the redesigned prayer header and features', (tester) async {
