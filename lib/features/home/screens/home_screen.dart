@@ -407,7 +407,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ],
                               ),
                             ),
-                          ],
                             const SizedBox(width: 8),
                             Container(
                               padding: const EdgeInsets.all(3),
