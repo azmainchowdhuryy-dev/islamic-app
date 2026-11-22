@@ -335,6 +335,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
             final todayPrefs = ref.read(sharedPrefsProvider);
             const validPrayerKeys = {'fajr', 'dhuhr', 'asr', 'maghrib', 'isha'};
+            const validDailyAmalKeys = {
+              'quran',
+              'morning',
+              'evening',
+              'charity',
+              'parents',
+              'istighfar',
+            };
             final savedPrayerKeys = (todayPrefs
                         .getStringList('prayer_tracker_$todayKey') ??
                     [])
@@ -344,7 +352,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ? Set<String>.from(_homePrayerDoneOverride ?? savedPrayerKeys)
                 : savedPrayerKeys;
             final prayerDone = prayerDoneKeys.length;
-            final prayerPercent = (prayerDone / 5 * 100).round();
+            final dailyAmalDone = (todayPrefs
+                        .getStringList('daily_amal_$todayKey') ??
+                    [])
+                .where(validDailyAmalKeys.contains)
+                .toSet()
+                .length;
             final isNarrowHome = MediaQuery.of(context).size.width < 360;
             final languageToggle = Container(
               padding: const EdgeInsets.all(3),
@@ -562,136 +575,105 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                height: 36,
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 6,
+                            runSpacing: 6,
+                            children: [
+                              Container(
+                                key: const Key('home_location_chip'),
+                                height: 34,
+                                padding: const EdgeInsets.symmetric(horizontal: 9),
                                 decoration: BoxDecoration(
-                                  color: colorScheme.primaryContainer,
-                                  borderRadius: BorderRadius.circular(24),
+                                  color: AppColors.activeSurface,
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.location_on,
-                                        size: 18,
-                                        color: colorScheme.onPrimaryContainer),
-                                    const SizedBox(width: 4),
-                                    Expanded(
-                                      child: PopupMenuButton<String>(
-                                        key: const Key('home_location_dropdown'),
-                                        tooltip: lang == 'bn'
-                                            ? 'জেলা পরিবর্তন করুন'
-                                            : 'Change location',
-                                        color: colorScheme.surface,
-                                        surfaceTintColor: Colors.transparent,
-                                        onSelected: _saveCity,
-                                        itemBuilder: (menuContext) => [
-                                          for (final item in cities)
-                                            PopupMenuItem<String>(
-                                              value: item.id,
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      item.name(lang),
-                                                      maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        color: colorScheme.onSurface,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            item.id == city.id
-                                                                ? FontWeight.w700
-                                                                : FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  if (item.id == city.id)
-                                                    Icon(
-                                                      Icons.check,
-                                                      size: 18,
-                                                      color: colorScheme.primary,
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                        ],
+                                child: PopupMenuButton<String>(
+                                  key: const Key('home_location_dropdown'),
+                                  tooltip: lang == 'bn'
+                                      ? 'জেলা পরিবর্তন করুন'
+                                      : 'Change location',
+                                  padding: EdgeInsets.zero,
+                                  color: colorScheme.surface,
+                                  surfaceTintColor: Colors.transparent,
+                                  onSelected: _saveCity,
+                                  itemBuilder: (menuContext) => [
+                                    for (final item in cities)
+                                      PopupMenuItem<String>(
+                                        value: item.id,
                                         child: Row(
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                city.name(lang),
+                                                item.name(lang),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                  color: colorScheme.onPrimaryContainer,
+                                                  color: colorScheme.onSurface,
                                                   fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: item.id == city.id
+                                                      ? FontWeight.w700
+                                                      : FontWeight.w500,
                                                 ),
                                               ),
                                             ),
-                                            Icon(
-                                              Icons.keyboard_arrow_down,
-                                              color: colorScheme.onPrimaryContainer,
-                                            ),
+                                            if (item.id == city.id)
+                                              Icon(
+                                                Icons.check,
+                                                size: 18,
+                                                color: colorScheme.primary,
+                                              ),
                                           ],
                                         ),
                                       ),
-                                    ),
                                   ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                height: 42,
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: AppColors.activeSurface,
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        'সূর্যোদয় ' +
-                                            _clockTime(prayers.sunrise, s),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: AppColors.primaryText,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w700,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on,
+                                        size: 16,
+                                        color: AppColors.primaryText,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      ConstrainedBox(
+                                        constraints: const BoxConstraints(maxWidth: 112),
+                                        child: Text(
+                                          city.name(lang),
+                                          key: const Key('home_location_name'),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: AppColors.primaryText,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 22,
-                                      width: 1,
-                                      color: AppColors.subtleBorder,
-                                    ),
-                                    Flexible(
-                                      child: Text(
-                                        'সূর্যাস্ত ' +
-                                            _clockTime(prayers.maghrib, s),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: AppColors.primaryText,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 18,
+                                        color: AppColors.primaryText,
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                              _HomeInfoChip(
+                                key: const Key('home_sunrise_chip'),
+                                label: lang == 'bn' ? 'সূর্যোদয়' : 'Sunrise',
+                                value: _clockTime(prayers.sunrise, s),
+                              ),
+                              _HomeInfoChip(
+                                key: const Key('home_sunset_chip'),
+                                label: lang == 'bn' ? 'সূর্যাস্ত' : 'Sunset',
+                                value: _clockTime(prayers.maghrib, s),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Text(
@@ -942,6 +924,59 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
+                    child: Text(
+                      lang == 'bn' ? 'আজকের ট্র্যাকার' : "Today's Trackers",
+                      style: const TextStyle(
+                        color: AppColors.primaryText,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _HomeTrackerCard(
+                            key: const Key('home_prayer_tracker_card'),
+                            title: lang == 'bn' ? 'নামাজ ট্র্যাকার' : 'Prayer Tracker',
+                            detail: lang == 'bn'
+                                ? '${s.digits('$prayerDone / 5')} সম্পন্ন'
+                                : '$prayerDone / 5 completed',
+                            icon: Icons.mosque_outlined,
+                            progress: prayerDone / 5,
+                            onTap: () => _openTool(
+                              context,
+                              const IbadahToolsScreen(
+                                section: IbadahToolsSection.prayers,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _HomeTrackerCard(
+                            key: const Key('home_daily_amal_tracker_card'),
+                            title: lang == 'bn' ? 'দৈনিক আমল' : 'Daily Amal',
+                            detail: lang == 'bn'
+                                ? '${s.digits('$dailyAmalDone / 6')} সম্পন্ন'
+                                : '$dailyAmalDone / 6 completed',
+                            icon: Icons.checklist_rounded,
+                            progress: dailyAmalDone / 6,
+                            onTap: () => _openTool(
+                              context,
+                              const IbadahToolsScreen(
+                                section: IbadahToolsSection.dailyAmal,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
                     child: Row(
                       children: [
@@ -989,18 +1024,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         crossAxisSpacing: 6,
                       ),
                       children: [
-                        _HomeCircleFeature(
-                          title: 'ট্র্যাকার',
-                          titleMaxLines: 2,
-                          titleFontSize: 12,
-                          icon: Icons.track_changes,
-                          detail: '$prayerPercent%',
-                          progress: prayerDone / 5,
-                          onTap: () => _openTool(
-                            context,
-                            const IbadahToolsScreen(section: IbadahToolsSection.prayers),
-                          ),
-                        ),
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
                           icon: Icons.favorite_outline,
@@ -1144,6 +1167,129 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
+
+class _HomeInfoChip extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _HomeInfoChip({
+    super.key,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 34,
+      padding: const EdgeInsets.symmetric(horizontal: 9),
+      decoration: BoxDecoration(
+        color: AppColors.activeSurface,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              color: AppColors.secondaryText,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              color: AppColors.primaryText,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeTrackerCard extends StatelessWidget {
+  final String title;
+  final String detail;
+  final IconData icon;
+  final double progress;
+  final VoidCallback onTap;
+
+  const _HomeTrackerCard({
+    super.key,
+    required this.title,
+    required this.detail,
+    required this.icon,
+    required this.progress,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 96),
+          padding: const EdgeInsets.all(11),
+          decoration: AppSurfaceStyles.middleCard(radius: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, size: 18, color: AppColors.primaryAccent),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.primaryText,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 7),
+              Text(
+                detail,
+                style: const TextStyle(
+                  color: AppColors.secondaryText,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 6),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progress.clamp(0.0, 1.0),
+                  minHeight: 4,
+                  backgroundColor: AppColors.subtleBorder,
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    AppColors.primaryAccent,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class _LanguageChoice extends StatelessWidget {
   final String label;
