@@ -148,10 +148,12 @@ void main() {
   }
 
   testWidgets('Home daily Amal tracker reads saved progress and opens its checklist', (tester) async {
-    const dateKey = '2026-11-22';
+    final today = bangladeshCalendarDate(DateTime.now());
+    final dateKey =
+        '${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
     await _pumpMainShell(
       tester,
-      clock: () => DateTime.utc(2026, 11, 21, 18, 30),
+      clock: DateTime.now,
       initialPreferences: {
         'daily_amal_$dateKey': ['quran', 'morning'],
       },
@@ -171,7 +173,8 @@ void main() {
     );
 
     await tester.tap(find.byKey(const Key('home_daily_amal_tracker_card')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
 
     expect(find.text('আজকের আমলের তালিকা'), findsOneWidget);
     expect(find.text('২ / ৬ আমল সম্পন্ন'), findsOneWidget);
