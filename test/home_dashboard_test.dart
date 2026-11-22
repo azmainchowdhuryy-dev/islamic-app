@@ -107,11 +107,20 @@ void main() {
         final dropdownFinder =
             find.byKey(const Key('home_location_dropdown'));
         final dropdown =
-            tester.widget<DropdownButton<String>>(dropdownFinder);
+            tester.widget<PopupMenuButton<String>>(dropdownFinder);
         final scheme = Theme.of(tester.element(dropdownFinder)).colorScheme;
 
-        expect(dropdown.dropdownColor, scheme.surface);
-        expect(dropdown.style?.color, scheme.onPrimaryContainer);
+        expect(dropdown.color, scheme.surface);
+        expect(dropdown.surfaceTintColor, Colors.transparent);
+        expect(
+          tester.widget<Text>(
+            find.descendant(
+              of: dropdownFinder,
+              matching: find.text('ঢাকা'),
+            ),
+          ).style?.color,
+          scheme.onPrimaryContainer,
+        );
 
         await tester.tap(dropdownFinder);
         await tester.pump();
