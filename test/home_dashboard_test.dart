@@ -122,7 +122,10 @@ void main() {
       await tester.scrollUntilVisible(
         find.text(section),
         260,
-        scrollable: calendarScroll,
+        scrollable: find.descendant(
+          of: calendarScroll,
+          matching: find.byType(Scrollable),
+        ),
       );
       expect(find.text(section), findsOneWidget);
     }
