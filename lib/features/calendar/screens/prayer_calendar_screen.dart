@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'dart:ui' show FontFeature;
 
 import 'package:material_ui/material_ui.dart';
-import 'package:adhan/adhan.dart';
 import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:flutter/services.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
@@ -266,7 +266,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (sheetContext) => SafeArea(
+      builder: (_) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
           child: Column(
@@ -834,9 +834,9 @@ class _BengaliDatePickerDialogState extends State<_BengaliDatePickerDialog> {
   void initState() {
     super.initState();
     final initial = widget.initialDate;
-    _year = initial.year.clamp(widget.firstYear, widget.lastYear);
+    _year = initial.year.clamp(widget.firstYear, widget.lastYear).toInt();
     _month = initial.month;
-    _day = initial.day.clamp(1, DateUtils.getDaysInMonth(_year, _month));
+    _day = initial.day.clamp(1, DateUtils.getDaysInMonth(_year, _month)).toInt();
     _monthController = FixedExtentScrollController(initialItem: _month - 1);
     _dayController = FixedExtentScrollController(initialItem: _day - 1);
     _yearController = FixedExtentScrollController(
@@ -852,7 +852,7 @@ class _BengaliDatePickerDialogState extends State<_BengaliDatePickerDialog> {
   }
 
   void _clampDay() {
-    final nextDay = _day.clamp(1, _daysInMonth);
+    final nextDay = _day.clamp(1, _daysInMonth).toInt();
     if (nextDay != _day) {
       _day = nextDay;
       WidgetsBinding.instance.addPostFrameCallback((_) {
