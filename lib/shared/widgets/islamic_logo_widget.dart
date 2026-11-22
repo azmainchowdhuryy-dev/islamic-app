@@ -73,6 +73,13 @@ class _IslamicLogoPainter extends CustomPainter {
     canvas.translate(offset.dx, offset.dy);
     canvas.scale(scale);
 
+    canvas.save();
+    canvas.clipPath(
+      Path()..addOval(
+        const Rect.fromCircle(center: _center, radius: 110),
+      ),
+    );
+
     _drawBackground(canvas);
     _drawMinaret(canvas);
     _drawDomeAndArch(canvas);
@@ -102,6 +109,7 @@ class _IslamicLogoPainter extends CustomPainter {
     _drawDecorativeDots(canvas);
 
     canvas.restore();
+    canvas.restore();
   }
 
   void _drawBackground(Canvas canvas) {
@@ -118,8 +126,6 @@ class _IslamicLogoPainter extends CustomPainter {
         ],
       ).createShader(circleRect);
 
-    canvas.save();
-    canvas.clipPath(Path()..addOval(circleRect));
     canvas.drawCircle(_center, 110, backgroundPaint);
 
     final glowCenter = const Offset(123.2, 121);
@@ -156,7 +162,6 @@ class _IslamicLogoPainter extends CustomPainter {
       ..strokeWidth = 0.65
       ..color = const Color(0xFFFFE5B4).withValues(alpha: 0.22);
     canvas.drawCircle(_center, 103.8, innerRimPaint);
-    canvas.restore();
   }
 
   void _drawMinaret(Canvas canvas) {
