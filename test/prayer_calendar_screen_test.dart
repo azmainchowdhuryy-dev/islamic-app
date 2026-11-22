@@ -43,7 +43,8 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(home: PrayerCalendarScreen()),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
 
     final expected = DailyPrayerTimes.calculate(
       latitude: 23.8103,
