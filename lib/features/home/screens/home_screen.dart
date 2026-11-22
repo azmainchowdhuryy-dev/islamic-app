@@ -272,7 +272,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 .clamp(0.0, 1.0)
                 .toDouble();
 
-            final bangladeshDate = DateTime.utc(
+            final bangladeshDate = DateTime(
               _now.year, _now.month, _now.day,
             );
             final banglaDate = BanglaDate.fromDateTime(bangladeshDate);
