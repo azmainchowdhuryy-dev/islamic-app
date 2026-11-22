@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
-import '../widgets/islamic_logo_widget.dart';
+import '../../../shared/widgets/islamic_logo_widget.dart';
 
 class LogoPreviewScreen extends StatelessWidget {
   const LogoPreviewScreen({super.key});
