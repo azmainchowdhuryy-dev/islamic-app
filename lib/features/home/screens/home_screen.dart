@@ -787,7 +787,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 ? AppColors.primaryAccent
                                                 : AppColors.secondaryText,
                                       ),
-                                      const SizedBox(width: 15),
+                                      const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
                                           s.t(entry.key),
@@ -812,17 +812,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             shape: BoxShape.circle,
                                           ),
                                         ),
-                                      Text(
-                                        '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
-                                        style: TextStyle(
-                                          color: isNext
-                                              ? AppColors.primaryText
-                                              : AppColors.secondaryText,
-                                          fontSize: 14,
-                                          fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
+                                      Flexible(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            '${_clockTime(entry.value, s)} - ${_clockTime(endTime, s)}',
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              color: isNext
+                                                  ? AppColors.primaryText
+                                                  : AppColors.secondaryText,
+                                              fontSize: 14,
+                                              fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                      const SizedBox(width: 12),
+                                      const SizedBox(width: 4),
                                       IconButton(
                                         key: Key('home_prayer_toggle_${entry.key}'),
                                         constraints: const BoxConstraints(
