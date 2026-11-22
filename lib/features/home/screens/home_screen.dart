@@ -869,11 +869,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         const Icon(Icons.calendar_month_outlined,
-                                            color: AppColors.primaryText),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          lang == 'bn' ? 'ক্যালেন্ডার' : 'Calendar',
-                                          style: const TextStyle(color: AppColors.primaryText),
+                                            color: AppColors.primaryText, size: 20),
+                                        const SizedBox(width: 6),
+                                        Flexible(
+                                          child: Text(
+                                            lang == 'bn' ? 'ক্যালেন্ডার' : 'Calendar',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: AppColors.primaryText,
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
