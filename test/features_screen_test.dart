@@ -179,7 +179,7 @@ void main() {
     expect(find.text('হাদিস ও দোয়া'), findsOneWidget);
   });
 
-  testWidgets('Prayer tracker feature opens both worship checklists', (tester) async {
+  testWidgets('Prayer tracker feature opens only the prayer checklist', (tester) async {
     await pumpFeatures(tester);
     await _openFeature(tester, 'আজকের নামাজ');
 
@@ -198,7 +198,7 @@ void main() {
     );
     expect(
       find.descendant(of: trackerScreen, matching: find.text('আজকের আমলের তালিকা')),
-      findsOneWidget,
+      findsNothing,
     );
     expect(
       find.descendant(
