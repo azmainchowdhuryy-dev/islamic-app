@@ -580,55 +580,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         color: colorScheme.onPrimaryContainer),
                                     const SizedBox(width: 4),
                                     Expanded(
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          key: const Key('home_location_dropdown'),
-                                          value: city.id,
-                                          isExpanded: true,
-                                          dropdownColor: colorScheme.surface,
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: colorScheme.onPrimaryContainer,
-                                          ),
-                                          style: TextStyle(
-                                            color: colorScheme.onPrimaryContainer,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          selectedItemBuilder: (context) => [
-                                            for (final item in cities)
-                                              Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  item.name(lang),
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: colorScheme.onPrimaryContainer,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
+                                      child: PopupMenuButton<String>(
+                                        key: const Key('home_location_dropdown'),
+                                        tooltip: lang == 'bn'
+                                            ? 'জেলা পরিবর্তন করুন'
+                                            : 'Change location',
+                                        color: colorScheme.surface,
+                                        surfaceTintColor: Colors.transparent,
+                                        onSelected: _saveCity,
+                                        itemBuilder: (menuContext) => [
+                                          for (final item in cities)
+                                            PopupMenuItem<String>(
+                                              value: item.id,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      item.name(lang),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        color: colorScheme.onSurface,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            item.id == city.id
+                                                                ? FontWeight.w700
+                                                                : FontWeight.w500,
+                                                      ),
+                                                    ),
                                                   ),
+                                                  if (item.id == city.id)
+                                                    Icon(
+                                                      Icons.check,
+                                                      size: 18,
+                                                      color: colorScheme.primary,
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                        ],
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                city.name(lang),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: colorScheme.onPrimaryContainer,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
+                                            ),
+                                            Icon(
+                                              Icons.keyboard_arrow_down,
+                                              color: colorScheme.onPrimaryContainer,
+                                            ),
                                           ],
-                                          items: [
-                                            for (final item in cities)
-                                              DropdownMenuItem(
-                                                value: item.id,
-                                                child: Text(
-                                                  item.name(lang),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: colorScheme.onSurface,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                          onChanged: (value) {
-                                            if (value != null) _saveCity(value);
-                                          },
                                         ),
                                       ),
                                     ),
