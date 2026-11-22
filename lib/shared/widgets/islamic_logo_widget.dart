@@ -40,11 +40,11 @@ class _IslamicLogoPainter extends CustomPainter {
   // avoids rebuilding and combining paths every time the logo is painted.
   static final Path _crescentPath = Path.combine(
     PathOperation.difference,
-    Path()..addOval(const Rect.fromCircle(center: Offset.zero, radius: 1)),
+    Path()..addOval(Rect.fromCircle(center: Offset.zero, radius: 1)),
     Path()
       ..addOval(
-        const Rect.fromCircle(
-          center: Offset(0.365, -0.157),
+        Rect.fromCircle(
+          center: const Offset(0.365, -0.157),
           radius: 0.826,
         ),
       ),
