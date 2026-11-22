@@ -945,7 +945,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             detail: lang == 'bn'
                                 ? '${s.digits('$prayerDone / 5')} সম্পন্ন'
                                 : '$prayerDone / 5 completed',
-                            icon: Icons.mosque_outlined,
+                            icon: Icons.access_time_rounded,
                             progress: prayerDone / 5,
                             onTap: () => _openTool(
                               context,
@@ -1275,7 +1275,7 @@ class _HomeTrackerCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
-                  value: progress.clamp(0.0, 1.0),
+                  value: progress.clamp(0.0, 1.0).toDouble(),
                   minHeight: 4,
                   backgroundColor: AppColors.subtleBorder,
                   valueColor: const AlwaysStoppedAnimation<Color>(
