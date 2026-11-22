@@ -81,6 +81,8 @@ class FeaturesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final strings = ref.watch(stringsProvider);
     final bn = strings.lang == 'bn';
+    final featureCardAspectRatio =
+        MediaQuery.of(context).size.width < 360 ? 0.9 : 1.25;
 
     return Scaffold(
       appBar: AppBar(title: Text(bn ? 'সব ফিচার' : 'All Features')),
@@ -138,7 +140,7 @@ class FeaturesScreen extends ConsumerWidget {
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: 1.25,
+            childAspectRatio: featureCardAspectRatio,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: [
@@ -169,7 +171,7 @@ class FeaturesScreen extends ConsumerWidget {
             crossAxisCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: 1.25,
+            childAspectRatio: featureCardAspectRatio,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: [
