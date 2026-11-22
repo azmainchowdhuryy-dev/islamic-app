@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/core/services/prefs.dart';
+import 'package:islamic_app/core/time/bangladesh_clock.dart';
 import 'package:islamic_app/features/settings/screens/ibadah_tools_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,7 +52,7 @@ void main() {
   });
 
   testWidgets('malformed saved tracker and favorite values are ignored', (tester) async {
-    final now = DateTime.now();
+    final now = bangladeshCalendarDate(DateTime.now());
     final dateKey =
         '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
     SharedPreferences.setMockInitialValues({
