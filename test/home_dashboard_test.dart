@@ -56,7 +56,7 @@ void main() {
         .map((item) => HomeCity.fromJson(item as Map<String, dynamic>))
         .toList();
 
-    expect(cities, isNotEmpty);
+    expect(cities.length, greaterThanOrEqualTo(20));
     expect(cities.map((city) => city.id).toSet().length, cities.length);
     expect(cities.any((city) => city.id == 'dhaka'), isTrue);
     for (final city in cities) {
@@ -97,6 +97,29 @@ void main() {
     expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
   });
 
+
+  testWidgets('Home calendar icon opens the separate prayer calendar screen', (tester) async {
+    await _pumpMainShell(tester);
+
+    await tester.tap(find.byKey(const Key('home_open_prayer_calendar')));
+    for (var i = 0;
+        i < 30 && find.text('সালাতের সময়').evaluate().isEmpty;
+        i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+
+    expect(find.text('ক্যালেন্ডার'), findsOneWidget);
+    expect(find.text('সালাতের সময়'), findsOneWidget);
+    expect(find.text('নফল সালাতের সময়'), findsOneWidget);
+    expect(find.text('সালাতের নিষিদ্ধ সময়'), findsOneWidget);
+    expect(find.text('সাওমের সময়সূচী'), findsOneWidget);
+    expect(find.text('সূর্যোদয় ও সূর্যাস্ত'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('ফিরে যান'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    expect(find.text('নামাজের সময়সূচি'), findsOneWidget);
+  });
 
   testWidgets('Home prayer countdown text sits inside the upper arch and panels are compact', (tester) async {
     await _pumpMainShell(tester);
