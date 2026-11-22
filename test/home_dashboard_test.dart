@@ -224,7 +224,11 @@ void main() {
   testWidgets('Home middle calendar button opens the same prayer calendar screen', (tester) async {
     await _pumpMainShell(tester);
 
-    await tester.tap(find.byKey(const Key('home_middle_calendar_button')));
+    final middleCalendar =
+        find.byKey(const Key('home_middle_calendar_button'));
+    await tester.ensureVisible(middleCalendar);
+    await tester.tap(middleCalendar);
+    await tester.pump();
     for (var i = 0;
         i < 30 && find.byKey(const Key('prayer_calendar_scroll_view')).evaluate().isEmpty;
         i++) {
