@@ -125,11 +125,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     await ref.read(sharedPrefsProvider).setInt('home_calc_method', value.index);
   }
 
-  Future<void> _saveHijriOffset(int value) async {
-    setState(() => _hijriOffset = value);
-    await ref.read(sharedPrefsProvider).setInt('hijri_offset', value);
-  }
-
   Future<void> _togglePrayerFromHome(
     String key,
     Set<String> current,
@@ -196,9 +191,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
     );
     if (!mounted) return;
-    final savedCity = ref.read(sharedPrefsProvider).getString('home_city');
-    if (savedCity != null && savedCity != _cityId) {
-      setState(() => _cityId = savedCity);
+    final prefs = ref.read(sharedPrefsProvider);
+    final savedCity = prefs.getString('home_city') ?? 'dhaka';
+    final savedHanafi = prefs.getBool('home_hanafi') ?? true;
+    final savedMethodIndex = (prefs.getInt('home_calc_method') ?? 0)
+        .clamp(0, PrayerCalculation.values.length - 1)
+        .toInt();
+    final savedHijriOffset =
+        (prefs.getInt('hijri_offset') ?? 0).clamp(-1, 1).toInt();
+    if (savedCity != _cityId ||
+        savedHanafi != _hanafi ||
+        PrayerCalculation.values[savedMethodIndex] != _method ||
+        savedHijriOffset != _hijriOffset) {
+      setState(() {
+        _cityId = savedCity;
+        _hanafi = savedHanafi;
+        _method = PrayerCalculation.values[savedMethodIndex];
+        _hijriOffset = savedHijriOffset;
+      });
     }
   }
 
@@ -311,14 +321,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ? weekdaysBn[_now.weekday - 1]
                 : weekdaysEn[_now.weekday - 1];
             final hijriDateLabel = lang == 'bn'
-                ? 'হিজরি: $weekdayLabel, ${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)}'
-                : 'Hijri: $weekdayLabel, ${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year} AH';
+                ? '$weekdayLabel, ${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)}'
+                : '$weekdayLabel, ${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year}';
             final gregorianDateLabel = lang == 'bn'
-                ? 'ইংরেজি: ${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}'
-                : 'Gregorian: ${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
+                ? '${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}'
+                : '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
             final banglaDateLabel = lang == 'bn'
-                ? 'বাংলা: ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
-                : 'Bangla: ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt} BS';
+                ? '${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
+                : '${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
 
             final todayKey =
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
@@ -375,7 +385,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Column(
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
                               key: const Key('home_open_prayer_calendar'),
@@ -409,8 +419,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    gregorianDateLabel,
-                                    key: const Key('home_gregorian_date'),
+                                    banglaDateLabel,
+                                    key: const Key('home_bangla_date'),
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
@@ -419,8 +429,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   const SizedBox(height: 1),
                                   Text(
-                                    banglaDateLabel,
-                                    key: const Key('home_bangla_date'),
+                                    gregorianDateLabel,
+                                    key: const Key('home_gregorian_date'),
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
@@ -866,36 +876,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 color: AppColors.subtleBorder,
                               ),
                               Expanded(
-                                child: PopupMenuButton<int>(
-                                  tooltip: s.t('hijri_adjustment'),
-                                  initialValue: _hijriOffset,
-                                  onSelected: _saveHijriOffset,
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(value: -1, child: Text(s.t('hijri_minus_one'))),
-                                    PopupMenuItem(value: 0, child: Text(s.t('hijri_no_adjustment'))),
-                                    PopupMenuItem(value: 1, child: Text(s.t('hijri_plus_one'))),
-                                  ],
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(Icons.calendar_month_outlined,
-                                            color: AppColors.primaryText, size: 20),
-                                        const SizedBox(width: 6),
-                                        Flexible(
-                                          child: Text(
-                                            lang == 'bn' ? 'ক্যালেন্ডার' : 'Calendar',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              color: AppColors.primaryText,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                child: TextButton.icon(
+                                  key: const Key('home_middle_calendar_button'),
+                                  onPressed: () => _openPrayerCalendar(context),
+                                  style: TextButton.styleFrom(
+                                    minimumSize: const Size(0, 40),
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  icon: const Icon(
+                                    Icons.calendar_month_outlined,
+                                    color: AppColors.primaryText,
+                                    size: 20,
+                                  ),
+                                  label: Text(
+                                    lang == 'bn' ? 'ক্যালেন্ডার' : 'Calendar',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: AppColors.primaryText,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
