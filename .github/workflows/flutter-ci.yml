@@ -7,7 +7,9 @@ concurrency:
 on:
   push:
     branches:
+      - main
       - feature/home-dashboard
+      - fix/launcher-icon-and-ci
   pull_request:
     branches:
       - main
