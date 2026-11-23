@@ -4,8 +4,8 @@
     <application
         android:label="Islamic App"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher_v2"
+        android:roundIcon="@mipmap/ic_launcher_v2_round">
         <activity
             android:name=".MainActivity"
             android:exported="true"
