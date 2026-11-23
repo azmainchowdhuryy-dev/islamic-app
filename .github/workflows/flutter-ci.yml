@@ -7,7 +7,9 @@ concurrency:
 on:
   push:
     branches:
+      - main
       - feature/home-dashboard
+      - fix/launcher-icon-and-ci
   pull_request:
     branches:
       - main
@@ -19,7 +21,7 @@ jobs:
   validate:
     name: Analyze, test and build Android APK
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,6 +32,9 @@ jobs:
           flutter-version: "3.50.1"
           channel: stable
           cache: true
+
+      - name: Set up Gradle dependency cache
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Show toolchain versions
         run: |
@@ -47,7 +52,19 @@ jobs:
         run: flutter test --reporter expanded
 
       - name: Build release APKs
-        run: flutter build apk --release --split-per-abi
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            echo "Release APK build attempt ${attempt}/3"
+            if flutter build apk --release --split-per-abi; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              sleep $((attempt * 20))
+            fi
+          done
+          echo "Release APK build failed after 3 attempts."
+          exit 1
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4

@@ -8,7 +8,8 @@ import 'package:islamic_app/shared/widgets/islamic_logo_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  testWidgets('More screen keeps settings and removes duplicate worship shortcuts', (tester) async {
+  testWidgets('More screen uses the approved app logo and keeps settings',
+      (tester) async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
 
@@ -19,6 +20,18 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(IslamicAppLogo), findsOneWidget);
+    final logoImage = tester.widget<Image>(
+      find.descendant(
+        of: find.byType(IslamicAppLogo),
+        matching: find.byType(Image),
+      ),
+    );
+    expect(logoImage.image, isA<AssetImage>());
+    expect(
+      (logoImage.image as AssetImage).assetName,
+      'assets/images/islamic_app_logo.webp',
+    );
+
     await tester.tap(find.byKey(const Key('more_logo_preview')));
     await tester.pumpAndSettle();
 
@@ -30,9 +43,9 @@ void main() {
     expect(
       find.descendant(
         of: find.byType(IslamicAppLogo),
-        matching: find.byType(CustomPaint),
+        matching: find.byType(Image),
       ),
-      findsOneWidget,
+      findsNWidgets(1),
     );
 
     Navigator.of(tester.element(find.byType(LogoPreviewScreen))).pop();
