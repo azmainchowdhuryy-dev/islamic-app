@@ -26,6 +26,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Validate Android launcher and in-app logo assets
+        run: bash tool/verify_brand_assets.sh
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
