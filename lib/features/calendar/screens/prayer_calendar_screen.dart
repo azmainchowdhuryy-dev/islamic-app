@@ -396,6 +396,8 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
     Color firstColor = _muted,
     String? secondDetail,
     Color secondColor = _muted,
+    String? thirdDetail,
+    Color thirdColor = _muted,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -410,6 +412,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
                     fontWeight: FontWeight.w600)),
                 if (firstDetail != null) _detailLine(firstDetail, firstColor),
                 if (secondDetail != null) _detailLine(secondDetail, secondColor),
+                if (thirdDetail != null) _detailLine(thirdDetail, thirdColor),
               ],
             ),
           ),
@@ -661,7 +664,10 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
                 firstDetail: 'উত্তম সময়ের শেষ: ' + _time(firstThirdEnd),
                 firstColor: _accent,
                 secondDetail: 'মাকরূহ: ' + _time(islamicMidnight),
-                secondColor: const Color(0xFFFFC857)),
+                secondColor: const Color(0xFFFFC857),
+                thirdDetail: 'শেষ সময় (পরদিন ফজর শুরু): ' +
+                    _time(DailyPrayerTimes.ishaEndTime(tomorrow.fajr)),
+                thirdColor: _accent),
           ]),
         ),
         const SizedBox(height: 13),

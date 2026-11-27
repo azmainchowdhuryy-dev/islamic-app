@@ -25,6 +25,15 @@ void main() {
       }
     });
 
+    test('Isha deadline is the following Fajr, never the following Dhuhr', () {
+      final nextFajr = DateTime(2026, 11, 23, 5);
+      final nextDhuhr = DateTime(2026, 11, 23, 12);
+      final deadline = DailyPrayerTimes.ishaEndTime(nextFajr);
+
+      expect(deadline, nextFajr);
+      expect(deadline.isBefore(nextDhuhr), isTrue);
+    });
+
     test('Tahajjud milestone starts at the beginning of the final third', () {
       final maghrib = DateTime(2026, 11, 20, 17, 30);
       final nextFajr = DateTime(2026, 11, 21, 4, 45);
@@ -206,7 +215,8 @@ void main() {
       final plan = planAt(20);
 
       expect(plan.items.first.nameKey, 'isha');
-      expect(plan.items.first.target, tomorrow.fajr);
+      expect(plan.items.first.target, DailyPrayerTimes.ishaEndTime(tomorrow.fajr));
+      expect(plan.items.first.target.isBefore(tomorrow.dhuhr), isTrue);
       expect(plan.items[1].nameKey, 'tahajjud');
       expect(
         plan.items[1].target,
