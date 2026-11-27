@@ -45,6 +45,6 @@ grep -Fq '@color/ic_launcher_v3_background' "$adaptive/ic_launcher_v3.xml" || fa
 grep -Fq '#071836' "android/app/src/main/res/values/ic_launcher_v3_background.xml" || fail "Adaptive icon background is not navy"
 
 grep -Fq "assets/images/islamic_app_logo.webp" "lib/shared/widgets/islamic_logo_widget.dart" || fail "In-app logo widget does not use the original logo asset"
-grep -Fq "version: 1.0.6+7" "pubspec.yaml" || fail "App version was not incremented for original-logo update"
+grep -Fq "version: 1.0.7+8" "pubspec.yaml" || fail "App version was not incremented for original-logo update"
 
 echo "Brand assets verified: original circular navy logo, five launcher densities, adaptive and round icons, manifest, and app version."
