@@ -56,6 +56,22 @@ class DailyPrayerTimes {
     return maghrib.add(Duration(seconds: (night.inSeconds / 2).round()));
   }
 
+  /// Returns the last valid time for a prayer period shown in the Home schedule.
+  /// Fajr ends at sunrise. Isha ends at Islamic midnight, halfway from
+  /// Maghrib to the following Fajr. Other periods end one minute before
+  /// the next prayer begins.
+  static DateTime prayerEndTime({
+    required String prayerKey,
+    required DateTime nextPrayer,
+    required DateTime sunrise,
+    required DateTime maghrib,
+    required DateTime nextFajr,
+  }) {
+    if (prayerKey == 'fajr') return sunrise;
+    if (prayerKey == 'isha') return ishaEndTime(maghrib, nextFajr);
+    return nextPrayer.subtract(const Duration(minutes: 1));
+  }
+
   /// Start of the final third of the night, used as the Tahajjud
   /// countdown milestone. The night runs from Maghrib to the following Fajr.
   static DateTime tahajjudStart(DateTime maghrib, DateTime nextFajr) {
