@@ -35,6 +35,31 @@ void main() {
       expect(deadline.isBefore(DateTime(2026, 11, 23, 0)), isTrue);
     });
 
+    test('Fajr ends exactly at sunrise in the Home prayer schedule', () {
+      final sunrise = DateTime(2026, 11, 23, 6, 12);
+      final end = DailyPrayerTimes.prayerEndTime(
+        prayerKey: 'fajr',
+        nextPrayer: DateTime(2026, 11, 23, 12, 5),
+        sunrise: sunrise,
+        maghrib: DateTime(2026, 11, 22, 17, 40),
+        nextFajr: DateTime(2026, 11, 24, 5, 1),
+      );
+      expect(end, sunrise);
+    });
+
+    test('Isha Home schedule ends at Islamic midnight, not next Fajr', () {
+      final maghrib = DateTime(2026, 11, 22, 17, 45);
+      final nextFajr = DateTime(2026, 11, 23, 5);
+      final end = DailyPrayerTimes.prayerEndTime(
+        prayerKey: 'isha',
+        nextPrayer: nextFajr,
+        sunrise: DateTime(2026, 11, 23, 6, 15),
+        maghrib: maghrib,
+        nextFajr: nextFajr,
+      );
+      expect(end, DateTime(2026, 11, 22, 23, 22, 30));
+    });
+
     test('Tahajjud milestone starts at the beginning of the final third', () {
       final maghrib = DateTime(2026, 11, 20, 17, 30);
       final nextFajr = DateTime(2026, 11, 21, 4, 45);
