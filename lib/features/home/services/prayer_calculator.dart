@@ -46,9 +46,15 @@ class DailyPrayerTimes {
     );
   }
 
-  /// The Isha prayer time ends when the following day's true Fajr begins.
-  /// Keep this as one shared rule for the home schedule, countdown and calendar.
-  static DateTime ishaEndTime(DateTime nextFajr) => nextFajr;
+  /// Hadith-based Isha deadline: the midpoint of the night from Maghrib
+  /// until the following Fajr. This is not 12:00 AM by the civil clock.
+  static DateTime ishaEndTime(DateTime maghrib, DateTime nextFajr) {
+    final night = nextFajr.difference(maghrib);
+    if (night.inSeconds <= 0) {
+      throw ArgumentError('The next Fajr must be after Maghrib.');
+    }
+    return maghrib.add(Duration(seconds: (night.inSeconds / 2).round()));
+  }
 
   /// Start of the final third of the night, used as the Tahajjud
   /// countdown milestone. The night runs from Maghrib to the following Fajr.
@@ -150,6 +156,10 @@ class PrayerCountdownPlan {
     final tahajjudStart = DailyPrayerTimes.tahajjudStart(
       nightMaghrib,
       nextFajr,
+    );
+    final ishaEndTime = DailyPrayerTimes.ishaEndTime(
+      today.maghrib,
+      tomorrow.fajr,
     );
     final sunriseEnd = today.sunrise.add(
       Duration(minutes: sunriseProhibitedMinutes),
@@ -281,10 +291,17 @@ class PrayerCountdownPlan {
       );
     }
 
+    if (now.isBefore(ishaEndTime)) {
+      return pair(
+        item('isha', 'ends_in', ishaEndTime),
+        item('tahajjud', 'starts_in', tahajjudStart),
+      );
+    }
+
     if (now.isBefore(tahajjudStart)) {
       return pair(
-        item('isha', 'ends_in', DailyPrayerTimes.ishaEndTime(tomorrow.fajr)),
         item('tahajjud', 'starts_in', tahajjudStart),
+        item('fajr', 'starts_in', tomorrow.fajr),
       );
     }
 

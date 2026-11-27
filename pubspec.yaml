@@ -1,7 +1,7 @@
 name: islamic_app
 description: Islamic educational app for Sadaqah Jariyah.
 publish_to: 'none'
-version: 1.0.5+6
+version: 1.0.6+7
 
 environment:
   sdk: ^3.5.0

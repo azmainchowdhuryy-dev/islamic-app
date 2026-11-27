@@ -753,8 +753,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               final entry = todayEntries[i];
                               final endTime = i < todayEntries.length - 1
                                   ? todayEntries[i + 1].value.subtract(const Duration(minutes: 1))
-                                  : DailyPrayerTimes.ishaEndTime(tomorrow.fajr)
-                                      .subtract(const Duration(minutes: 1));
+                                  : DailyPrayerTimes.ishaEndTime(prayers.maghrib, tomorrow.fajr);
                               final isNext = countdownPlan.items.any(
                                 (item) => item.nameKey == entry.key && item.statusKey == 'starts_in',
                               );

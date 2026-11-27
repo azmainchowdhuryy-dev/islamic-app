@@ -27,7 +27,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('calendar_hijri_adjustment')), findsOneWidget);
-    expect(find.textContaining('শেষ সময় (পরদিন ফজর শুরু)'), findsOneWidget);
+    expect(find.textContaining('ইশার শেষ সময় (রাতের অর্ধেক)'), findsOneWidget);
 
     final expected = DailyPrayerTimes.calculate(
       latitude: 23.8103,

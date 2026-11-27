@@ -624,8 +624,10 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
         DailyPrayerTimes.tahajjudStart(prayers.maghrib, tomorrow.fajr);
     final firstThirdEnd = prayers.maghrib.add(
         Duration(seconds: (night.inSeconds / 3).round()));
-    final islamicMidnight = prayers.maghrib.add(
-        Duration(seconds: (night.inSeconds / 2).round()));
+    final islamicMidnight = DailyPrayerTimes.ishaEndTime(
+      prayers.maghrib,
+      tomorrow.fajr,
+    );
     final duhaStart = DailyPrayerTimes.duhaStart(prayers.sunrise);
     final zenithStart = prayers.dhuhr.subtract(const Duration(minutes: 10));
     final sunriseEnd = prayers.sunrise.add(const Duration(minutes: 15));
@@ -645,7 +647,7 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
           title: 'সালাতের সময়',
           references: const [
             'আল-কুরআন, সূরা আল-ইসরা ১৭:৭৮।',
-            'সহিহ মুসলিম ৬১২e: পাঁচ ওয়াক্ত সালাতের সময়সীমা।',
+            'সহিহ মুসলিম ৬১২a: ইশার সময় রাতের অর্ধেক পর্যন্ত।',
             'আসরের সময় হানাফি মাযহাব অনুযায়ী গণনা করা হয়েছে।',
           ],
           child: Column(children: [
@@ -663,11 +665,9 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
             _prayerRow('ইশা', prayers.isha,
                 firstDetail: 'উত্তম সময়ের শেষ: ' + _time(firstThirdEnd),
                 firstColor: _accent,
-                secondDetail: 'মাকরূহ: ' + _time(islamicMidnight),
-                secondColor: const Color(0xFFFFC857),
-                thirdDetail: 'শেষ সময় (পরদিন ফজর শুরু): ' +
-                    _time(DailyPrayerTimes.ishaEndTime(tomorrow.fajr)),
-                thirdColor: _accent),
+                secondDetail: 'ইশার শেষ সময় (রাতের অর্ধেক): ' +
+                    _time(islamicMidnight),
+                secondColor: const Color(0xFFFFC857)),
           ]),
         ),
         const SizedBox(height: 13),

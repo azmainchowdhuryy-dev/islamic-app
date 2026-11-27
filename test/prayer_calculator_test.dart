@@ -25,13 +25,14 @@ void main() {
       }
     });
 
-    test('Isha deadline is the following Fajr, never the following Dhuhr', () {
+    test('Isha deadline is the exact midpoint between Maghrib and next Fajr', () {
+      final maghrib = DateTime(2026, 11, 22, 17, 45);
       final nextFajr = DateTime(2026, 11, 23, 5);
-      final nextDhuhr = DateTime(2026, 11, 23, 12);
-      final deadline = DailyPrayerTimes.ishaEndTime(nextFajr);
+      final deadline = DailyPrayerTimes.ishaEndTime(maghrib, nextFajr);
 
-      expect(deadline, nextFajr);
-      expect(deadline.isBefore(nextDhuhr), isTrue);
+      expect(deadline, DateTime(2026, 11, 22, 23, 22, 30));
+      expect(deadline.isBefore(nextFajr), isTrue);
+      expect(deadline.isBefore(DateTime(2026, 11, 23, 0)), isTrue);
     });
 
     test('Tahajjud milestone starts at the beginning of the final third', () {
@@ -211,12 +212,25 @@ void main() {
       expect(plan.items[1].nameKey, 'isha');
     });
 
+    test('after Islamic midnight, shows Tahajjud start instead of extending Isha', () {
+      final plan = planAt(23, 30);
+      final midpoint = DailyPrayerTimes.ishaEndTime(today.maghrib, tomorrow.fajr);
+
+      expect(DateTime(day.year, day.month, day.day, 23, 30).isAfter(midpoint), isTrue);
+      expect(plan.items.first.nameKey, 'tahajjud');
+      expect(plan.items.first.statusKey, 'starts_in');
+      expect(plan.items.first.target, DailyPrayerTimes.tahajjudStart(today.maghrib, tomorrow.fajr));
+      expect(plan.items[1].nameKey, 'fajr');
+    });
+
     test('shows Isha end and next Tahajjud start during Isha', () {
       final plan = planAt(20);
 
       expect(plan.items.first.nameKey, 'isha');
-      expect(plan.items.first.target, DailyPrayerTimes.ishaEndTime(tomorrow.fajr));
-      expect(plan.items.first.target.isBefore(tomorrow.dhuhr), isTrue);
+      expect(
+        plan.items.first.target,
+        DailyPrayerTimes.ishaEndTime(today.maghrib, tomorrow.fajr),
+      );
       expect(plan.items[1].nameKey, 'tahajjud');
       expect(
         plan.items[1].target,
