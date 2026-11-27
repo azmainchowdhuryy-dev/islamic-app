@@ -651,7 +651,12 @@ class _PrayerCalendarScreenState extends State<PrayerCalendarScreen> {
             'আসরের সময় হানাফি মাযহাব অনুযায়ী গণনা করা হয়েছে।',
           ],
           child: Column(children: [
-            _prayerRow('ফজর', prayers.fajr),
+            _prayerRow(
+              'ফজর',
+              prayers.fajr,
+              firstDetail: 'ফজরের শেষ সময় (সূর্যোদয়): ' + _time(prayers.sunrise),
+              firstColor: _accent,
+            ),
             const Divider(height: 1, color: _divider),
             _prayerRow('যুহর', prayers.dhuhr),
             const Divider(height: 1, color: _divider),
