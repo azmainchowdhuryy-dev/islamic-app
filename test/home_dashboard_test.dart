@@ -262,9 +262,14 @@ void main() {
       'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
       'رَمَضَان', 'شَوَّال', 'ذُو القَعْدَة', 'ذُو الحِجَّة',
     ];
+    const hijriMonthsBn = [
+      'মহররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি',
+      'জমাদিউল আউয়াল', 'জমাদিউস সানি', 'রজব', 'শাবান',
+      'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ',
+    ];
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      '${hijri.day} ${hijriMonthsAr[hijri.month - 1]} ${hijri.year} هـ',
+      '${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')} হিজরি',
     );
     await tester.tap(find.text('EN'));
     await tester.pump();
