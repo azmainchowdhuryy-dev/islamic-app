@@ -17,7 +17,6 @@ class MoreScreen extends ConsumerStatefulWidget {
 }
 
 class _MoreScreenState extends ConsumerState<MoreScreen> {
-  late bool _prayerNotifications;
   late bool _adhkarNotifications;
   late int _morningHour;
   late int _morningMinute;
@@ -28,8 +27,6 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   void initState() {
     super.initState();
     final prefs = ref.read(sharedPrefsProvider);
-    _prayerNotifications =
-        prefs.getBool('notifications_prayer_enabled') ?? false;
     _adhkarNotifications =
         prefs.getBool('notifications_adhkar_enabled') ?? false;
     _morningHour = prefs.getInt('adhkar_morning_hour') ?? 6;
@@ -58,9 +55,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     ref.read(notificationSettingsRevisionProvider.notifier).state++;
     if (!mounted) return;
     setState(() {
-      if (key == 'notifications_prayer_enabled') {
-        _prayerNotifications = value;
-      } else {
+      if (key == 'notifications_adhkar_enabled') {
         _adhkarNotifications = value;
       }
     });
