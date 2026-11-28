@@ -9,6 +9,7 @@ import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
 
 import '../../../core/localization/app_strings.dart';
+import '../../../core/localization/bn_digits.dart';
 import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
 import '../../../core/theme/app_colors.dart';
@@ -317,7 +318,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final hijriDateLabel =
                 '${hijriDate.day} ${hijriMonthsAr[hijriDate.month - 1]} ${hijriDate.year} هـ';
             final gregorianDateLabel =
-                '${weekdaysBn[_now.weekday - 1]}, ${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}';
+                '${weekdaysBn[_now.weekday - 1]}, ${localizeDigits(_now.day, 'bn')} ${gregorianMonthsBn[_now.month - 1]} ${localizeDigits(_now.year, 'bn')}';
             final banglaDateLabel = lang == 'bn'
                 ? '${weekdaysBn[_now.weekday - 1]}, ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
                 : '${weekdaysEn[_now.weekday - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
