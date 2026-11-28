@@ -169,16 +169,6 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                 style: theme.textTheme.headlineSmall?.copyWith(height: 1.9),
               ),
             ),
-            if ((dua['transliteration_bn'] as String? ?? '').isNotEmpty) ...[
-              const SizedBox(height: 10),
-              Text(
-                'উচ্চারণ: ${dua['transliteration_bn']}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                  height: 1.5,
-                ),
-              ),
-            ],
             const SizedBox(height: 14),
             Text(
               lang == 'bn' || (dua['english_translation'] as String? ?? '').isEmpty
