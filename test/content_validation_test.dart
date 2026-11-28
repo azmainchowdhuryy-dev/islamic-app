@@ -136,7 +136,7 @@ void main() {
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
     expect(hadith.length, 198);
-    expect(duas.length, 99);
+    expect(duas.length, 88);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -208,7 +208,7 @@ void main() {
       'সহিহ আল-বুখারি ও সহিহ মুসলিম',
     ].contains(item['source'])), isTrue);
     expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 9);
-    expect(duas.where((item) => item['usage_category'] == 'daily').length, 90);
+    expect(duas.where((item) => item['usage_category'] == 'daily').length, 79);
   });
 
   test('each Bengali topic has exactly one English category label', () {
@@ -263,12 +263,6 @@ void main() {
         'বিপদ ও নিরাপত্তা',
         'যিকির ও ইবাদত',
         'সকাল-সন্ধ্যা',
-        'সালাত ও যিক্‌র',
-        'আশ্রয় ও হেফাজত',
-        'সফর ও ভ্রমণ',
-        'হজ্জ ও উমরা',
-        'সম্পত্তি ও রিজিক',
-        'শুকরিয়া ও তওবা',
       },
     );
   });
