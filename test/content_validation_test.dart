@@ -189,11 +189,12 @@ void main() {
         (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
     expect(additionalBukhari.map((item) => item['reference']).toSet(), hasLength(10));
 
-    final newQuranDuas = duas.where((item) =>
-        item['collection_batch'] == 'expanded-200-total-dua-2026-11-28' &&
-        (item['id'] as String).startsWith('quran-')).toList();
-    expect(newQuranDuas, hasLength(11));
-    expect(newQuranDuas.every((item) => item['source'] == 'আল-কুরআন'), isTrue);
+    final quranDuas = duas
+        .where((item) => item['source'] == 'আল-কুরআন')
+        .toList();
+    expect(quranDuas, hasLength(70));
+    expect(quranDuas.every((item) =>
+        (item['verified_by'] as String).contains('https://quran.com/')), isTrue);
 
     final additionalSahihDuas = duas.where((item) =>
         item['collection_batch'] == 'verified-sahih-dua-2026-11-28').toList();
