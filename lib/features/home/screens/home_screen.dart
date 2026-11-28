@@ -1075,7 +1075,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         _HomeCircleFeature(
-                          title: lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics',
+                          title: lang == 'bn' ? 'দৈনন্দিন ব্যবহার' : 'Dua Topics',
                           icon: Icons.volunteer_activism_outlined,
                           titleMaxLines: 2,
                           onTap: () => _openTool(
