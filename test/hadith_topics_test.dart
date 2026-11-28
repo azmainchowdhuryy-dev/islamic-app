@@ -109,6 +109,7 @@ void main() {
     expect(find.text('খাদ্য ও পানীয়'), findsOneWidget);
     expect(find.text('মসজিদ'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsNothing);
+    await tester.ensureVisible(find.text('মসজিদ'));
     await tester.tap(find.text('মসজিদ'));
     await tester.pump();
     expect(find.text('সব বিষয়'), findsOneWidget);
