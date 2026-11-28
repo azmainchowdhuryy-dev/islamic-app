@@ -369,7 +369,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                   return usage == 'morning_evening';
                 }
                 if (widget.section == HadithDuaSection.dailyDua) {
-                  return usage == 'daily';
+                  return usage == 'daily' || usage == 'after_salah';
                 }
                 return true;
               }).toList();
