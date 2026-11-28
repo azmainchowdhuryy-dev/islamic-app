@@ -269,7 +269,8 @@ void main() {
         'হজ্জ ও উমরা',
         'সম্পত্তি ও রিজিক',
         'শুকরিয়া ও তওবা',
-      },    );
+      },
+    );
   });
 
   test('new Arabic content has no accidental ellipsis truncation', () {
