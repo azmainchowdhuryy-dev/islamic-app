@@ -319,11 +319,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
               'رَمَضَان', 'شَوَّال', 'ذُو القَعْدَة', 'ذُو الحِجَّة'
             ];
+            const hijriMonthsBn = [
+              'মহররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি',
+              'জমাদিউল আউয়াল', 'জমাদিউস সানি', 'রজব', 'শাবান',
+              'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ'
+            ];
             final hijriDate = HijriDateTime.fromGregorian(
               bangladeshDate,
             ).add(Duration(days: _hijriOffset));
-            final hijriDateLabel =
-                '${hijriDate.day} ${hijriMonthsAr[hijriDate.month - 1]} ${hijriDate.year} هـ';
+            final hijriDateLabel = lang == 'bn'
+                ? '${localizeDigits(hijriDate.day, 'bn')} ${hijriMonthsBn[hijriDate.month - 1]} ${localizeDigits(hijriDate.year, 'bn')} হিজরি'
+                : '${hijriDate.day} ${hijriMonthsAr[hijriDate.month - 1]} ${hijriDate.year} هـ';
             final gregorianDateLabel = lang == 'bn'
                 ? '${weekdaysBn[_now.weekday - 1]}, ${localizeDigits(_now.day, 'bn')} ${gregorianMonthsBn[_now.month - 1]} ${localizeDigits(_now.year, 'bn')}'
                 : '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
