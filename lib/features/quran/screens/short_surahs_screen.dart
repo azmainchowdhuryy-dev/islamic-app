@@ -101,6 +101,36 @@ Future<List<ShortSurah>> loadShortSurahs() async {
   return surahs;
 }
 
+List<TextSpan> buildTranslationNoteSpans(String note, TextStyle? baseStyle) {
+  final spans = <TextSpan>[];
+  final tagPattern = RegExp(r'<(/?)b>');
+  var cursor = 0;
+  var isBold = false;
+
+  for (final match in tagPattern.allMatches(note)) {
+    if (match.start > cursor) {
+      spans.add(
+        TextSpan(
+          text: note.substring(cursor, match.start),
+          style: isBold ? baseStyle?.copyWith(fontWeight: FontWeight.bold) : baseStyle,
+        ),
+      );
+    }
+    isBold = match.group(1) != '/';
+    cursor = match.end;
+  }
+
+  if (cursor < note.length) {
+    spans.add(
+      TextSpan(
+        text: note.substring(cursor),
+        style: isBold ? baseStyle?.copyWith(fontWeight: FontWeight.bold) : baseStyle,
+      ),
+    );
+  }
+  return spans;
+}
+
 class ShortSurahsScreen extends StatelessWidget {
   const ShortSurahsScreen({super.key});
 
@@ -284,9 +314,13 @@ class ShortSurahDetailScreen extends StatelessWidget {
                         childrenPadding: const EdgeInsets.only(bottom: 8),
                         title: const Text('অনুবাদকের ব্যাখ্যা ও টীকা'),
                         children: [
-                          SelectableText(
-                            verse.translationNotes,
-                            style: theme.textTheme.bodySmall?.copyWith(height: 1.6),
+                          SelectableText.rich(
+                            TextSpan(
+                              children: buildTranslationNoteSpans(
+                                verse.translationNotes,
+                                theme.textTheme.bodySmall?.copyWith(height: 1.6),
+                              ),
+                            ),
                           ),
                         ],
                       ),
