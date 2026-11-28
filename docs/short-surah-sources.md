@@ -3,7 +3,7 @@
 ## Arabic Quran text
 
 - Source: Tanzil Project, *Tanzil Quran Text (Uthmani, Version 1.1)*.
-- Copyright: Copyright (C) 2007-2026 Tanzil Project.
+- Copyright: Copyright (C) 2007-2021 Tanzil Project.
 - License: Creative Commons Attribution 3.0.
 - Source URL: https://tanzil.net
 - Terms: verbatim copies only. The Arabic text must not be changed. Keep this notice and the source link in every app distribution containing the text.
@@ -11,7 +11,7 @@
 Copyright notice:
 
 Tanzil Quran Text (Uthmani, Version 1.1)
-Copyright (C) 2007-2026 Tanzil Project
+Copyright (C) 2007-2021 Tanzil Project
 License: Creative Commons Attribution 3.0
 
 This copy of the Quran text is carefully produced, highly verified and continuously monitored by a group of specialists in Tanzil Project.
