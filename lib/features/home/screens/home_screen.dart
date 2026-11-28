@@ -422,7 +422,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 size: 27,
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 16),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
