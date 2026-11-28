@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:islamic_app/features/quran/screens/short_surahs_screen.dart';
 
@@ -36,4 +39,24 @@ void main() {
       }
     }
   });
+  test('content source metadata records the exact publishers and editions', () async {
+    final raw = await rootBundle.loadString('assets/data/short_surahs.json');
+    final data = jsonDecode(raw) as Map<String, dynamic>;
+    final arabic = data['arabic_source'] as Map<String, dynamic>;
+    final translation = data['translation'] as Map<String, dynamic>;
+
+    expect(arabic['title'], 'Tanzil Quran Text (Uthmani, Version 1.1)');
+    expect(arabic['copyright'], 'Copyright (C) 2007-2021 Tanzil Project');
+    expect(arabic['license'], 'Creative Commons Attribution 3.0');
+    expect(arabic['source_url'], 'https://tanzil.net');
+    expect(translation['source'], 'QuranEnc.com');
+    expect(translation['title'], contains('যাকারিয়া'));
+    expect(translation['key'], 'bengali_zakaria');
+    expect(translation['version'], '1.1.1');
+    expect(
+      translation['source_url'],
+      'https://quranenc.com/bn/browse/bengali_zakaria',
+    );
+  });
+
 }
