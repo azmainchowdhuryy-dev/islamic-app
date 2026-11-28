@@ -294,9 +294,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
             ];
 
-            const gregorianMonthsEn = [
-              'January', 'February', 'March', 'April', 'May', 'June',
-              'July', 'August', 'September', 'October', 'November', 'December'
+            const gregorianMonthsBn = [
+              'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
+              'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
             ];
             const weekdaysBn = [
               'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার',
@@ -317,7 +317,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final hijriDateLabel =
                 '${hijriDate.day} ${hijriMonthsAr[hijriDate.month - 1]} ${hijriDate.year} هـ';
             final gregorianDateLabel =
-                '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
+                '${weekdaysBn[_now.weekday - 1]}, ${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}';
             final banglaDateLabel = lang == 'bn'
                 ? '${weekdaysBn[_now.weekday - 1]}, ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
                 : '${weekdaysEn[_now.weekday - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
