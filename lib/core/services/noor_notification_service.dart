@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
-import '../../../core/time/bangladesh_clock.dart';
-import 'prayer_calculator.dart';
+import '../time/bangladesh_clock.dart';
+import '../../features/home/services/prayer_calculator.dart';
 
 /// Local notification scheduler for Noor. All schedules use Bangladesh time.
 class NoorNotificationService {
