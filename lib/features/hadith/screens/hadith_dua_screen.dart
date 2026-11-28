@@ -158,7 +158,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
             ),
             const SizedBox(height: 14),
             Text(
-              lang == 'bn'
+              lang == 'bn' || (dua['english_translation'] as String? ?? '').isEmpty
                   ? dua['bangla_translation'] as String
                   : dua['english_translation'] as String,
               style: theme.textTheme.bodyLarge?.copyWith(height: 1.6),
@@ -199,7 +199,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
             : widget.section == HadithDuaSection.morningEveningDua
                 ? (lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Duas')
                 : widget.section == HadithDuaSection.dailyDua
-                    ? (lang == 'bn' ? 'দৈনন্দিন ব্যবহার' : 'Daily Use Duas')
+                    ? (lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics')
                     : widget.section == HadithDuaSection.dua
                         ? strings.t('dua')
                         : strings.t('hadith_dua')),
@@ -318,48 +318,68 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                 return true;
               }).toList();
               final categories = duas
-                  .map((item) => lang == 'bn'
-                      ? item['category_bn'] as String
-                      : item['category_en'] as String)
+                  .map((item) => item['category_bn'] as String)
                   .toSet()
-                  .toList();
+                  .toList()
+                ..sort();
               final selectedBn = _duaCategory;
-              final selectedDisplay = selectedBn == null
-                  ? null
-                  : (lang == 'bn'
-                      ? selectedBn
-                      : duas.firstWhere(
-                          (item) => item['category_bn'] == selectedBn,
-                        )['category_en'] as String);
               final filtered = selectedBn == null
-                  ? duas
+                  ? <Map<String, dynamic>>[]
                   : duas.where((item) => item['category_bn'] == selectedBn).toList();
+              if (selectedBn == null && widget.section != HadithDuaSection.morningEveningDua) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (final category in categories) ...[
+                      Builder(builder: (context) {
+                        final categoryDuas = duas
+                            .where((item) => item['category_bn'] == category)
+                            .toList();
+                        final englishName = categoryDuas.first['category_en'] as String;
+                        return Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: theme.colorScheme.primaryContainer,
+                              foregroundColor: theme.colorScheme.onPrimaryContainer,
+                              child: const Icon(Icons.folder_open_rounded),
+                            ),
+                            title: Text(lang == 'bn' ? category : englishName),
+                            subtitle: Text(
+                              lang == 'bn'
+                                  ? '${categoryDuas.length}টি দোয়া'
+                                  : '${categoryDuas.length} duas',
+                            ),
+                            trailing: const Icon(Icons.chevron_right_rounded),
+                            onTap: () => setState(() => _duaCategory = category),
+                          ),
+                        );
+                      }),
+                    ],
+                  ],
+                );
+              }
+              final visibleDuas = widget.section == HadithDuaSection.morningEveningDua
+                  ? duas
+                  : filtered;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _topicChips(
-                    selected: selectedDisplay,
-                    categories: categories,
-                    allLabel: lang == 'bn' ? 'সব দোয়া' : 'All Duas',
-                    onSelected: (value) {
-                      setState(() {
-                        _duaCategory = value == null
-                            ? null
-                            : duas
-                                .firstWhere((item) =>
-                                    (lang == 'bn'
-                                        ? item['category_bn']
-                                        : item['category_en']) == value)['category_bn'] as String;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 8),
+                  if (widget.section != HadithDuaSection.morningEveningDua)
+                    TextButton.icon(
+                      onPressed: () => setState(() => _duaCategory = null),
+                      icon: const Icon(Icons.arrow_back_rounded),
+                      label: Text(lang == 'bn' ? 'সব বিষয়' : 'All topics'),
+                      style: TextButton.styleFrom(alignment: Alignment.centerLeft),
+                    ),
                   Text(
-                    lang == 'bn' ? '${filtered.length}টি দোয়া' : '${filtered.length} duas',
+                    lang == 'bn'
+                        ? '${visibleDuas.length}টি দোয়া'
+                        : '${visibleDuas.length} duas',
                     style: theme.textTheme.bodySmall,
                   ),
                   const SizedBox(height: 8),
-                  for (final dua in filtered) ...[
+                  for (final dua in visibleDuas) ...[
                     _duaCard(context, dua, lang),
                     const SizedBox(height: 10),
                   ],
