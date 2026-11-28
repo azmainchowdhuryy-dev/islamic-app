@@ -73,6 +73,7 @@ void main() {
     expect(find.text('200টি দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('ঘুম ও জাগ্রত'), findsOneWidget);
+    await tester.ensureVisible(find.text('ঘুম ও জাগ্রত'));
     await tester.tap(find.text('ঘুম ও জাগ্রত'));
     await tester.pump();
     expect(find.text('সব বিষয়'), findsOneWidget);
