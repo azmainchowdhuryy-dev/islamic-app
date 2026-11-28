@@ -70,14 +70,12 @@ void main() {
     // lazy ListView child that may be outside the current viewport.
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('100টি দোয়া'), findsOneWidget);
-    expect(
-      find.descendant(
-        of: find.byType(ChoiceChip),
-        matching: find.text('পরিবার ও সন্তান'),
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('200টি দোয়া'), findsOneWidget);
+    expect(find.text('সকাল - সন্ধ্যা'), findsOneWidget);
+    expect(find.text('ঘুম ও জাগ্রত'), findsOneWidget);
+    await tester.tap(find.text('ঘুম ও জাগ্রত'));
+    await tester.pump();
+    expect(find.text('সব বিষয়'), findsOneWidget);
   });
 
   testWidgets('Hadith tab contains no Dua section', (tester) async {
@@ -99,14 +97,14 @@ void main() {
   testWidgets('Morning and evening dua section filters the correct records', (tester) async {
     await pumpScreen(tester, HadithDuaSection.morningEveningDua);
     expect(find.text('সকাল-সন্ধ্যার যিকর ও দোয়া'), findsOneWidget);
-    expect(find.text('12টি দোয়া'), findsOneWidget);
-    expect(find.text('88টি দোয়া'), findsNothing);
+    expect(find.text('22টি দোয়া'), findsOneWidget);
+    expect(find.text('178টি দোয়া'), findsNothing);
   });
 
   testWidgets('Daily use dua section filters the correct records', (tester) async {
     await pumpScreen(tester, HadithDuaSection.dailyDua);
-    expect(find.text('দৈনন্দিন ব্যবহারের দোয়া'), findsOneWidget);
-    expect(find.text('88টি দোয়া'), findsOneWidget);
-    expect(find.text('12টি দোয়া'), findsNothing);
+    expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
+    expect(find.text('178টি দোয়া'), findsNothing);
+    expect(find.text('22টি দোয়া'), findsNothing);
   });
 }
