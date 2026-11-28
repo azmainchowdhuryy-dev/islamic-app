@@ -54,6 +54,8 @@ void main() {
     expect(find.text('আরও'), findsOneWidget);
     expect(find.text('ভাষা'), findsOneWidget);
     expect(find.text('থিম'), findsOneWidget);
+    await tester.ensureVisible(find.text('ফন্টের আকার'));
+    await tester.pump();
     expect(find.text('ফন্টের আকার'), findsOneWidget);
     expect(find.text('ইবাদত ও আল্লাহর ৯৯ নাম'), findsNothing);
     expect(find.text('নামাজ ট্র্যাকার, দৈনিক আমল ও প্রিয় নাম'), findsNothing);
