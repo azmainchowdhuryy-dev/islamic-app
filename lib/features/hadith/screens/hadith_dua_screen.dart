@@ -169,6 +169,30 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                 style: theme.textTheme.headlineSmall?.copyWith(height: 1.9),
               ),
             ),
+            if ((dua['transliteration_bn'] as String? ?? '').isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                lang == 'bn' ? 'বাংলা উচ্চারণ' : 'Bengali pronunciation guide',
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: scheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                dua['transliteration_bn'] as String,
+                style: theme.textTheme.bodyLarge?.copyWith(height: 1.7),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                lang == 'bn'
+                    ? 'বাংলা উচ্চারণটি সহায়ক নির্দেশনা। শুদ্ধ উচ্চারণের জন্য আরবি পাঠ ও মাখরাজ অনুসরণ করুন।'
+                    : 'This Bengali spelling is a reading aid. Follow the Arabic text and proper articulation.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+            ],
             const SizedBox(height: 14),
             Text(
               lang == 'bn' || (dua['english_translation'] as String? ?? '').isEmpty
