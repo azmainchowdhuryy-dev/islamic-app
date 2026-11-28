@@ -31,3 +31,14 @@ The app's `verified` flag means that the Arabic and reference were checked again
 - The 100 additions are grouped by the source topic labels. Morning and evening remembrances have their own folder.
 
 The source repository is a community dataset, not a fatwa or scholarly certification. Before a public release, a qualified Qur'an and Hadith reviewer should verify the selected entries and Bengali reading aids.
+
+
+## Additional Hadith collection (100 records)
+
+- Collection: Sahih al-Bukhari, selected narrations 200–328.
+- Arabic source dataset: [fawazahmed0/hadith-api](https://github.com/fawazahmed0/hadith-api), which declares the Unlicense.
+- Each record links to its corresponding [Sunnah.com Sahih al-Bukhari reference](https://sunnah.com/bukhari:200) using its own hadith number.
+- All 100 additions are from Sahih al-Bukhari and carry the collection grade `সহিহ`.
+- Bengali and English text are Noor-authored concise meaning summaries based on the Arabic narration, not copied third-party translations. The UI should label them as summaries, not full scholarly translations.
+
+The collection source establishes that the narrations belong to Sahih al-Bukhari. The app's original summaries have not yet received independent review by a qualified Hadith scholar. That review is still required before describing the translations as scholar-certified.
