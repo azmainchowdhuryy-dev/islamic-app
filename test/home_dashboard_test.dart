@@ -142,14 +142,14 @@ void main() {
         expect(
           find.descendant(
             of: find.byKey(const Key('home_sunrise_chip')),
-            matching: find.byIcon(Icons.wb_sunny_rounded),
+            matching: find.byIcon(Icons.wb_sunny),
           ),
           findsOneWidget,
         );
         expect(
           find.descendant(
             of: find.byKey(const Key('home_sunset_chip')),
-            matching: find.byIcon(Icons.wb_twilight_rounded),
+            matching: find.byIcon(Icons.wb_twilight),
           ),
           findsOneWidget,
         );
