@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/localization/app_strings.dart';
 import '../../../core/services/noor_notification_service.dart';
 import '../../../core/services/prefs.dart';
+import '../../../core/navigation/navigation_provider.dart';
 import '../../../shared/widgets/islamic_logo_widget.dart';
 import '../providers/settings_provider.dart';
 import 'logo_preview_screen.dart';
@@ -54,6 +55,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     }
     final prefs = ref.read(sharedPrefsProvider);
     await prefs.setBool(key, value);
+    ref.read(notificationSettingsRevisionProvider.notifier).state++;
     if (!mounted) return;
     setState(() {
       if (key == 'notifications_prayer_enabled') {
@@ -108,6 +110,10 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(notificationSettingsRevisionProvider);
+    final prefs = ref.read(sharedPrefsProvider);
+    final prayerEnabled = prefs.getBool('notifications_prayer_enabled') ?? false;
+    final adhkarEnabled = prefs.getBool('notifications_adhkar_enabled') ?? false;
     final t = ref.watch(stringsProvider).t;
     final s = ref.watch(settingsProvider);
     final n = ref.read(settingsProvider.notifier);
@@ -177,7 +183,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 subtitle: Text(s.lang == 'bn'
                     ? 'প্রতিটি ওয়াক্ত শুরু হলে জানাবে'
                     : 'Alert when each prayer time begins'),
-                value: _prayerNotifications,
+                value: prayerEnabled,
                 onChanged: (value) =>
                     _setNotification('notifications_prayer_enabled', value),
               ),
@@ -190,11 +196,11 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 subtitle: Text(s.lang == 'bn'
                     ? 'প্রতিদিন দুই সময়ে মনে করিয়ে দেবে'
                     : 'A daily reminder at two selected times'),
-                value: _adhkarNotifications,
+                value: adhkarEnabled,
                 onChanged: (value) =>
                     _setNotification('notifications_adhkar_enabled', value),
               ),
-              if (_adhkarNotifications) ...[
+              if (adhkarEnabled) ...[
                 const Divider(height: 1),
                 ListTile(
                   key: const Key('morning_adhkar_time'),
