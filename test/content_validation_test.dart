@@ -136,7 +136,7 @@ void main() {
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
     expect(hadith.length, 198);
-    expect(duas.length, 88);
+    expect(duas.length, 87);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -197,7 +197,7 @@ void main() {
 
     final additionalSahihDuas = duas.where((item) =>
         item['collection_batch'] == 'verified-sahih-dua-2026-11-28').toList();
-    expect(additionalSahihDuas, hasLength(8));
+    expect(additionalSahihDuas, hasLength(7));
     expect(additionalSahihDuas.every((item) => item['verified'] == true), isTrue);
     expect(additionalSahihDuas.every((item) =>
         (item['verified_by'] as String).contains('https://sunnah.com/')), isTrue);
@@ -217,8 +217,8 @@ void main() {
           (item['verified_by'] as String).contains('https://sunnah.com/')),
       isTrue,
     );
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 9);
-    expect(duas.where((item) => item['usage_category'] == 'daily').length, 79);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 3);
+    expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);
   });
 
   test('each Bengali topic has exactly one English category label', () {
