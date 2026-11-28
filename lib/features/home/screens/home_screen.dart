@@ -1066,7 +1066,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onTap: () => _openTool(context, const TasbihScreen()),
                         ),
                         _HomeCircleFeature(
-                          title: lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Dua',
+                          title: lang == 'bn' ? 'সকাল-সন্ধ্যা' : 'Morning & Evening',
                           icon: Icons.wb_twilight,
                           titleMaxLines: 2,
                           onTap: () => _openTool(
