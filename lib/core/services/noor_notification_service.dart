@@ -7,6 +7,8 @@ import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
 import '../time/bangladesh_clock.dart';
+import '../navigation/noor_navigator.dart';
+import '../../features/hadith/screens/hadith_dua_screen.dart';
 import '../../features/home/services/prayer_calculator.dart';
 
 /// Local notification scheduler for Noor. All schedules use Bangladesh time.
@@ -32,7 +34,20 @@ class NoorNotificationService {
       android: AndroidInitializationSettings('@mipmap/ic_launcher_v3'),
     );
     try {
-      await _plugin.initialize(settings);
+      await _plugin.initialize(
+        settings,
+        onDidReceiveNotificationResponse: (response) {
+          if (response.payload == 'morning_evening_adhkar') {
+            noorNavigatorKey.currentState?.push(
+              MaterialPageRoute<void>(
+                builder: (_) => const HadithDuaScreen(
+                  section: HadithDuaSection.morningEveningDua,
+                ),
+              ),
+            );
+          }
+        },
+      );
     } on MissingPluginException {
       // Widget tests and unsupported platforms may not register the Android plugin.
     }
@@ -89,6 +104,7 @@ class NoorNotificationService {
       minute: morningMinute,
       title: 'সকালের যিকিরের সময়',
       body: 'সকালের মাসনুন যিকির ও দোয়া পড়ে নিন।',
+      payload: 'morning_evening_adhkar',
     );
     await _scheduleDaily(
       id: _eveningReminderId,
@@ -96,6 +112,7 @@ class NoorNotificationService {
       minute: eveningMinute,
       title: 'সন্ধ্যার যিকিরের সময়',
       body: 'সন্ধ্যার মাসনুন যিকির ও দোয়া পড়ে নিন।',
+      payload: 'morning_evening_adhkar',
     );
   }
 
@@ -105,6 +122,7 @@ class NoorNotificationService {
     required int minute,
     required String title,
     required String body,
+    String? payload,
   }) async {
     final now = tz.TZDateTime.now(tz.local);
     var scheduled = tz.TZDateTime(
@@ -124,6 +142,7 @@ class NoorNotificationService {
       body,
       scheduled,
       _notificationDetails,
+      payload: payload,
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
     );
