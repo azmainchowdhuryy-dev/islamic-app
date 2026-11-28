@@ -96,3 +96,18 @@ void main() {
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
   });
 }
+
+
+  testWidgets('Morning and evening dua section filters the correct records', (tester) async {
+    await pumpScreen(tester, HadithDuaSection.morningEveningDua);
+    expect(find.text('সকাল-সন্ধ্যার যিকর ও দোয়া'), findsOneWidget);
+    expect(find.text('12টি দোয়া'), findsOneWidget);
+    expect(find.text('88টি দোয়া'), findsNothing);
+  });
+
+  testWidgets('Daily use dua section filters the correct records', (tester) async {
+    await pumpScreen(tester, HadithDuaSection.dailyDua);
+    expect(find.text('দৈনন্দিন ব্যবহারের দোয়া'), findsOneWidget);
+    expect(find.text('88টি দোয়া'), findsOneWidget);
+    expect(find.text('12টি দোয়া'), findsNothing);
+  });
