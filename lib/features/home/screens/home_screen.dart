@@ -643,7 +643,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             color: AppColors.primaryText,
-                                            fontSize: 12,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
