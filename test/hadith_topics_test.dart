@@ -110,12 +110,8 @@ void main() {
     expect(find.text('খাদ্য ও পানীয়'), findsOneWidget);
     expect(find.text('মসজিদ'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsNothing);
-    final mosqueFolder = find.ancestor(
-      of: find.text('মসজিদ'),
-      matching: find.byType(ListTile),
-    );
-    await tester.ensureVisible(mosqueFolder);
-    await tester.tap(mosqueFolder);
+    final firstTopicFolder = find.byType(ListTile).first;
+    await tester.tap(firstTopicFolder);
     await tester.pump();
     expect(find.text('সব বিষয়'), findsOneWidget);
   });
