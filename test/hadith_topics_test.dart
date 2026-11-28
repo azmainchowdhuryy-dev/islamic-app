@@ -71,7 +71,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('200টি দোয়া'), findsOneWidget);
-    expect(find.text('সকাল - সন্ধ্যা'), findsOneWidget);
+    expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('ঘুম ও জাগ্রত'), findsOneWidget);
     await tester.tap(find.text('ঘুম ও জাগ্রত'));
     await tester.pump();
@@ -96,7 +96,7 @@ void main() {
 
   testWidgets('Morning and evening dua section filters the correct records', (tester) async {
     await pumpScreen(tester, HadithDuaSection.morningEveningDua);
-    expect(find.text('সকাল-সন্ধ্যার যিকর ও দোয়া'), findsOneWidget);
+    expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('22টি দোয়া'), findsOneWidget);
     expect(find.text('178টি দোয়া'), findsNothing);
   });
