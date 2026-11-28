@@ -176,6 +176,7 @@ void main() {
     expect(newHadith100.every((item) => item['grade'] == 'সহিহ'), isTrue);
     expect(newHadith100.every((item) => item['verified'] == true), isTrue);
     expect(newHadith100.every((item) => (item['reference'] as String).isNotEmpty), isTrue);
+    expect(newHadith100.every((item) => (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
     expect(newHadith100.every((item) => (item['bangla_translation'] as String).isNotEmpty), isTrue);
     final newHadith12 = hadith.where((item) =>
         item['collection_batch'] == 'expanded-100-total-hadith-2026-11-28').toList();
