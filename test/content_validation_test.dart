@@ -136,7 +136,7 @@ void main() {
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
     expect(hadith.length, 198);
-    expect(duas.length, 87);
+    expect(duas.length, 99);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -192,7 +192,7 @@ void main() {
     final quranDuas = duas
         .where((item) => item['source'] == 'আল-কুরআন')
         .toList();
-    expect(quranDuas, hasLength(70));
+    expect(quranDuas, hasLength(73));
     expect(quranDuas.every((item) =>
         (item['verified_by'] as String).contains('https://quran.com/')), isTrue);
 
@@ -207,6 +207,8 @@ void main() {
       'Sahih al-Bukhari',
       'সহিহ মুসলিম',
       'সহিহ আল-বুখারি ও সহিহ মুসলিম',
+      'Sunan Abi Dawud',
+      'Sunan Ibn Majah',
     ].contains(item['source'])), isTrue);
     expect(
       duas.where((item) => item['source'] == 'আল-কুরআন').every((item) =>
@@ -218,7 +220,8 @@ void main() {
           (item['verified_by'] as String).contains('https://sunnah.com/')),
       isTrue,
     );
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 3);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 15);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').every((item) => (item['transliteration_bn'] as String? ?? '').trim().isNotEmpty), isTrue);
     expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);
   });
 
