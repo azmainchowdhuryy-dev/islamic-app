@@ -205,8 +205,12 @@ class NoorNotificationService {
   }
 
   Future<void> _cancelPrayerNotifications() async {
-    for (var i = 0; i < _prayerScheduleDays * 5; i++) {
-      await _plugin.cancel(_prayerIdBase + i);
+    final pending = await _plugin.pendingNotificationRequests();
+    for (final request in pending) {
+      if (request.id >= _prayerIdBase &&
+          request.id < _prayerIdBase + _prayerScheduleDays * 5) {
+        await _plugin.cancel(request.id);
+      }
     }
   }
 
