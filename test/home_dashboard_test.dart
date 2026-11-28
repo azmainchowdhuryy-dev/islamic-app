@@ -436,8 +436,11 @@ void main() {
 
     await tester.tap(find.text('আরও'));
     await tester.pump();
-    await tester.ensureVisible(find.text('ফন্টের আকার'));
-    await tester.pump();
+    await tester.scrollUntilVisible(
+      find.text('ফন্টের আকার'),
+      100,
+      scrollable: find.byType(Scrollable).last,
+    );
     expect(find.text('ফন্টের আকার'), findsOneWidget);
 
     await tester.tap(find.text('হোম'));
