@@ -11,7 +11,8 @@
     "source": "আল-কুরআন",
     "verified": true,
     "verified_by": "Quran.com 2:201: https://quran.com/al-baqarah/201",
-    "verified_date": "2026-11-20"
+    "verified_date": "2026-11-20",
+    "usage_category": "daily"
   },
   {
     "id": "hisn-78",
@@ -25,7 +26,8 @@
     "source": "Hisn al-Muslim",
     "verified": true,
     "verified_by": "Arabic text cross-checked against Hisn al-Muslim 78",
-    "verified_date": "2026-11-20"
+    "verified_date": "2026-11-20",
+    "usage_category": "morning_evening"
   },
   {
     "id": "quran-3-8",
@@ -39,7 +41,8 @@
     "source": "আল-কুরআন",
     "verified": true,
     "verified_by": "Quran.com 3:8: https://quran.com/ali-imran/8",
-    "verified_date": "2026-11-20"
+    "verified_date": "2026-11-20",
+    "usage_category": "daily"
   },
   {
     "id": "quran-17-24",
@@ -53,7 +56,8 @@
     "source": "আল-কুরআন",
     "verified": true,
     "verified_by": "Quran.com 17:24: https://quran.com/al-isra/24",
-    "verified_date": "2026-11-20"
+    "verified_date": "2026-11-20",
+    "usage_category": "daily"
   },
   {
     "id": "quran-20-114",
@@ -67,7 +71,8 @@
     "source": "আল-কুরআন",
     "verified": true,
     "verified_by": "Quran.com 20:114: https://quran.com/taha/114",
-    "verified_date": "2026-11-20"
+    "verified_date": "2026-11-20",
+    "usage_category": "daily"
   },
   {
     "id": "quran-25-74",
@@ -81,7 +86,8 @@
     "source": "আল-কুরআন",
     "verified": true,
     "verified_by": "Quran.com 25:74: https://quran.com/al-furqan/74",
-    "verified_date": "2026-11-20"
+    "verified_date": "2026-11-20",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-127",
@@ -97,7 +103,8 @@
     "verified_by": "Quran.com 2:127: https://quran.com/al-baqarah/127",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-128",
@@ -113,7 +120,8 @@
     "verified_by": "Quran.com 2:128: https://quran.com/al-baqarah/128",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-129",
@@ -129,7 +137,8 @@
     "verified_by": "Quran.com 2:129: https://quran.com/al-baqarah/129",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-250",
@@ -145,7 +154,8 @@
     "verified_by": "Quran.com 2:250: https://quran.com/al-baqarah/250",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-286",
@@ -161,7 +171,8 @@
     "verified_by": "Quran.com 2:286: https://quran.com/al-baqarah/286",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-16",
@@ -177,7 +188,8 @@
     "verified_by": "Quran.com 3:16: https://quran.com/ali-imran/16",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-38",
@@ -193,7 +205,8 @@
     "verified_by": "Quran.com 3:38: https://quran.com/ali-imran/38",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-53",
@@ -209,7 +222,8 @@
     "verified_by": "Quran.com 3:53: https://quran.com/ali-imran/53",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-147",
@@ -225,7 +239,8 @@
     "verified_by": "Quran.com 3:147: https://quran.com/ali-imran/147",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-193",
@@ -241,7 +256,8 @@
     "verified_by": "Quran.com 3:193: https://quran.com/ali-imran/193",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-194",
@@ -257,7 +273,8 @@
     "verified_by": "Quran.com 3:194: https://quran.com/ali-imran/194",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-7-23",
@@ -273,7 +290,8 @@
     "verified_by": "Quran.com 7:23: https://quran.com/al-araf/23",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-7-47",
@@ -289,7 +307,8 @@
     "verified_by": "Quran.com 7:47: https://quran.com/al-araf/47",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-7-126",
@@ -305,7 +324,8 @@
     "verified_by": "Quran.com 7:126: https://quran.com/al-araf/126",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-10-85-86",
@@ -321,7 +341,8 @@
     "verified_by": "Quran.com 10:85-86: https://quran.com/yunus/85-86",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-14-40",
@@ -337,7 +358,8 @@
     "verified_by": "Quran.com 14:40: https://quran.com/ibrahim/40",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-14-41",
@@ -353,7 +375,8 @@
     "verified_by": "Quran.com 14:41: https://quran.com/ibrahim/41",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-18-10",
@@ -369,7 +392,8 @@
     "verified_by": "Quran.com 18:10: https://quran.com/al-kahf/10",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-20-25-28",
@@ -385,7 +409,8 @@
     "verified_by": "Quran.com 20:25-28: https://quran.com/taha/25-28",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-23-97-98",
@@ -401,7 +426,8 @@
     "verified_by": "Quran.com 23:97-98: https://quran.com/al-muminun/97-98",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-25-65",
@@ -417,7 +443,8 @@
     "verified_by": "Quran.com 25:65: https://quran.com/al-furqan/65",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-27-19",
@@ -433,7 +460,8 @@
     "verified_by": "Quran.com 27:19: https://quran.com/an-naml/19",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-28-24",
@@ -449,7 +477,8 @@
     "verified_by": "Quran.com 28:24: https://quran.com/al-qasas/24",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-59-10",
@@ -465,7 +494,8 @@
     "verified_by": "Quran.com 59:10: https://quran.com/al-hashr/10",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-66-8",
@@ -481,7 +511,8 @@
     "verified_by": "Quran.com 66:8: https://quran.com/at-tahrim/8",
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি পাঠের সূত্র Quran.com-এ উল্লেখিত আয়াত।",
-    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।"
+    "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
+    "usage_category": "daily"
   },
   {
     "id": "quran-1-6",
@@ -498,7 +529,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-126",
@@ -515,7 +547,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-2-260",
@@ -532,7 +565,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-26-27",
@@ -549,7 +583,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-3-191-192",
@@ -566,7 +601,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-4-75",
@@ -583,7 +619,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-5-83",
@@ -600,7 +637,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-7-89",
@@ -617,7 +655,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-7-151",
@@ -634,7 +673,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-7-155-156",
@@ -651,7 +691,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-9-129",
@@ -668,7 +709,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-11-45",
@@ -685,7 +727,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-11-47",
@@ -702,7 +745,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-12-33",
@@ -719,7 +763,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-12-101",
@@ -736,7 +781,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-14-35",
@@ -753,7 +799,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-17-80",
@@ -770,7 +817,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-19-4-6",
@@ -787,7 +835,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-20-45",
@@ -804,7 +853,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-21-83",
@@ -821,7 +871,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-21-87",
@@ -838,7 +889,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-21-89",
@@ -855,7 +907,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-23-93-94",
@@ -872,7 +925,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-23-109",
@@ -889,7 +943,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-23-118",
@@ -906,7 +961,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-26-83-89",
@@ -923,7 +979,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-28-16",
@@ -940,7 +997,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-29-30",
@@ -957,7 +1015,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-37-100",
@@ -974,7 +1033,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-38-35",
@@ -991,7 +1051,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-39-46",
@@ -1008,7 +1069,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-40-7-9",
@@ -1025,7 +1087,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-43-13-14",
@@ -1042,7 +1105,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-44-12",
@@ -1059,7 +1123,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-46-15",
@@ -1076,7 +1141,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-60-4-5",
@@ -1093,7 +1159,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-66-11",
@@ -1110,7 +1177,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-71-28",
@@ -1127,7 +1195,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-113-1-5",
@@ -1144,7 +1213,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "quran-114-1-6",
@@ -1161,7 +1231,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি আয়াত ও রেফারেন্স Quran.com-এ যাচাই করা হয়েছে।",
     "license_note": "আরবি কুরআনের পাঠ; বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6306",
@@ -1178,7 +1249,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "morning_evening"
   },
   {
     "id": "bukhari-dua-6311",
@@ -1195,7 +1267,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6312",
@@ -1212,7 +1285,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6316",
@@ -1229,7 +1303,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6317",
@@ -1246,7 +1321,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6322",
@@ -1263,7 +1339,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6326",
@@ -1280,7 +1357,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6330",
@@ -1297,7 +1375,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6342",
@@ -1314,7 +1393,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "bukhari-dua-6346",
@@ -1331,7 +1411,8 @@
     "verified_date": "2026-11-21",
     "translation_source": "প্রকল্প দলের সংক্ষিপ্ত ভাবানুবাদ; আরবি দোয়া ও হাদিস নম্বর Sunnah.com-এ যাচাই করা হয়েছে।",
     "license_note": "বাংলা ও ইংরেজি অর্থ প্রকল্প দলের নিজস্ব ভাবানুবাদ।",
-    "collection_batch": "expanded-50-dua-2026-11-21"
+    "collection_batch": "expanded-50-dua-2026-11-21",
+    "usage_category": "daily"
   },
   {
     "id": "morning-ayat-al-kursi",
@@ -1348,7 +1429,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1366,7 +1447,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1384,7 +1465,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1402,7 +1483,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1420,7 +1501,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1438,7 +1519,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1456,7 +1537,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1474,7 +1555,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1492,7 +1573,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
@@ -1510,7 +1591,7 @@
     "verified_date": "2026-11-28",
     "translation_source": "বাংলা অর্থ Noor প্রকল্পের নিজস্ব সংক্ষিপ্ত ভাবানুবাদ; ইংরেজি অর্থ Seen-Arabic/Morning-And-Evening-Adhkar-DB (MIT) থেকে।",
     "license_note": "Arabic and English source dataset: Seen-Arabic/Morning-And-Evening-Adhkar-DB, MIT License. Qur'anic and Hadith references retained.",
-    "usage_category": "morning_evening",
+    "usage_category": "daily",
     "collection_batch": "dua-100-total-2026-11-28"
   },
   {
