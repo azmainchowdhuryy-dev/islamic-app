@@ -70,7 +70,7 @@ void main() {
     // lazy ListView child that may be outside the current viewport.
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('99টি দোয়া'), findsOneWidget);
+    expect(find.text('104টি দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('হিদায়াত ও ঈমান'), findsOneWidget);
     final firstTopicFolder = find.byType(ListTile).first;
@@ -100,7 +100,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.morningEveningDua);
     expect(find.text('সকাল-সন্ধ্যার দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
-    expect(find.text('15টি দোয়া'), findsOneWidget);
+    expect(find.text('16টি দোয়া'), findsOneWidget);
     expect(find.text('84টি দোয়া'), findsNothing);
   });
 
