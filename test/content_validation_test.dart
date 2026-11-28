@@ -281,7 +281,8 @@ void main() {
 
     for (final item in hadith.where((item) =>
         item['collection_batch'] == 'expanded-50-hadith-2026-11-21' ||
-        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28' ||\n        item['collection_batch'] == 'verified-sahih-bukhari-2026-11-28')) {
+        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28' ||
+        item['collection_batch'] == 'verified-sahih-bukhari-2026-11-28')) {
       expect(
         (item['arabic_text'] as String).contains('...'),
         isFalse,
