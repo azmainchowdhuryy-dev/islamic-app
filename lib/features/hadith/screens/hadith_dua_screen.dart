@@ -102,6 +102,16 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
             ],
             const SizedBox(height: 14),
             Text(
+              hadith.translationSource.startsWith('Noor-এর নিজস্ব')
+                  ? (lang == 'bn' ? 'সংক্ষিপ্ত বাংলা ভাবার্থ' : 'Concise meaning')
+                  : (lang == 'bn' ? 'বাংলা অর্থ' : 'English meaning'),
+              style: theme.textTheme.labelLarge?.copyWith(
+                color: scheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Text(
               lang == 'bn' ? hadith.banglaTranslation : hadith.englishTranslation,
               style: theme.textTheme.bodyLarge?.copyWith(height: 1.6),
             ),
@@ -207,7 +217,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
         title: Text(widget.section == HadithDuaSection.hadith
             ? strings.t('hadith')
             : widget.section == HadithDuaSection.morningEveningDua
-                ? (lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Duas')
+                ? (lang == 'bn' ? 'সকাল-সন্ধ্যা' : 'Morning & Evening')
                 : widget.section == HadithDuaSection.dailyDua
                     ? (lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics')
                     : widget.section == HadithDuaSection.dua
