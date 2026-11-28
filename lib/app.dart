@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'features/settings/providers/settings_provider.dart';
 import 'shared/widgets/main_shell.dart';
+import 'core/navigation/noor_navigator.dart';
 
 class IslamicApp extends ConsumerWidget {
   const IslamicApp({super.key});
@@ -12,6 +13,7 @@ class IslamicApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final s = ref.watch(settingsProvider);
     return MaterialApp(
+      navigatorKey: noorNavigatorKey,
       title: 'Noor: Prayer Times & Dua',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
