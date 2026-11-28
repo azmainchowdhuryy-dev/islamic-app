@@ -131,15 +131,28 @@ List<TextSpan> buildTranslationNoteSpans(String note, TextStyle? baseStyle) {
   return spans;
 }
 
-class ShortSurahsScreen extends StatelessWidget {
+class ShortSurahsScreen extends StatefulWidget {
   const ShortSurahsScreen({super.key});
+
+  @override
+  State<ShortSurahsScreen> createState() => _ShortSurahsScreenState();
+}
+
+class _ShortSurahsScreenState extends State<ShortSurahsScreen> {
+  late final Future<List<ShortSurah>> _surahs;
+
+  @override
+  void initState() {
+    super.initState();
+    _surahs = loadShortSurahs();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('ছোট সূরা')),
       body: FutureBuilder<List<ShortSurah>>(
-        future: loadShortSurahs(),
+        future: _surahs,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
