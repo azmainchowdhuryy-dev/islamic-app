@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
-        android:label="Noor: Prayer Times & Dua"
+        android:label="Noor: Prayer Times &amp; Dua"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher_v3"
         android:roundIcon="@mipmap/ic_launcher_v3_round">
