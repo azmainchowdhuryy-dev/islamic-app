@@ -148,6 +148,18 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if ((dua['title_bn'] as String? ?? '').isNotEmpty) ...[
+              Text(
+                lang == 'bn'
+                    ? dua['title_bn'] as String
+                    : dua['category_en'] as String,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: scheme.primary,
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
             const SizedBox(height: 4),
             Directionality(
               textDirection: TextDirection.rtl,
