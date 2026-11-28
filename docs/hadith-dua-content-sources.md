@@ -19,3 +19,15 @@ Each record retains a primary Qur'an or Hadith reference, a direct verification 
 ## Review note
 
 The app's `verified` flag means that the Arabic and reference were checked against the named source and that the narration is Sahih or Hasan where a grading applies. It is not a claim that every Bengali wording has been reviewed by a qualified Hadith scholar. A qualified scholar should review the translations before public release.
+
+
+## Additional Dua collection (100 records)
+
+- Source repository: [DeenOne Dua API](https://github.com/riadmonir/dua-api)
+- Source file: `deenone_all_duas.json`
+- The repository README declares an MIT licence.
+- Only records with a Qur'an reference or an explicit Sahih al-Bukhari / Sahih Muslim reference were selected. Records with an explicit weak-narration marker were excluded.
+- Bengali meanings and Bengali reading aids are retained with the source's attribution. The app keeps each primary reference beside the dua.
+- The 100 additions are grouped by the source topic labels. Morning and evening remembrances have their own folder.
+
+The source repository is a community dataset, not a fatwa or scholarly certification. Before a public release, a qualified Qur'an and Hadith reviewer should verify the selected entries and Bengali reading aids.
