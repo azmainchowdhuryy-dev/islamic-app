@@ -92,7 +92,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('99টি দোয়া'), findsOneWidget);
+    expect(find.text('104টি দোয়া'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
   });
 
