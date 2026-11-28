@@ -293,10 +293,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
               'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
             ];
-            const gregorianMonthsBn = [
-              'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
-              'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
-            ];
+
             const gregorianMonthsEn = [
               'January', 'February', 'March', 'April', 'May', 'June',
               'July', 'August', 'September', 'October', 'November', 'December'
@@ -1422,7 +1419,6 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 class _HomeCircleFeature extends StatelessWidget {
   final String title;
   final IconData icon;
-  final double titleFontSize;
   final int titleMaxLines;
   final VoidCallback onTap;
 
@@ -1430,7 +1426,6 @@ class _HomeCircleFeature extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
-    this.titleFontSize = 12,
     this.titleMaxLines = 1,
   });
 
@@ -1478,7 +1473,7 @@ class _HomeCircleFeature extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: AppColors.secondaryText,
-                fontSize: titleFontSize,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
             ),
