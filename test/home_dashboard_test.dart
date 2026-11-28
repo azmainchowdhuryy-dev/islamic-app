@@ -253,7 +253,7 @@ void main() {
     final bangla = BanglaDate.fromDateTime(date);
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      'রবিবার, ${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
+      '${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
     );
 
     final hijri = HijriDateTime.fromGregorian(date);
