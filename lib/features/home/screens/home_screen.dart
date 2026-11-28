@@ -20,6 +20,7 @@ import '../../settings/providers/settings_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
 import '../../tools/screens/ruqyah_screen.dart';
+import '../../quran/screens/short_surahs_screen.dart';
 import '../services/daily_hadith_index.dart';
 import '../services/prayer_calculator.dart';
 
@@ -300,36 +301,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'July', 'August', 'September', 'October', 'November', 'December'
             ];
             const weekdaysBn = [
-              'সোম', 'মঙ্গল', 'বুধ', 'বৃহঃ', 'শুক্র', 'শনি', 'রবি'
+              'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার',
+              'শুক্রবার', 'শনিবার', 'রবিবার'
             ];
-            const weekdaysEn = [
-              'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
-            ];
-            const hijriMonthsBn = [
-              'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
-              'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল',
-              'জিলকদ', 'জিলহজ'
-            ];
-            const hijriMonthsEn = [
-              'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
-              'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
-              'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah'
+            const hijriMonthsAr = [
+              'مُحَرَّم', 'صَفَر', 'رَبِيعُ الأَوَّل', 'رَبِيعُ الآخِر',
+              'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
+              'رَمَضَان', 'شَوَّال', 'ذُو القَعْدَة', 'ذُو الحِجَّة'
             ];
             final hijriDate = HijriDateTime.fromGregorian(
               bangladeshDate,
             ).add(Duration(days: _hijriOffset));
-            final weekdayLabel = lang == 'bn'
-                ? weekdaysBn[_now.weekday - 1]
-                : weekdaysEn[_now.weekday - 1];
-            final hijriDateLabel = lang == 'bn'
-                ? '$weekdayLabel, ${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)}'
-                : '$weekdayLabel, ${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year}';
-            final gregorianDateLabel = lang == 'bn'
-                ? '${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}'
-                : '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
+            final hijriDateLabel =
+                '${hijriDate.day} ${hijriMonthsAr[hijriDate.month - 1]} ${hijriDate.year} هـ';
+            final gregorianDateLabel =
+                '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
             final banglaDateLabel = lang == 'bn'
-                ? '${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
-                : '${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
+                ? '${weekdaysBn[_now.weekday - 1]}, ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
+                : '${weekdaysBn[_now.weekday - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
 
             final todayKey =
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
@@ -422,19 +411,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    hijriDateLabel,
-                                    key: const Key('home_hijri_date'),
+                                    gregorianDateLabel,
+                                    key: const Key('home_gregorian_date'),
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.primaryText,
                                       fontSize: 12.5,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    banglaDateLabel,
-                                    key: const Key('home_bangla_date'),
+                                    hijriDateLabel,
+                                    key: const Key('home_hijri_date'),
+                                    textDirection: TextDirection.rtl,
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
@@ -443,8 +433,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   const SizedBox(height: 1),
                                   Text(
-                                    gregorianDateLabel,
-                                    key: const Key('home_gregorian_date'),
+                                    banglaDateLabel,
+                                    key: const Key('home_bangla_date'),
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
@@ -1036,7 +1026,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        mainAxisExtent: 96,
+                        mainAxisExtent: 102,
                         mainAxisSpacing: 6,
                         crossAxisSpacing: 6,
                       ),
@@ -1044,12 +1034,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
                           icon: Icons.favorite_outline,
-                          titleFontSize: 10,
                           titleMaxLines: 2,
                           onTap: () => _openTool(
                             context,
                             const IbadahToolsScreen(section: IbadahToolsSection.names),
                           ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'ছোট সূরা' : 'Short Surahs',
+                          icon: Icons.menu_book_rounded,
+                          titleMaxLines: 2,
+                          onTap: () => _openTool(context, const ShortSurahsScreen()),
                         ),
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'হাদিস' : 'Hadith',
@@ -1067,8 +1062,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onTap: () => _openTool(context, const TasbihScreen()),
                         ),
                         _HomeCircleFeature(
-                          title: lang == 'bn' ? 'দোয়া' : 'Dua',
-                          icon: Icons.volunteer_activism_outlined,
+                          title: lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Dua',
+                          icon: Icons.wb_twilight,
+                          titleMaxLines: 2,
                           onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 3,
                         ),
                       ],
@@ -1411,7 +1407,7 @@ class _HomeCircleFeature extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
-    this.titleFontSize = 11.2,
+    this.titleFontSize = 12,
     this.titleMaxLines = 1,
   });
 
