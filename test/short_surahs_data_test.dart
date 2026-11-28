@@ -12,6 +12,14 @@ void main() {
     expect(surahs.first.nameBn, 'আল-ফাতিহা');
     expect(surahs.first.ayahCount, 7);
     expect(surahs.first.verses, hasLength(7));
+    expect(
+      surahs.map((surah) => surah.number).toList(),
+      [1, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114],
+    );
+    expect(
+      surahs.map((surah) => surah.ayahCount).toList(),
+      [7, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6],
+    );
     expect(surahs.last.number, 114);
   });
 
