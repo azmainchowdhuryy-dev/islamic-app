@@ -307,10 +307,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার',
               'শুক্রবার', 'শনিবার', 'রবিবার'
             ];
-            const weekdaysEn = [
-              'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-              'Friday', 'Saturday', 'Sunday'
-            ];
             const hijriMonthsAr = [
               'مُحَرَّم', 'صَفَر', 'رَبِيعُ الأَوَّل', 'رَبِيعُ الآخِر',
               'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
