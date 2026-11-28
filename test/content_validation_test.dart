@@ -135,8 +135,8 @@ void main() {
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
-    expect(hadith.length, 188);
-    expect(duas.length, 181);
+    expect(hadith.length, 198);
+    expect(duas.length, 99);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -180,13 +180,35 @@ void main() {
     expect(newHadith100.every((item) => (item['arabic_text'] as String).isNotEmpty), isTrue);
     expect(newHadith100.every((item) => (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
     expect(newHadith100.every((item) => (item['bangla_translation'] as String).isNotEmpty), isTrue);
-    final newDua100 = duas.where((item) =>
-        item['collection_batch'] == 'expanded-200-total-dua-2026-11-28').toList();
-    expect(newDua100, hasLength(100));
-    expect(newDua100.every((item) => item['verified'] == true), isTrue);
-    expect(newDua100.every((item) => (item['reference'] as String).isNotEmpty), isTrue);
-    expect(newDua100.every((item) => !(item['english_translation'] as String).trim().startsWith('Reference:')), isTrue);
-    expect(newDua100.where((item) => item['usage_category'] == 'morning_evening').length, 10);
+    final additionalBukhari = hadith.where((item) =>
+        item['collection_batch'] == 'verified-sahih-bukhari-2026-11-28').toList();
+    expect(additionalBukhari, hasLength(10));
+    expect(additionalBukhari.every((item) => item['grade'] == 'সহিহ'), isTrue);
+    expect(additionalBukhari.every((item) => item['verified'] == true), isTrue);
+    expect(additionalBukhari.every((item) =>
+        (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
+    expect(additionalBukhari.map((item) => item['reference']).toSet(), hasLength(10));
+
+    final newQuranDuas = duas.where((item) =>
+        item['collection_batch'] == 'expanded-200-total-dua-2026-11-28' &&
+        (item['id'] as String).startsWith('quran-')).toList();
+    expect(newQuranDuas, hasLength(11));
+    expect(newQuranDuas.every((item) => item['source'] == 'আল-কুরআন'), isTrue);
+
+    final additionalSahihDuas = duas.where((item) =>
+        item['collection_batch'] == 'verified-sahih-dua-2026-11-28').toList();
+    expect(additionalSahihDuas, hasLength(8));
+    expect(additionalSahihDuas.every((item) => item['verified'] == true), isTrue);
+    expect(additionalSahihDuas.every((item) =>
+        (item['verified_by'] as String).contains('https://sunnah.com/')), isTrue);
+    expect(duas.every((item) => [
+      'আল-কুরআন',
+      'Sahih al-Bukhari',
+      'সহিহ মুসলিম',
+      'সহিহ আল-বুখারি ও সহিহ মুসলিম',
+    ].contains(item['source'])), isTrue);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 9);
+    expect(duas.where((item) => item['usage_category'] == 'daily').length, 90);
   });
 
   test('each Bengali topic has exactly one English category label', () {
@@ -241,22 +263,13 @@ void main() {
         'বিপদ ও নিরাপত্তা',
         'যিকির ও ইবাদত',
         'সকাল-সন্ধ্যা',
-        'ঘুম ও জাগ্রত',
-        'পবিত্রতা ও অজু',
-        'সামাজিক শিষ্টাচার',
         'সালাত ও যিক্‌র',
         'আশ্রয় ও হেফাজত',
-        'পিতামাতা ও পরিবার',
-        'অসুস্থতা ও মৃত্যু',
-        'প্রকৃতি ও আবহাওয়া',
-        'খাদ্য ও পানীয়',
-        'রমাদান ও সিয়াম',
         'সফর ও ভ্রমণ',
         'হজ্জ ও উমরা',
         'সম্পত্তি ও রিজিক',
         'শুকরিয়া ও তওবা',
-      },
-    );
+      },    );
   });
 
   test('new Arabic content has no accidental ellipsis truncation', () {
@@ -267,7 +280,7 @@ void main() {
 
     for (final item in hadith.where((item) =>
         item['collection_batch'] == 'expanded-50-hadith-2026-11-21' ||
-        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28')) {
+        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28' ||\n        item['collection_batch'] == 'verified-sahih-bukhari-2026-11-28')) {
       expect(
         (item['arabic_text'] as String).contains('...'),
         isFalse,
