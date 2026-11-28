@@ -207,6 +207,16 @@ void main() {
       'সহিহ মুসলিম',
       'সহিহ আল-বুখারি ও সহিহ মুসলিম',
     ].contains(item['source'])), isTrue);
+    expect(
+      duas.where((item) => item['source'] == 'আল-কুরআন').every((item) =>
+          (item['verified_by'] as String).contains('https://quran.com/')),
+      isTrue,
+    );
+    expect(
+      duas.where((item) => item['source'] != 'আল-কুরআন').every((item) =>
+          (item['verified_by'] as String).contains('https://sunnah.com/')),
+      isTrue,
+    );
     expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 9);
     expect(duas.where((item) => item['usage_category'] == 'daily').length, 79);
   });
