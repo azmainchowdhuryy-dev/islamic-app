@@ -42,3 +42,6 @@ The source repository is a community dataset, not a fatwa or scholarly certifica
 - Bengali and English text are Noor-authored concise meaning summaries based on the Arabic narration, not copied third-party translations. The UI should label them as summaries, not full scholarly translations.
 
 The collection source establishes that the narrations belong to Sahih al-Bukhari. The app's original summaries have not yet received independent review by a qualified Hadith scholar. That review is still required before describing the translations as scholar-certified.
+
+
+The 100 new Arabic narrations were compared with a second independent Hadith dataset for Arabic-text matching and collection grading. A mismatch in the first import of Bukhari 307 was corrected against the direct Sunnah.com Arabic text. The second dataset was used only for verification; no Bengali translation from it was copied.
