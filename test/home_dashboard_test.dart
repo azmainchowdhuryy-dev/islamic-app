@@ -234,7 +234,7 @@ void main() {
     expect(secondRowY, greaterThan(firstRowY + 40));
     expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
     expect(tester.getCenter(find.text('সকাল-সন্ধ্যার দোয়া')).dy, closeTo(secondRowY, 1));
-    final thirdRowY = tester.getCenter(find.text('দোয়ার বিষয়সমূহ')).dy;
+    final thirdRowY = tester.getCenter(find.text('দৈনন্দিন ব্যবহার')).dy;
     expect(thirdRowY, greaterThan(secondRowY + 40));
   });
 
@@ -426,12 +426,12 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('দোয়ার বিষয়সমূহ'), findsNothing);
+    expect(find.text('দৈনন্দিন ব্যবহার'), findsNothing);
 
     await tester.tap(find.text('দোয়া'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
+    expect(find.text('দৈনন্দিন ব্যবহার'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
 
     await tester.tap(find.text('আরও'));
