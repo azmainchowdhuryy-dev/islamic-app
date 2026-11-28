@@ -240,7 +240,7 @@ void main() {
           (item['verified_by'] as String).contains('https://sunnah.com/')),
       isTrue,
     );
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 21);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 22);
     expect(duas.where((item) => item['usage_category'] == 'morning_evening' && !(item['id'] as String).startsWith('quran-')).every((item) => (item['transliteration_bn'] as String? ?? '').trim().isNotEmpty), isTrue);
     expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);
     final afterSalah = duas.where((item) => item['usage_category'] == 'after_salah').toList();
