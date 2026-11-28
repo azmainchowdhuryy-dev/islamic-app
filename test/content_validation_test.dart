@@ -174,11 +174,18 @@ void main() {
     final newHadith12 = hadith.where((item) =>
         item['collection_batch'] == 'expanded-100-total-hadith-2026-11-28').toList();
     expect(newHadith12, hasLength(12));
+    for (final item in newHadith12) {
+      expect(item['grade'], 'সহিহ');
+      expect(item['verified'], isTrue);
+      expect((item['verified_by'] as String).contains('https://sunnah.com/bukhari:'), isTrue);
+    }
     final newDua19 = duas.where((item) =>
         item['collection_batch'] == 'dua-100-total-2026-11-28').toList();
     expect(newDua19, hasLength(19));
     expect(newDua19.where((item) => item['usage_category'] == 'morning_evening').length, 10);
     expect(newDua19.where((item) => item['usage_category'] == 'daily').length, 9);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 12);
+    expect(duas.where((item) => item['usage_category'] == 'daily').length, 88);
     for (final item in newDua19) {
       expect(item['verified'], isTrue);
       expect((item['arabic_text'] as String).trim(), isNotEmpty);
@@ -187,7 +194,7 @@ void main() {
     }
   });
 
-  test('Hadith and Dua folders are grouped into six compact topics', () {
+  test('Hadith and Dua folders are grouped into their verified topics', () {
     final hadith =
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
@@ -213,6 +220,8 @@ void main() {
         'রিজিক ও কল্যাণ',
         'বিপদ ও নিরাপত্তা',
         'যিকির ও ইবাদত',
+        'সকাল-সন্ধ্যা',
+        'দৈনন্দিন ব্যবহার',
       },
     );
   });
