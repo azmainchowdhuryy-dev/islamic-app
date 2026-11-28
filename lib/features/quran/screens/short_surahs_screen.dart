@@ -421,13 +421,46 @@ class _SourceAttribution extends StatelessWidget {
             Text('তথ্যসূত্র ও স্বীকৃতি', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 6),
             Text(
-              'আরবি পাঠ: Tanzil Quran Text (Uthmani, Version 1.1). Copyright © 2007-2026 Tanzil Project. CC BY 3.0. পাঠ অপরিবর্তিত রাখা হয়েছে।',
+              'আরবি পাঠ: Tanzil Quran Text (Uthmani, Version 1.1). Copyright © 2007-2021 Tanzil Project. CC BY 3.0. পাঠ অপরিবর্তিত রাখা হয়েছে।',
               style: style,
             ),
             const SizedBox(height: 6),
             Text(
               'বাংলা অনুবাদ ও টীকা: ড. আবূ বকর মুহাম্মাদ যাকারিয়া, সংস্করণ 1.1.1, QuranEnc.com. অনুবাদ ও টীকা অপরিবর্তিত রাখা হয়েছে।',
               style: style,
+            ),
+            const SizedBox(height: 8),
+            const SizedBox(height: 8),
+            ExpansionTile(
+              tilePadding: EdgeInsets.zero,
+              childrenPadding: const EdgeInsets.only(bottom: 8),
+              title: const Text('Tanzil-এর সম্পূর্ণ কপিরাইট ও ব্যবহারের শর্ত'),
+              children: const [
+                SelectableText(
+                  'Tanzil Quran Text (Uthmani, Version 1.1)\\n'
+                  'Copyright (C) 2007-2021 Tanzil Project\\n'
+                  'License: Creative Commons Attribution 3.0\\n\\n'
+                  'This copy of the Quran text is carefully produced, highly '
+                  'verified and continuously monitored by a group of specialists '
+                  'in Tanzil Project.\\n\\n'
+                  'TERMS OF USE:\\n'
+                  '- Permission is granted to copy and distribute verbatim copies '
+                  'of this text, but CHANGING IT IS NOT ALLOWED.\\n'
+                  '- This Quran text can be used in any website or application, '
+                  'provided that its source (Tanzil Project) is clearly indicated, '
+                  'and a link is made to tanzil.net to enable users to keep track '
+                  'of changes.\\n'
+                  '- This copyright notice shall be included in all verbatim '
+                  'copies of the text, and shall be reproduced appropriately in '
+                  'all files derived from or containing substantial portion of '
+                  'this text.\\n'
+                  'Please check updates at: http://tanzil.net/updates/',
+                  style: TextStyle(height: 1.5),
+                ),
+              ],
+            ),
+            const Text(
+              'QuranEnc-এর শর্ত: অনুবাদ ও টীকা অপরিবর্তিত রাখা, প্রকাশক ও সংস্করণ উল্লেখ, উৎসের সর্বশেষ সংস্করণ অনুসরণ এবং অনুপযুক্ত বিজ্ঞাপন পরিহার।',
             ),
             const SizedBox(height: 8),
             const SelectableText('https://tanzil.net'),
