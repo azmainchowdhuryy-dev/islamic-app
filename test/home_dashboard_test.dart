@@ -234,7 +234,7 @@ void main() {
     expect(secondRowY, greaterThan(firstRowY + 40));
     expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
     expect(tester.getCenter(find.text('সকাল-সন্ধ্যার দোয়া')).dy, closeTo(secondRowY, 1));
-    final thirdRowY = tester.getCenter(find.text('দৈনন্দিন দোয়া')).dy;
+    final thirdRowY = tester.getCenter(find.text('দোয়ার বিষয়সমূহ')).dy;
     expect(thirdRowY, greaterThan(secondRowY + 40));
   });
 
