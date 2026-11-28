@@ -65,10 +65,38 @@ Future<List<ShortSurah>> loadShortSurahs() async {
   final surahs = (decoded['surahs'] as List<dynamic>)
       .map((item) => ShortSurah.fromJson(item as Map<String, dynamic>))
       .toList(growable: false);
-  if (surahs.length != 16 ||
-      surahs.first.number != 1 ||
-      surahs.first.ayahCount != 7) {
-    throw const FormatException('Short surah dataset failed validation.');
+  const expectedAyahCounts = <int, int>{
+    1: 7,
+    100: 11,
+    101: 11,
+    102: 8,
+    103: 3,
+    104: 9,
+    105: 5,
+    106: 4,
+    107: 7,
+    108: 3,
+    109: 6,
+    110: 3,
+    111: 5,
+    112: 4,
+    113: 5,
+    114: 6,
+  };
+  final expectedNumbers = expectedAyahCounts.keys.toList(growable: false);
+  if (surahs.length != expectedNumbers.length) {
+    throw const FormatException('Short surah dataset has an unexpected number of surahs.');
+  }
+  for (var index = 0; index < surahs.length; index++) {
+    final surah = surahs[index];
+    final expectedNumber = expectedNumbers[index];
+    if (surah.number != expectedNumber ||
+        surah.ayahCount != expectedAyahCounts[expectedNumber] ||
+        surah.verses.any(
+          (verse) => verse.arabic.trim().isEmpty || verse.translation.trim().isEmpty,
+        )) {
+      throw FormatException('Short surah dataset failed validation at surah $expectedNumber.');
+    }
   }
   return surahs;
 }
@@ -300,11 +328,23 @@ class _PronunciationGuidance extends StatelessWidget {
               'বাংলা হরফে আরবি ধ্বনির সব পার্থক্য প্রকাশ করা যায় না। তাই যাচাইকৃত শিক্ষক-প্রস্তুত বাংলা উচ্চারণ যুক্ত না হওয়া পর্যন্ত অনুমানভিত্তিক উচ্চারণ দেখানো হচ্ছে না।',
             ),
             const SizedBox(height: 8),
-            const Text(
-              'মাখরাজের সাধারণ স্মরণিকা: ء هـ ع ح غ خ গলার বিভিন্ন স্থান থেকে; ق জিহ্বার পেছন ও তালুর সংযোগে; ف নিচের ঠোঁট ও ওপরের দাঁতে; ب م দুই ঠোঁটে উচ্চারিত হয়।',
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.right,
-              style: TextStyle(height: 1.8),
+            const Text('মাখরাজের সাধারণ স্মরণিকা:'),
+            const SizedBox(height: 6),
+            const _MakhrajReminderRow(
+              arabicLetters: 'ء هـ ع ح غ خ',
+              description: 'গলার বিভিন্ন স্থান থেকে উচ্চারিত হয়।',
+            ),
+            const _MakhrajReminderRow(
+              arabicLetters: 'ق',
+              description: 'জিহ্বার পেছন ও তালুর সংযোগস্থল থেকে উচ্চারিত হয়।',
+            ),
+            const _MakhrajReminderRow(
+              arabicLetters: 'ف',
+              description: 'নিচের ঠোঁট ও ওপরের দাঁতের সংযোগে উচ্চারিত হয়।',
+            ),
+            const _MakhrajReminderRow(
+              arabicLetters: 'ب م',
+              description: 'দুই ঠোঁটের সাহায্যে উচ্চারিত হয়।',
             ),
             const SizedBox(height: 8),
             Text(
@@ -315,6 +355,49 @@ class _PronunciationGuidance extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _MakhrajReminderRow extends StatelessWidget {
+  const _MakhrajReminderRow({
+    required this.arabicLetters,
+    required this.description,
+  });
+
+  final String arabicLetters;
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 104,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Text(
+                arabicLetters,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              description,
+              textDirection: TextDirection.ltr,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
+            ),
+          ),
+        ],
       ),
     );
   }
