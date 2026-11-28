@@ -189,6 +189,29 @@ void main() {
     expect(newDua100.where((item) => item['usage_category'] == 'morning_evening').length, 10);
   });
 
+  test('each Bengali topic has exactly one English category label', () {
+    final hadith =
+        jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
+    final duas =
+        jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
+
+    for (final records in [hadith, duas]) {
+      final labels = <String, Set<String>>{};
+      for (final item in records) {
+        final bn = (item['category'] ?? item['category_bn']) as String;
+        final en = item['category_en'] as String;
+        labels.putIfAbsent(bn, () => <String>{}).add(en);
+      }
+      for (final entry in labels.entries) {
+        expect(
+          entry.value,
+          hasLength(1),
+          reason: '${entry.key} has inconsistent English category labels',
+        );
+      }
+    }
+  });
+
   test('Hadith and Dua folders are grouped into their verified topics', () {
     final hadith =
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
