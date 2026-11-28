@@ -59,4 +59,14 @@ void main() {
     );
   });
 
+  test('translation notes render bold markup without exposing HTML tags', () {
+    const note = '<b>শিরোনাম:</b> ব্যাখ্যার মূল অংশ।';
+    final spans = buildTranslationNoteSpans(note, const TextStyle(fontSize: 14));
+    final rendered = TextSpan(children: spans);
+
+    expect(rendered.toPlainText(), 'শিরোনাম: ব্যাখ্যার মূল অংশ।');
+    expect(spans.first.style?.fontWeight, FontWeight.bold);
+    expect(spans.last.style?.fontWeight, isNull);
+  });
+
 }
