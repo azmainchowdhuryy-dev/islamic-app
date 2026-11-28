@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/localization/app_strings.dart';
 import '../../core/navigation/navigation_provider.dart';
+import '../../core/navigation/noor_navigator.dart';
 import '../../core/services/noor_notification_service.dart';
 import '../../core/services/prefs.dart';
 import '../../core/theme/app_colors.dart';
@@ -30,13 +31,21 @@ class _MainShellState extends ConsumerState<MainShell>
   static const _nextPromptKey = 'prayer_notification_prompt_next_at';
   static const _initialDelay = Duration(minutes: 2);
   static const _repeatDelay = Duration(days: 7);
+  static const _adhkarAcceptedKey = 'adhkar_notification_prompt_accepted';
+  static const _adhkarNextPromptKey = 'adhkar_notification_prompt_next_at';
+  static const _firstOpenKey = 'noor_first_open_at';
+  static const _adhkarInitialDelay = Duration(days: 3);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _schedulePrayerNotificationPrompt();
+      if (mounted) {
+        _schedulePrayerNotificationPrompt();
+      _scheduleAdhkarNotificationPrompt();
+        _scheduleAdhkarNotificationPrompt();
+      }
     });
   }
 
@@ -131,7 +140,9 @@ class _MainShellState extends ConsumerState<MainShell>
       if (!mounted) return;
       if (granted) {
         await prefs.setBool('notifications_prayer_enabled', true);
+      ref.read(notificationSettingsRevisionProvider.notifier).state++;
         await prefs.setBool(_acceptedKey, true);
+        ref.read(notificationSettingsRevisionProvider.notifier).state++;
         await prefs.remove(_nextPromptKey);
         await NoorNotificationService.instance.syncFromPreferences(prefs);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -154,6 +165,96 @@ class _MainShellState extends ConsumerState<MainShell>
     } else {
       await _scheduleNextPrompt(prefs);
     }
+  }
+
+
+  void _scheduleAdhkarNotificationPrompt() {
+    if (!mounted || _promptVisible) return;
+    final prefs = ref.read(sharedPrefsProvider);
+    if (prefs.getBool(_adhkarAcceptedKey) == true ||
+        prefs.getBool('notifications_adhkar_enabled') == true) return;
+    final now = DateTime.now();
+    final firstOpenMs = prefs.getInt(_firstOpenKey);
+    final firstOpen = firstOpenMs == null
+        ? now
+        : DateTime.fromMillisecondsSinceEpoch(firstOpenMs);
+    if (firstOpenMs == null) {
+      prefs.setInt(_firstOpenKey, now.millisecondsSinceEpoch);
+    }
+    final savedDue = prefs.getInt(_adhkarNextPromptKey);
+    final due = savedDue == null
+        ? firstOpen.add(_adhkarInitialDelay)
+        : DateTime.fromMillisecondsSinceEpoch(savedDue);
+    final delay = due.difference(now);
+    _promptTimer?.cancel();
+    _promptTimer = Timer(
+      delay.isNegative ? Duration.zero : delay,
+      () { if (mounted) _showAdhkarNotificationPrompt(); },
+    );
+  }
+
+  Future<void> _showAdhkarNotificationPrompt() async {
+    if (!mounted || _promptVisible) return;
+    final prefs = ref.read(sharedPrefsProvider);
+    if (prefs.getBool(_adhkarAcceptedKey) == true ||
+        prefs.getBool('notifications_adhkar_enabled') == true) return;
+    _promptVisible = true;
+    final lang = ref.read(stringsProvider).lang;
+    final agreed = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        icon: const Icon(Icons.wb_twilight_rounded, size: 34),
+        title: Text(lang == 'bn'
+            ? 'সকাল-সন্ধ্যার আমলের রিমাইন্ডার চালু করবেন?'
+            : 'Turn on morning and evening adhkar reminders?'),
+        content: Text(lang == 'bn'
+            ? 'প্রতিদিন সকালে ও সন্ধ্যায় মাসনুন যিকির ও দোয়া পড়ার কথা Noor আপনাকে মনে করিয়ে দেবে।'
+            : 'Noor can remind you to read the morning and evening adhkar every day.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(lang == 'bn' ? 'এখন নয়' : 'Not now'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(lang == 'bn' ? 'চালু করুন' : 'Turn on'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted) return;
+    _promptVisible = false;
+    if (agreed == true) {
+      final granted = await NoorNotificationService.instance.requestPermission();
+      if (!mounted) return;
+      if (granted) {
+        await prefs.setBool('notifications_adhkar_enabled', true);
+      ref.read(notificationSettingsRevisionProvider.notifier).state++;
+        await prefs.setBool(_adhkarAcceptedKey, true);
+        await prefs.remove(_adhkarNextPromptKey);
+        ref.read(notificationSettingsRevisionProvider.notifier).state++;
+        await NoorNotificationService.instance.syncFromPreferences(prefs);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(lang == 'bn'
+              ? 'সকাল-সন্ধ্যার আমলের রিমাইন্ডার চালু হয়েছে।'
+              : 'Morning and evening reminders are enabled.'),
+        ));
+      } else {
+        await _scheduleAdhkarPromptAgain(prefs);
+      }
+    } else {
+      await _scheduleAdhkarPromptAgain(prefs);
+    }
+  }
+
+  Future<void> _scheduleAdhkarPromptAgain(SharedPreferences prefs) async {
+    final next = DateTime.now().add(_repeatDelay);
+    await prefs.setInt(_adhkarNextPromptKey, next.millisecondsSinceEpoch);
+    _promptTimer?.cancel();
+    _promptTimer = Timer(_repeatDelay, () {
+      if (mounted) _showAdhkarNotificationPrompt();
+    });
   }
 
   Future<void> _scheduleNextPrompt(SharedPreferences prefs) async {
