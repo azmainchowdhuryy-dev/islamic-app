@@ -397,7 +397,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     key: const Key('home_header_panel'),
                     decoration: AppSurfaceStyles.hero(),
                     padding: EdgeInsets.fromLTRB(
-                      8,
+                      0,
                       MediaQuery.of(context).padding.top + 2,
                       16,
                       4,
