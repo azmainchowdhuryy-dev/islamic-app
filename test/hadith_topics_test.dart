@@ -100,7 +100,7 @@ void main() {
     expect(find.text('সকাল-সন্ধ্যার দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('3টি দোয়া'), findsOneWidget);
-    expect(find.text('73টি দোয়া'), findsNothing);
+    expect(find.text('84টি দোয়া'), findsNothing);
   });
 
   testWidgets('Daily dua section shows only relevant topic folders', (tester) async {
