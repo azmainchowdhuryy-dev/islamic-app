@@ -3726,7 +3726,7 @@
     "order": 189,
     "category": "ইবাদত ও সালাত",
     "category_en": "Worship and Prayer",
-    "arabic_text": "حَدَّثَنَا عَبْدُ اللَّهِ بْنُ يُوسُفَ، قَالَ أَخْبَرَنَا مَالِكٌ، عَنْ هِشَامِ بْنِ عُرْوَةَ، عَنْ فَاطِمَةَ بِنْتِ الْمُنْذِرِ، عَنْ أَسْمَاءَ بِنْتِ أَبِي بَكْرٍ، أَنَّهَا قَالَتْ سَأَلَتِ امْرَأَةٌ رَسُولَ اللَّهِ صلى الله عليه وسلم فَقَالَتْ يَا رَسُولَ اللَّهِ، أَرَأَيْتَ إِحْدَانَا إِذَا أَصَابَ ثَوْبَهَا الدَّمُ مِنَ الْحَيْضَةِ، كَيْفَ تَصْنَعُ فَقَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏ \"‏ إِذَا أَصَابَ ثَوْبَ إِحْدَاكُنَّ الدَّمُ مِنَ الْحَيْضَةِ، فَلْتَقْرُصْهُ ثُمَّ لِتَنْضَحْهُ بِمَاءٍ، ثُمَّ لِتُصَلِّي فِيهِ ‏\"‏‏.‏",
+    "arabic_text": "حَدَّثَنَا عَبْدُ اللَّهِ بْنُ يُوسُفَ، قَالَ أَخْبَرَنَا مَالِكٌ، عَنْ هِشَامٍ، عَنْ فَاطِمَةَ بِنْتِ الْمُنْذِرِ، عَنْ أَسْمَاءَ بِنْتِ أَبِي بَكْرٍ، أَنَّهَا قَالَتْ سَأَلَتِ امْرَأَةٌ رَسُولَ اللَّهِ صلى الله عليه وسلم فَقَالَتْ يَا رَسُولَ اللَّهِ، أَرَأَيْتَ إِحْدَانَا إِذَا أَصَابَ ثَوْبَهَا الدَّمُ مِنَ الْحَيْضَةِ، كَيْفَ تَصْنَعُ فَقَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ إِذَا أَصَابَ ثَوْبَ إِحْدَاكُنَّ الدَّمُ مِنَ الْحَيْضَةِ، فَلْتَقْرُصْهُ ثُمَّ لِتَنْضَحْهُ بِمَاءٍ، ثُمَّ لِتُصَلِّي فِيهِ ‏\"‏‏.‏",
     "bangla_translation": "আসমা (রা.) বর্ণনা করেন, কাপড়ে মাসিকের রক্ত লাগলে রক্তের জায়গাটি ঘষে পানি দিয়ে পরিষ্কার করতে হবে। এরপর সেই কাপড়েই সালাত আদায় করা যাবে।",
     "english_translation": "Asma reported that menstrual blood on clothing should be rubbed away and washed with water, after which the garment may be used for prayer.",
     "narrator": "আসমা বিনতু আবি বকর (রা.)",
@@ -3737,7 +3737,7 @@
     "license_note": "Arabic source text: fawazahmed0/hadith-api (Unlicense). No third-party Bengali translation copied.",
     "daily_eligible": true,
     "verified": true,
-    "verified_by": "Sahih al-Bukhari 307; source text: https://github.com/fawazahmed0/hadith-api (Unlicense); primary reference: https://sunnah.com/bukhari:307",
+    "verified_by": "Sahih al-Bukhari 307; Arabic text matched against https://sunnah.com/bukhari:307; source dataset: https://github.com/fawazahmed0/hadith-api (Unlicense)",
     "verified_date": "2026-11-28",
     "collection_batch": "expanded-200-total-hadith-2026-11-28"
   },
