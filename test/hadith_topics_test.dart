@@ -57,7 +57,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.all);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('188টি হাদিস'), findsOneWidget);
+    expect(find.text('198টি হাদিস'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
@@ -70,9 +70,9 @@ void main() {
     // lazy ListView child that may be outside the current viewport.
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('181টি দোয়া'), findsOneWidget);
+    expect(find.text('99টি দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
-    expect(find.text('ঘুম ও জাগ্রত'), findsOneWidget);
+    expect(find.text('সালাত ও যিক্‌র'), findsOneWidget);
     await tester.ensureVisible(find.text('ঘুম ও জাগ্রত'));
     await tester.tap(find.text('ঘুম ও জাগ্রত'));
     await tester.pump();
@@ -83,7 +83,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.hadith);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('188টি হাদিস'), findsOneWidget);
+    expect(find.text('198টি হাদিস'), findsOneWidget);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsNothing);
   });
 
@@ -91,7 +91,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('181টি দোয়া'), findsOneWidget);
+    expect(find.text('99টি দোয়া'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
   });
 
@@ -99,16 +99,16 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.morningEveningDua);
     expect(find.text('সকাল-সন্ধ্যার দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
-    expect(find.text('12টি দোয়া'), findsOneWidget);
-    expect(find.text('169টি দোয়া'), findsNothing);
+    expect(find.text('9টি দোয়া'), findsOneWidget);
+    expect(find.text('90টি দোয়া'), findsNothing);
   });
 
   testWidgets('Daily dua section shows only relevant topic folders', (tester) async {
     await pumpScreen(tester, HadithDuaSection.dailyDua);
     expect(find.text('দৈনন্দিন ব্যবহার'), findsOneWidget);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('খাদ্য ও পানীয়'), findsOneWidget);
-    expect(find.text('পবিত্রতা ও অজু'), findsOneWidget);
+    expect(find.text('রিজিক ও কল্যাণ'), findsOneWidget);
+    expect(find.text('সালাত ও যিক্‌র'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsNothing);
     final firstTopicFolder = find.byType(ListTile).first;
     await tester.tap(firstTopicFolder);
