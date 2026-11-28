@@ -16,6 +16,7 @@ import '../../../core/theme/app_surface_styles.dart';
 import '../../../core/time/bangladesh_clock.dart';
 import '../../calendar/screens/prayer_calendar_screen.dart';
 import '../../hadith/providers/hadith_provider.dart';
+import '../../hadith/screens/hadith_dua_screen.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
@@ -1067,7 +1068,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           title: lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Dua',
                           icon: Icons.wb_twilight,
                           titleMaxLines: 2,
-                          onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 3,
+                          onTap: () => _openTool(
+                            context,
+                            const HadithDuaScreen(section: HadithDuaSection.morningEveningDua),
+                          ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'দৈনন্দিন দোয়া' : 'Daily Duas',
+                          icon: Icons.volunteer_activism_outlined,
+                          titleMaxLines: 2,
+                          onTap: () => _openTool(
+                            context,
+                            const HadithDuaScreen(section: HadithDuaSection.dailyDua),
+                          ),
                         ),
                       ],
                     ),
