@@ -136,7 +136,27 @@ void main() {
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
     expect(hadith.length, 198);
-    expect(duas.length, 104);
+    expect(duas.length, 110);
+
+    final addedQuranAdhkar = {
+      'quran-2-255-adhkar',
+      'quran-112-adhkar',
+      'quran-113-adhkar',
+      'quran-114-adhkar',
+      'quran-59-22-24-adhkar',
+      'quran-2-285-286-night',
+    };
+    expect(
+      addedQuranAdhkar.every((id) => duas.any((item) => item['id'] == id)),
+      isTrue,
+    );
+    expect(
+      duas.where((item) => addedQuranAdhkar.contains(item['id'])).every(
+        (item) => item['usage_category'] == 'morning_evening',
+      ),
+      isTrue,
+    );
+
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -192,7 +212,7 @@ void main() {
     final quranDuas = duas
         .where((item) => item['source'] == 'আল-কুরআন')
         .toList();
-    expect(quranDuas, hasLength(73));
+    expect(quranDuas, hasLength(79));
     expect(quranDuas.every((item) =>
         (item['verified_by'] as String).contains('https://quran.com/')), isTrue);
 
@@ -220,8 +240,8 @@ void main() {
           (item['verified_by'] as String).contains('https://sunnah.com/')),
       isTrue,
     );
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 16);
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').every((item) => (item['transliteration_bn'] as String? ?? '').trim().isNotEmpty), isTrue);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 21);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening' && !(item['id'] as String).startsWith('quran-')).every((item) => (item['transliteration_bn'] as String? ?? '').trim().isNotEmpty), isTrue);
     expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);
     final afterSalah = duas.where((item) => item['usage_category'] == 'after_salah').toList();
     expect(afterSalah, hasLength(4));
