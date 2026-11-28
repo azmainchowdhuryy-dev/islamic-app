@@ -1,47 +1,28 @@
 # Noor Hadith and Dua content sources
 
-## Hadith
+## Existing collections
 
-The 12 additions in the 100-record collection use Arabic, Bengali and English editions from [fawazahmed0/hadith-api](https://github.com/fawazahmed0/hadith-api), released under the Unlicense. The added narrations are from Sahih al-Bukhari and are referenced individually in `assets/data/hadith.json` using the standard Sunnah.com numbering. Each addition carries a direct reference URL and the collection grade.
+The existing records retain their individual source, reference, grading, translation and attribution metadata. A record is displayed only when its `verified` field is true. This field records the project's source-checking status and is not a substitute for a qualified scholar's review.
 
-The pre-existing 88 records retain their own source, translation and grading metadata. A record is shown only when `verified` is true.
-
-## Duas
-
-The 19 additions bring the total to 100. They are split into:
-- 10 morning and evening remembrances.
-- 9 duas for common daily situations.
-
-Morning and evening Arabic and English source material is from [Seen-Arabic/Morning-And-Evening-Adhkar-DB](https://github.com/Seen-Arabic/Morning-And-Evening-Adhkar-DB), MIT License. Daily-use Arabic and English source material is from [fitrahive/dua-dhikr](https://github.com/fitrahive/dua-dhikr), MIT License. Bengali meanings for the additions are concise project translations from the cited Arabic.
-
-Each record retains a primary Qur'an or Hadith reference, a direct verification link, the grading where the source supplies one, and its translation/licence note. The morning/evening additions include Sahih or Hasan narrations only. The daily-use additions are drawn from Sahih al-Bukhari and Sahih Muslim.
-
-## Review note
-
-The app's `verified` flag means that the Arabic and reference were checked against the named source and that the narration is Sahih or Hasan where a grading applies. It is not a claim that every Bengali wording has been reviewed by a qualified Hadith scholar. A qualified scholar should review the translations before public release.
-
-
-## Additional Dua collection (100 records)
-
-- Source repository: [DeenOne Dua API](https://github.com/riadmonir/dua-api)
-- Source file: `deenone_all_duas.json`
-- The repository README declares an MIT licence.
-- Only records with a Qur'an reference or an explicit Sahih al-Bukhari / Sahih Muslim reference were selected. Records with an explicit weak-narration marker were excluded.
-- Bengali meanings and Bengali reading aids are retained with the source's attribution. The app keeps each primary reference beside the dua.
-- The 100 additions are grouped by the source topic labels. Morning and evening remembrances have their own folder.
-
-The source repository is a community dataset, not a fatwa or scholarly certification. Before a public release, a qualified Qur'an and Hadith reviewer should verify the selected entries and Bengali reading aids.
-
-
-## Additional Hadith collection (100 records)
+## Additional 100 Hadith
 
 - Collection: Sahih al-Bukhari, selected narrations 200–328.
 - Arabic source dataset: [fawazahmed0/hadith-api](https://github.com/fawazahmed0/hadith-api), which declares the Unlicense.
-- Each record links to its corresponding [Sunnah.com Sahih al-Bukhari reference](https://sunnah.com/bukhari:200) using its own hadith number.
-- All 100 additions are from Sahih al-Bukhari and carry the collection grade `সহিহ`.
-- Bengali and English text are Noor-authored concise meaning summaries based on the Arabic narration, not copied third-party translations. The UI should label them as summaries, not full scholarly translations.
+- Each record retains its individual Sahih al-Bukhari number and a direct Sunnah.com reference.
+- The 100 narrations are from Sahih al-Bukhari and carry the collection grade `সহিহ`.
+- Bengali and English text are Noor-authored concise meaning summaries based on the Arabic narration. They are not presented as verbatim scholarly translations.
 
-The collection source establishes that the narrations belong to Sahih al-Bukhari. The app's original summaries have not yet received independent review by a qualified Hadith scholar. That review is still required before describing the translations as scholar-certified.
+## Additional 100 Duas
 
+- Source repository: [DeenOne Dua API](https://github.com/riadmonir/dua-api), whose README declares an MIT licence.
+- The selected records retain their source-provided Arabic, Bengali meaning, topic labels and primary references.
+- Morning and evening remembrances are marked with `usage_category: morning_evening`; other topics use `usage_category: daily`.
+- Entries with an English field containing only a reference note have that field left blank so the app falls back to the Bengali meaning.
+- The source is a community dataset, not scholarly certification. The source reference and grading for every entry must be checked by a qualified Hadith/Qur'an reviewer before the app can be described as having a 100% scholar-verified collection.
+- Bengali phonetic aids from this community dataset are not displayed as verified pronunciation.
 
-The 100 new Arabic narrations were compared with a second independent Hadith dataset for Arabic-text matching and collection grading. A mismatch in the first import of Bukhari 307 was corrected against the direct Sunnah.com Arabic text. The second dataset was used only for verification; no Bengali translation from it was copied.
+## Totals and review
+
+The app contains 188 Hadith and 181 Duas after adding 100 records to the previous 88 Hadith and 81 Duas. The 100 new Hadith are from Sahih al-Bukhari. The 100 new Duas are drawn from the cited source dataset and require independent scholarly review before an absolute authenticity guarantee can be made.
+
+Qur'an verse-by-verse Bengali pronunciation is not generated by mechanical transliteration. It must be prepared and reviewed by a qualified Qur'an and Tajwid teacher before it is shown in Noor.
