@@ -14,13 +14,14 @@ A record is included only when its source collection and individual reference ca
 
 ## Dua collection
 
-- The collection was reduced from 181 to 87 entries after a stricter source review.
+- The collection was reduced from 181 to 87 entries after a stricter source review, then expanded to 99 after adding a separately sourced morning and evening remembrance set.
 - It now contains 70 Qur'anic supplications with direct Quran.com verse references and 17 supplications with references in Sahih al-Bukhari or Sahih Muslim.
 - Entries from community datasets were removed when their Qur'anic reference could not be tied to a direct Quran.com verse page, or when the Hadith reference was unclear, mixed or mismatched.
 - The retained hadith-based entries keep direct Sunnah.com links. The Qur'anic entries keep their Quran.com verse references.
-- Morning and evening remembrances remain in their own folder: 3 entries. The remaining 84 entries are grouped under their relevant daily-use topics.
+- Morning and evening remembrances are kept in their own folder: 15 entries. This set includes three short Qur'anic surahs whose morning/evening recitation is supported by Sunan Abi Dawud 5082, alongside authenticated supplications from Sahih al-Bukhari, Sahih Muslim, Sunan Abi Dawud and Sunan Ibn Majah. The remaining 84 entries are grouped under their relevant daily-use topics.
+- Bengali pronunciation guides are shown for all 15 morning/evening entries. They are approximate reading aids, not a substitute for learning makharij and tajwid from a qualified teacher.
 - Bengali phonetic spellings are not displayed as verified pronunciation. Qur'anic Bengali pronunciation must be prepared and checked by a qualified Qur'an and Tajwid teacher.
 
 ## Totals and limits
 
-The current branch contains 198 Hadith and 87 Duas. The added narrations are from Sahih al-Bukhari, and the retained hadith-based Duas are sourced from Sahih al-Bukhari or Sahih Muslim. These source restrictions provide a strong basis for the authenticity of the narrations, but an absolute 100% guarantee of every translation or interpretation cannot honestly be made without review by qualified scholars.
+The current branch contains 198 Hadith and 99 Duas, including 15 morning/evening entries. The added narrations are from Sahih al-Bukhari, and the retained hadith-based Duas are sourced from Sahih al-Bukhari or Sahih Muslim. These source restrictions provide a strong basis for the authenticity of the narrations, but an absolute 100% guarantee of every translation or interpretation cannot honestly be made without review by qualified scholars.
