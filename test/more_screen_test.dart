@@ -57,7 +57,10 @@ void main() {
     await tester.scrollUntilVisible(
       find.text('ফন্টের আকার'),
       100,
-      scrollable: find.byType(Scrollable).first,
+      scrollable: find.ancestor(
+        of: find.byKey(const Key('more_logo_preview')),
+        matching: find.byType(Scrollable),
+      ).first,
     );
     expect(find.text('ফন্টের আকার'), findsOneWidget);
     expect(find.text('ইবাদত ও আল্লাহর ৯৯ নাম'), findsNothing);
