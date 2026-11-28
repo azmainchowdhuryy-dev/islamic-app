@@ -31,37 +31,48 @@ class NoorNotificationService {
     const settings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher_v3'),
     );
-    await _plugin.initialize(settings);
+    try {
+      await _plugin.initialize(settings);
+    } on MissingPluginException {
+      // Widget tests and unsupported platforms may not register the Android plugin.
+    }
     _initialized = true;
   }
 
   Future<bool> requestPermission() async {
     await initialize();
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    final granted = await android?.requestNotificationsPermission();
-    return granted ?? true;
+    try {
+      final android = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      final granted = await android?.requestNotificationsPermission();
+      return granted ?? true;
+    } on MissingPluginException {
+      return false;
+    }
   }
 
   Future<void> syncFromPreferences(SharedPreferences prefs) async {
     await initialize();
+    try {
+      if (prefs.getBool('notifications_adhkar_enabled') ?? false) {
+        await scheduleAdhkarReminders(
+          morningHour: prefs.getInt('adhkar_morning_hour') ?? 6,
+          morningMinute: prefs.getInt('adhkar_morning_minute') ?? 0,
+          eveningHour: prefs.getInt('adhkar_evening_hour') ?? 18,
+          eveningMinute: prefs.getInt('adhkar_evening_minute') ?? 0,
+        );
+      } else {
+        await _plugin.cancel(_morningReminderId);
+        await _plugin.cancel(_eveningReminderId);
+      }
 
-    if (prefs.getBool('notifications_adhkar_enabled') ?? false) {
-      await scheduleAdhkarReminders(
-        morningHour: prefs.getInt('adhkar_morning_hour') ?? 6,
-        morningMinute: prefs.getInt('adhkar_morning_minute') ?? 0,
-        eveningHour: prefs.getInt('adhkar_evening_hour') ?? 18,
-        eveningMinute: prefs.getInt('adhkar_evening_minute') ?? 0,
-      );
-    } else {
-      await _plugin.cancel(_morningReminderId);
-      await _plugin.cancel(_eveningReminderId);
-    }
-
-    if (prefs.getBool('notifications_prayer_enabled') ?? false) {
-      await _schedulePrayerNotificationsFromPreferences(prefs);
-    } else {
-      await _cancelPrayerNotifications();
+      if (prefs.getBool('notifications_prayer_enabled') ?? false) {
+        await _schedulePrayerNotificationsFromPreferences(prefs);
+      } else {
+        await _cancelPrayerNotifications();
+      }
+    } on MissingPluginException {
+      // Keep notification preferences usable in tests and on unsupported platforms.
     }
   }
 
