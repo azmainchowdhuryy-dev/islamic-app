@@ -136,8 +136,8 @@ void main() {
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
-    expect(hadith.length, 88);
-    expect(duas.length, 81);
+    expect(hadith.length, 100);
+    expect(duas.length, 100);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -170,6 +170,20 @@ void main() {
       expect(item['verified_date'], '2026-11-21');
       expect((item['translation_source'] as String).trim(), isNotEmpty);
       expect((item['license_note'] as String).trim(), isNotEmpty);
+    }
+    final newHadith12 = hadith.where((item) =>
+        item['collection_batch'] == 'expanded-100-total-hadith-2026-11-28').toList();
+    expect(newHadith12, hasLength(12));
+    final newDua19 = duas.where((item) =>
+        item['collection_batch'] == 'dua-100-total-2026-11-28').toList();
+    expect(newDua19, hasLength(19));
+    expect(newDua19.where((item) => item['usage_category'] == 'morning_evening').length, 10);
+    expect(newDua19.where((item) => item['usage_category'] == 'daily').length, 9);
+    for (final item in newDua19) {
+      expect(item['verified'], isTrue);
+      expect((item['arabic_text'] as String).trim(), isNotEmpty);
+      expect((item['bangla_translation'] as String).trim(), isNotEmpty);
+      expect((item['reference'] as String).trim(), isNotEmpty);
     }
   });
 
