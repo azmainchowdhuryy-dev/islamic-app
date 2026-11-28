@@ -43,6 +43,7 @@ class _MainShellState extends ConsumerState<MainShell>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
+        NoorNotificationService.instance.consumePendingNotificationNavigation();
         _schedulePrayerNotificationPrompt();
         _scheduleAdhkarNotificationPrompt();
       }
@@ -61,9 +62,10 @@ class _MainShellState extends ConsumerState<MainShell>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _schedulePrayerNotificationPrompt();
+      _scheduleAdhkarNotificationPrompt();
     } else {
-      _promptTimer?.cancel();
-      _promptTimer = null;
+      _prayerPromptTimer?.cancel();
+      _adhkarPromptTimer?.cancel();
     }
   }
 
@@ -134,6 +136,7 @@ class _MainShellState extends ConsumerState<MainShell>
 
     if (!mounted) return;
     _promptVisible = false;
+    _scheduleAdhkarNotificationPrompt();
 
     if (agreed == true) {
       final granted =
@@ -179,7 +182,7 @@ class _MainShellState extends ConsumerState<MainShell>
         ? now
         : DateTime.fromMillisecondsSinceEpoch(firstOpenMs);
     if (firstOpenMs == null) {
-      prefs.setInt(_firstOpenKey, now.millisecondsSinceEpoch);
+      unawaited(prefs.setInt(_firstOpenKey, now.millisecondsSinceEpoch));
     }
     final savedDue = prefs.getInt(_adhkarNextPromptKey);
     final due = savedDue == null
@@ -225,6 +228,7 @@ class _MainShellState extends ConsumerState<MainShell>
     );
     if (!mounted) return;
     _promptVisible = false;
+    _schedulePrayerNotificationPrompt();
     if (agreed == true) {
       final granted = await NoorNotificationService.instance.requestPermission();
       if (!mounted) return;
