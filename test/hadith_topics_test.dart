@@ -71,6 +71,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('200টি দোয়া'), findsOneWidget);
+    expect(find.text('সকাল-সন্ধ্যার দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('ঘুম ও জাগ্রত'), findsOneWidget);
     await tester.tap(find.text('ঘুম ও জাগ্রত'));
