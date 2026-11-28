@@ -38,20 +38,41 @@ class NoorNotificationService {
         settings,
         onDidReceiveNotificationResponse: (response) {
           if (response.payload == 'morning_evening_adhkar') {
-            noorNavigatorKey.currentState?.push(
-              MaterialPageRoute<void>(
-                builder: (_) => const HadithDuaScreen(
-                  section: HadithDuaSection.morningEveningDua,
-                ),
-              ),
-            );
+            openMorningEveningAdhkar();
           }
         },
       );
     } on MissingPluginException {
       // Widget tests and unsupported platforms may not register the Android plugin.
     }
+    try {
+      final launchDetails = await _plugin.getNotificationAppLaunchDetails();
+      if (launchDetails?.didNotificationLaunchApp == true &&
+          launchDetails?.notificationResponse?.payload == 'morning_evening_adhkar') {
+        pendingMorningEveningAdhkarOpen = true;
+      }
+    } on MissingPluginException {
+      // Ignore launch details where the platform plugin is unavailable.
+    }
     _initialized = true;
+  }
+
+  void openMorningEveningAdhkar() {
+    final navigator = noorNavigatorKey.currentState;
+    if (navigator == null) {
+      pendingMorningEveningAdhkarOpen = true;
+      return;
+    }
+    pendingMorningEveningAdhkarOpen = false;
+    navigator.push(MaterialPageRoute<void>(
+      builder: (_) => const HadithDuaScreen(
+        section: HadithDuaSection.morningEveningDua,
+      ),
+    ));
+  }
+
+  void consumePendingNotificationNavigation() {
+    if (pendingMorningEveningAdhkarOpen) openMorningEveningAdhkar();
   }
 
   Future<bool> requestPermission() async {
