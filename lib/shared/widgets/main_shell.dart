@@ -24,7 +24,8 @@ class MainShell extends ConsumerStatefulWidget {
 
 class _MainShellState extends ConsumerState<MainShell>
     with WidgetsBindingObserver {
-  Timer? _promptTimer;
+  Timer? _prayerPromptTimer;
+  Timer? _adhkarPromptTimer;
   bool _promptVisible = false;
 
   static const _acceptedKey = 'prayer_notification_prompt_accepted';
@@ -43,7 +44,6 @@ class _MainShellState extends ConsumerState<MainShell>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _schedulePrayerNotificationPrompt();
-      _scheduleAdhkarNotificationPrompt();
         _scheduleAdhkarNotificationPrompt();
       }
     });
@@ -52,7 +52,8 @@ class _MainShellState extends ConsumerState<MainShell>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _promptTimer?.cancel();
+    _prayerPromptTimer?.cancel();
+    _adhkarPromptTimer?.cancel();
     super.dispose();
   }
 
@@ -67,8 +68,8 @@ class _MainShellState extends ConsumerState<MainShell>
   }
 
   void _schedulePrayerNotificationPrompt() {
-    _promptTimer?.cancel();
-    _promptTimer = null;
+    _prayerPromptTimer?.cancel();
+    _prayerPromptTimer = null;
     if (!mounted || _promptVisible) return;
 
     final prefs = ref.read(sharedPrefsProvider);
@@ -85,11 +86,11 @@ class _MainShellState extends ConsumerState<MainShell>
     final delay = due.difference(now);
 
     if (delay <= Duration.zero) {
-      _promptTimer = Timer(const Duration(milliseconds: 300), () {
+      _prayerPromptTimer = Timer(const Duration(milliseconds: 300), () {
         if (mounted) _showPrayerNotificationPrompt();
       });
     } else {
-      _promptTimer = Timer(delay, () {
+      _prayerPromptTimer = Timer(delay, () {
         if (mounted) _showPrayerNotificationPrompt();
       });
     }
@@ -140,7 +141,6 @@ class _MainShellState extends ConsumerState<MainShell>
       if (!mounted) return;
       if (granted) {
         await prefs.setBool('notifications_prayer_enabled', true);
-      ref.read(notificationSettingsRevisionProvider.notifier).state++;
         await prefs.setBool(_acceptedKey, true);
         ref.read(notificationSettingsRevisionProvider.notifier).state++;
         await prefs.remove(_nextPromptKey);
@@ -186,8 +186,8 @@ class _MainShellState extends ConsumerState<MainShell>
         ? firstOpen.add(_adhkarInitialDelay)
         : DateTime.fromMillisecondsSinceEpoch(savedDue);
     final delay = due.difference(now);
-    _promptTimer?.cancel();
-    _promptTimer = Timer(
+    _adhkarPromptTimer?.cancel();
+    _adhkarPromptTimer = Timer(
       delay.isNegative ? Duration.zero : delay,
       () { if (mounted) _showAdhkarNotificationPrompt(); },
     );
@@ -230,7 +230,6 @@ class _MainShellState extends ConsumerState<MainShell>
       if (!mounted) return;
       if (granted) {
         await prefs.setBool('notifications_adhkar_enabled', true);
-      ref.read(notificationSettingsRevisionProvider.notifier).state++;
         await prefs.setBool(_adhkarAcceptedKey, true);
         await prefs.remove(_adhkarNextPromptKey);
         ref.read(notificationSettingsRevisionProvider.notifier).state++;
@@ -251,10 +250,11 @@ class _MainShellState extends ConsumerState<MainShell>
   Future<void> _scheduleAdhkarPromptAgain(SharedPreferences prefs) async {
     final next = DateTime.now().add(_repeatDelay);
     await prefs.setInt(_adhkarNextPromptKey, next.millisecondsSinceEpoch);
-    _promptTimer?.cancel();
-    _promptTimer = Timer(_repeatDelay, () {
+    _adhkarPromptTimer?.cancel();
+    _adhkarPromptTimer = Timer(_repeatDelay, () {
       if (mounted) _showAdhkarNotificationPrompt();
     });
+    _schedulePrayerNotificationPrompt();
   }
 
   Future<void> _scheduleNextPrompt(SharedPreferences prefs) async {
@@ -264,9 +264,9 @@ class _MainShellState extends ConsumerState<MainShell>
   }
 
   void _schedulePrayerNotificationPromptAt(DateTime due) {
-    _promptTimer?.cancel();
+    _prayerPromptTimer?.cancel();
     final delay = due.difference(DateTime.now());
-    _promptTimer = Timer(
+    _prayerPromptTimer = Timer(
       delay.isNegative ? Duration.zero : delay,
       () {
         if (mounted) _showPrayerNotificationPrompt();
