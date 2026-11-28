@@ -136,7 +136,7 @@ void main() {
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
     expect(hadith.length, 198);
-    expect(duas.length, 99);
+    expect(duas.length, 104);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -220,9 +220,9 @@ void main() {
           (item['verified_by'] as String).contains('https://sunnah.com/')),
       isTrue,
     );
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 15);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 16);
     expect(duas.where((item) => item['usage_category'] == 'morning_evening').every((item) => (item['transliteration_bn'] as String? ?? '').trim().isNotEmpty), isTrue);
-    expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);
+    expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);\n    final afterSalah = duas.where((item) => item['usage_category'] == 'after_salah').toList();\n    expect(afterSalah, hasLength(4));\n    expect(afterSalah.every((item) => item['recitation_count'] != null), isTrue);\n    expect(afterSalah.every((item) => item['reference'] == 'সহিহ মুসলিম, ৫৯৭এ'), isTrue);\n    final morningSubhanallah = duas.singleWhere((item) => item['id'] == 'morning-muslim-2692');\n    expect(morningSubhanallah['recitation_count'], 100);\n    expect(morningSubhanallah['reference'], 'সহিহ মুসলিম, ২৬৯২');
   });
 
   test('each Bengali topic has exactly one English category label', () {
