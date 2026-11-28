@@ -18,7 +18,7 @@ final verifiedDuasProvider = FutureProvider<List<Map<String, dynamic>>>((ref) as
     ..sort((a, b) => (a['order'] as int).compareTo(b['order'] as int));
 });
 
-enum HadithDuaSection { all, hadith, dua }
+enum HadithDuaSection { all, hadith, dua, morningEveningDua, dailyDua }
 
 class HadithDuaScreen extends ConsumerStatefulWidget {
   final HadithDuaSection section;
@@ -181,7 +181,10 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
   Widget build(BuildContext context) {
     final strings = ref.watch(stringsProvider);
     final lang = strings.lang;
-    final hadithAsync = widget.section == HadithDuaSection.dua
+    final isDuaOnly = widget.section == HadithDuaSection.dua ||
+        widget.section == HadithDuaSection.morningEveningDua ||
+        widget.section == HadithDuaSection.dailyDua;
+    final hadithAsync = isDuaOnly
         ? const AsyncData<List<Hadith>>([])
         : ref.watch(hadithListProvider);
     final duaAsync = widget.section == HadithDuaSection.hadith
@@ -193,14 +196,18 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
       appBar: AppBar(
         title: Text(widget.section == HadithDuaSection.hadith
             ? strings.t('hadith')
-            : widget.section == HadithDuaSection.dua
-                ? strings.t('dua')
-                : strings.t('hadith_dua')),
+            : widget.section == HadithDuaSection.morningEveningDua
+                ? (lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Duas')
+                : widget.section == HadithDuaSection.dailyDua
+                    ? (lang == 'bn' ? 'দৈনন্দিন ব্যবহার' : 'Daily Use Duas')
+                    : widget.section == HadithDuaSection.dua
+                        ? strings.t('dua')
+                        : strings.t('hadith_dua')),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          if (widget.section != HadithDuaSection.dua) ...[
+          if (!isDuaOnly) ...[
           Text(
             lang == 'bn' ? 'হাদিসের বিষয়সমূহ' : 'Hadith Topics',
             style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -294,7 +301,18 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
               padding: const EdgeInsets.all(16),
               child: Text(lang == 'bn' ? 'দোয়া লোড করা যায়নি।' : 'Could not load duas.'),
             ),
-            data: (duas) {
+            data: (allDuas) {
+              final duas = allDuas.where((item) {
+                final usage = item['usage_category'] as String? ??
+                    (item['id'] == 'hisn-78' ? 'morning_evening' : 'daily');
+                if (widget.section == HadithDuaSection.morningEveningDua) {
+                  return usage == 'morning_evening';
+                }
+                if (widget.section == HadithDuaSection.dailyDua) {
+                  return usage == 'daily';
+                }
+                return true;
+              }).toList();
               final categories = duas
                   .map((item) => lang == 'bn'
                       ? item['category_bn'] as String
