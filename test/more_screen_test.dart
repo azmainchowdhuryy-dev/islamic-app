@@ -54,6 +54,14 @@ void main() {
     expect(find.text('আরও'), findsOneWidget);
     expect(find.text('ভাষা'), findsOneWidget);
     expect(find.text('থিম'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('ফন্টের আকার'),
+      100,
+      scrollable: find.ancestor(
+        of: find.byKey(const Key('more_logo_preview')),
+        matching: find.byType(Scrollable),
+      ).first,
+    );
     expect(find.text('ফন্টের আকার'), findsOneWidget);
     expect(find.text('ইবাদত ও আল্লাহর ৯৯ নাম'), findsNothing);
     expect(find.text('নামাজ ট্র্যাকার, দৈনিক আমল ও প্রিয় নাম'), findsNothing);

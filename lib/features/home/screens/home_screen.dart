@@ -9,17 +9,21 @@ import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:hijri_date_time/hijri_date_time.dart';
 
 import '../../../core/localization/app_strings.dart';
+import '../../../core/localization/bn_digits.dart';
 import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
+import '../../../core/services/noor_notification_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_surface_styles.dart';
 import '../../../core/time/bangladesh_clock.dart';
 import '../../calendar/screens/prayer_calendar_screen.dart';
 import '../../hadith/providers/hadith_provider.dart';
+import '../../hadith/screens/hadith_dua_screen.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
 import '../../tools/screens/ruqyah_screen.dart';
+import '../../quran/screens/short_surahs_screen.dart';
 import '../services/daily_hadith_index.dart';
 import '../services/prayer_calculator.dart';
 
@@ -112,17 +116,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> _saveCity(String value) async {
     setState(() => _cityId = value);
-    await ref.read(sharedPrefsProvider).setString('home_city', value);
+    final prefs = ref.read(sharedPrefsProvider);
+    await prefs.setString('home_city', value);
+    await NoorNotificationService.instance.syncFromPreferences(prefs);
   }
 
   Future<void> _saveAsr(bool value) async {
     setState(() => _hanafi = value);
-    await ref.read(sharedPrefsProvider).setBool('home_hanafi', value);
+    final prefs = ref.read(sharedPrefsProvider);
+    await prefs.setBool('home_hanafi', value);
+    await NoorNotificationService.instance.syncFromPreferences(prefs);
   }
 
   Future<void> _saveMethod(PrayerCalculation value) async {
     setState(() => _method = value);
-    await ref.read(sharedPrefsProvider).setInt('home_calc_method', value.index);
+    final prefs = ref.read(sharedPrefsProvider);
+    await prefs.setInt('home_calc_method', value.index);
+    await NoorNotificationService.instance.syncFromPreferences(prefs);
   }
 
   Future<void> _togglePrayerFromHome(
@@ -291,6 +301,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
               'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro'
             ];
+
             const gregorianMonthsBn = [
               'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
               'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
@@ -300,32 +311,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'July', 'August', 'September', 'October', 'November', 'December'
             ];
             const weekdaysBn = [
-              'সোম', 'মঙ্গল', 'বুধ', 'বৃহঃ', 'শুক্র', 'শনি', 'রবি'
+              'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার',
+              'শুক্রবার', 'শনিবার', 'রবিবার'
             ];
-            const weekdaysEn = [
-              'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
+            const hijriMonthsAr = [
+              'مُحَرَّم', 'صَفَر', 'رَبِيعُ الأَوَّل', 'رَبِيعُ الآخِر',
+              'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
+              'رَمَضَان', 'شَوَّال', 'ذُو القَعْدَة', 'ذُو الحِجَّة'
             ];
             const hijriMonthsBn = [
-              'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
-              'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল',
-              'জিলকদ', 'জিলহজ'
-            ];
-            const hijriMonthsEn = [
-              'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
-              'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
-              'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah'
+              'মহররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি',
+              'জমাদিউল আউয়াল', 'জমাদিউস সানি', 'রজব', 'শাবান',
+              'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ'
             ];
             final hijriDate = HijriDateTime.fromGregorian(
               bangladeshDate,
             ).add(Duration(days: _hijriOffset));
-            final weekdayLabel = lang == 'bn'
-                ? weekdaysBn[_now.weekday - 1]
-                : weekdaysEn[_now.weekday - 1];
             final hijriDateLabel = lang == 'bn'
-                ? '$weekdayLabel, ${s.digits(hijriDate.day)} ${hijriMonthsBn[hijriDate.month - 1]} ${s.digits(hijriDate.year)}'
-                : '$weekdayLabel, ${hijriDate.day} ${hijriMonthsEn[hijriDate.month - 1]} ${hijriDate.year}';
+                ? '${localizeDigits(hijriDate.day, 'bn')} ${hijriMonthsBn[hijriDate.month - 1]} ${localizeDigits(hijriDate.year, 'bn')} হিজরি'
+                : '${hijriDate.day} ${hijriMonthsAr[hijriDate.month - 1]} ${hijriDate.year} هـ';
             final gregorianDateLabel = lang == 'bn'
-                ? '${s.digits(_now.day)} ${gregorianMonthsBn[_now.month - 1]} ${s.digits(_now.year)}'
+                ? '${weekdaysBn[_now.weekday - 1]}, ${localizeDigits(_now.day, 'bn')} ${gregorianMonthsBn[_now.month - 1]} ${localizeDigits(_now.year, 'bn')}'
                 : '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
             final banglaDateLabel = lang == 'bn'
                 ? '${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
@@ -391,7 +397,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     key: const Key('home_header_panel'),
                     decoration: AppSurfaceStyles.hero(),
                     padding: EdgeInsets.fromLTRB(
-                      16,
+                      8,
                       MediaQuery.of(context).padding.top + 2,
                       16,
                       4,
@@ -416,25 +422,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 size: 27,
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 4),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    hijriDateLabel,
-                                    key: const Key('home_hijri_date'),
+                                    gregorianDateLabel,
+                                    key: const Key('home_gregorian_date'),
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.primaryText,
                                       fontSize: 12.5,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    banglaDateLabel,
-                                    key: const Key('home_bangla_date'),
+                                    hijriDateLabel,
+                                    key: const Key('home_hijri_date'),
+                                    textDirection: TextDirection.rtl,
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
@@ -443,8 +450,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                   const SizedBox(height: 1),
                                   Text(
-                                    gregorianDateLabel,
-                                    key: const Key('home_gregorian_date'),
+                                    banglaDateLabel,
+                                    key: const Key('home_bangla_date'),
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: AppColors.secondaryText,
@@ -640,7 +647,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       ConstrainedBox(
-                                        constraints: const BoxConstraints(maxWidth: 90),
+                                        constraints: const BoxConstraints(maxWidth: 112),
                                         child: Text(
                                           city.name(lang),
                                           key: const Key('home_location_name'),
@@ -648,7 +655,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             color: AppColors.primaryText,
-                                            fontSize: 12,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -664,11 +671,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                               _HomeInfoChip(
                                 key: const Key('home_sunrise_chip'),
+                                icon: Icons.wb_sunny,
                                 label: lang == 'bn' ? 'সূর্যোদয়' : 'Sunrise',
                                 value: _clockTime(prayers.sunrise, s),
                               ),
                               _HomeInfoChip(
                                 key: const Key('home_sunset_chip'),
+                                icon: Icons.wb_twilight,
                                 label: lang == 'bn' ? 'সূর্যাস্ত' : 'Sunset',
                                 value: _clockTime(prayers.maghrib, s),
                               ),
@@ -697,7 +706,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             lang == 'bn' ? 'নামাজের সময়সূচি' : 'Prayer Times',
                             style: const TextStyle(
                               color: AppColors.primaryText,
-                              fontSize: 15,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -843,8 +852,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       IconButton(
                                         key: Key('home_prayer_toggle_${entry.key}'),
                                         constraints: const BoxConstraints(
-                                          minWidth: 40,
-                                          minHeight: 40,
+                                          minWidth: 36,
+                                          minHeight: 36,
                                         ),
                                         visualDensity: VisualDensity.compact,
                                         padding: EdgeInsets.zero,
@@ -1036,7 +1045,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        mainAxisExtent: 96,
+                        mainAxisExtent: 102,
                         mainAxisSpacing: 6,
                         crossAxisSpacing: 6,
                       ),
@@ -1044,12 +1053,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'আল্লাহর ৯৯ নাম' : '99 Names of Allah',
                           icon: Icons.favorite_outline,
-                          titleFontSize: 10,
                           titleMaxLines: 2,
                           onTap: () => _openTool(
                             context,
                             const IbadahToolsScreen(section: IbadahToolsSection.names),
                           ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'ছোট সূরা' : 'Short Surahs',
+                          icon: Icons.menu_book_rounded,
+                          titleMaxLines: 2,
+                          onTap: () => _openTool(context, const ShortSurahsScreen()),
                         ),
                         _HomeCircleFeature(
                           title: lang == 'bn' ? 'হাদিস' : 'Hadith',
@@ -1067,9 +1081,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onTap: () => _openTool(context, const TasbihScreen()),
                         ),
                         _HomeCircleFeature(
-                          title: lang == 'bn' ? 'দোয়া' : 'Dua',
+                          title: lang == 'bn' ? 'সকাল-সন্ধ্যা' : 'Morning & Evening',
+                          icon: Icons.wb_twilight,
+                          titleMaxLines: 2,
+                          onTap: () => _openTool(
+                            context,
+                            const HadithDuaScreen(section: HadithDuaSection.morningEveningDua),
+                          ),
+                        ),
+                        _HomeCircleFeature(
+                          title: lang == 'bn' ? 'দৈনন্দিন ব্যবহার' : 'Dua Topics',
                           icon: Icons.volunteer_activism_outlined,
-                          onTap: () => ref.read(mainNavigationIndexProvider.notifier).state = 3,
+                          titleMaxLines: 2,
+                          onTap: () => _openTool(
+                            context,
+                            const HadithDuaScreen(section: HadithDuaSection.dailyDua),
+                          ),
                         ),
                       ],
                     ),
@@ -1186,11 +1213,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
 
 class _HomeInfoChip extends StatelessWidget {
+  final IconData icon;
   final String label;
   final String value;
 
   const _HomeInfoChip({
     super.key,
+    required this.icon,
     required this.label,
     required this.value,
   });
@@ -1198,9 +1227,9 @@ class _HomeInfoChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 126,
-      height: 34,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      width: 138,
+      height: 38,
+      padding: const EdgeInsets.symmetric(horizontal: 9),
       decoration: BoxDecoration(
         color: AppColors.activeSurface,
         borderRadius: BorderRadius.circular(20),
@@ -1209,6 +1238,8 @@ class _HomeInfoChip extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Icon(icon, size: 17, color: AppColors.primaryAccent),
+          const SizedBox(width: 5),
           Flexible(
             child: Text(
               label,
@@ -1216,8 +1247,8 @@ class _HomeInfoChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.secondaryText,
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
@@ -1229,8 +1260,8 @@ class _HomeInfoChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.primaryText,
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
@@ -1264,8 +1295,8 @@ class _HomeTrackerCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          constraints: const BoxConstraints(minHeight: 96),
-          padding: const EdgeInsets.all(11),
+          constraints: const BoxConstraints(minHeight: 82),
+          padding: const EdgeInsets.all(9),
           decoration: AppSurfaceStyles.middleCard(radius: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1282,23 +1313,23 @@ class _HomeTrackerCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.primaryText,
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 7),
+              const SizedBox(height: 5),
               Text(
                 detail,
                 style: const TextStyle(
                   color: AppColors.secondaryText,
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 4),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
@@ -1403,7 +1434,6 @@ class _PrayerCountdownArcPainter extends CustomPainter {
 class _HomeCircleFeature extends StatelessWidget {
   final String title;
   final IconData icon;
-  final double titleFontSize;
   final int titleMaxLines;
   final VoidCallback onTap;
 
@@ -1411,7 +1441,6 @@ class _HomeCircleFeature extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
-    this.titleFontSize = 11.2,
     this.titleMaxLines = 1,
   });
 
@@ -1459,7 +1488,7 @@ class _HomeCircleFeature extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: AppColors.secondaryText,
-                fontSize: titleFontSize,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
             ),

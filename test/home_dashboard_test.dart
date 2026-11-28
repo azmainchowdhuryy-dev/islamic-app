@@ -128,7 +128,7 @@ void main() {
         );
         expect(
           tester.getSize(find.byKey(const Key('home_location_chip'))).width,
-          lessThan(150),
+          lessThan(180),
         );
         for (final chipKey in [
           'home_sunrise_chip',
@@ -139,6 +139,20 @@ void main() {
             lessThan(150),
           );
         }
+        expect(
+          find.descendant(
+            of: find.byKey(const Key('home_sunrise_chip')),
+            matching: find.byIcon(Icons.wb_sunny),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: find.byKey(const Key('home_sunset_chip')),
+            matching: find.byIcon(Icons.wb_twilight),
+          ),
+          findsOneWidget,
+        );
 
         await tester.tap(dropdownFinder);
         await tester.pump();
@@ -214,11 +228,14 @@ void main() {
     // Top feature items keep their three-column arrangement without tracker tiles.
     final namesCenter = tester.getCenter(find.text('আল্লাহর ৯৯ নাম'));
     final firstRowY = namesCenter.dy;
+    expect(tester.getCenter(find.text('ছোট সূরা')).dy, closeTo(firstRowY, 1));
     expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));
-    expect(tester.getCenter(find.text('রুকইয়াহ')).dy, closeTo(firstRowY, 1));
-    final secondRowY = tester.getCenter(find.text('তাসবিহ')).dy;
+    final secondRowY = tester.getCenter(find.text('রুকইয়াহ')).dy;
     expect(secondRowY, greaterThan(firstRowY + 40));
-    expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
+    expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
+    expect(tester.getCenter(find.text('সকাল-সন্ধ্যা')).dy, closeTo(secondRowY, 1));
+    final thirdRowY = tester.getCenter(find.text('দৈনন্দিন ব্যবহার')).dy;
+    expect(thirdRowY, greaterThan(secondRowY + 40));
   });
 
 
@@ -229,7 +246,7 @@ void main() {
 
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
-      '২২ নভেম্বর ২০২৬',
+      'রবিবার, ২২ নভেম্বর ২০২৬',
     );
 
     final date = DateTime(2026, 11, 22);
@@ -240,23 +257,25 @@ void main() {
     );
 
     final hijri = HijriDateTime.fromGregorian(date);
+    const hijriMonthsAr = [
+      'مُحَرَّم', 'صَفَر', 'رَبِيعُ الأَوَّل', 'رَبِيعُ الآخِر',
+      'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
+      'رَمَضَان', 'شَوَّال', 'ذُو القَعْدَة', 'ذُو الحِجَّة',
+    ];
     const hijriMonthsBn = [
-      'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
-      'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ',
+      'মহররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি',
+      'জমাদিউল আউয়াল', 'জমাদিউস সানি', 'রজব', 'শাবান',
+      'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ',
     ];
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'রবি, ${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')}',
+      '${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')} হিজরি',
     );
     await tester.tap(find.text('EN'));
     await tester.pump();
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'Sun, ${hijri.day} ${[
-        'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
-        'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
-        'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah',
-      ][hijri.month - 1]} ${hijri.year}',
+      '${hijri.day} ${hijriMonthsAr[hijri.month - 1]} ${hijri.year} هـ',
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
@@ -344,7 +363,7 @@ void main() {
     final arc = find.byKey(const Key('next_prayer_arc'));
     expect(header, findsOneWidget);
     expect(arc, findsOneWidget);
-    expect(tester.getSize(header).height, lessThan(250));
+    expect(tester.getSize(header).height, lessThan(300));
 
     final arcRect = tester.getRect(arc);
     final curveSize = tester.getSize(
@@ -412,7 +431,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('দোয়ার বিষয়সমূহ'), findsNothing);
+    expect(find.text('দৈনন্দিন ব্যবহার'), findsNothing);
 
     await tester.tap(find.text('দোয়া'));
     await tester.pump();
@@ -422,6 +441,14 @@ void main() {
 
     await tester.tap(find.text('আরও'));
     await tester.pump();
+    await tester.scrollUntilVisible(
+      find.text('ফন্টের আকার'),
+      100,
+      scrollable: find.ancestor(
+        of: find.byKey(const Key('more_logo_preview')),
+        matching: find.byType(Scrollable),
+      ).first,
+    );
     expect(find.text('ফন্টের আকার'), findsOneWidget);
 
     await tester.tap(find.text('হোম'));

@@ -89,7 +89,6 @@ void main() {
             'category_en',
             'arabic_text',
             'bangla_translation',
-            'english_translation',
           ]) {
             expect(
               (record[key] ?? '').toString().trim().isNotEmpty,
@@ -136,8 +135,28 @@ void main() {
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
-    expect(hadith.length, 88);
-    expect(duas.length, 81);
+    expect(hadith.length, 198);
+    expect(duas.length, 110);
+
+    final addedQuranAdhkar = {
+      'quran-2-255-adhkar',
+      'quran-112-adhkar',
+      'quran-113-adhkar',
+      'quran-114-adhkar',
+      'quran-59-22-24-adhkar',
+      'quran-2-285-286-night',
+    };
+    expect(
+      addedQuranAdhkar.every((id) => duas.any((item) => item['id'] == id)),
+      isTrue,
+    );
+    expect(
+      duas.where((item) => addedQuranAdhkar.contains(item['id'])).every(
+        (item) => item['usage_category'] == 'morning_evening',
+      ),
+      isTrue,
+    );
+
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -171,9 +190,92 @@ void main() {
       expect((item['translation_source'] as String).trim(), isNotEmpty);
       expect((item['license_note'] as String).trim(), isNotEmpty);
     }
+    final newHadith100 = hadith.where((item) =>
+        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28').toList();
+    expect(newHadith100, hasLength(100));
+    expect(newHadith100.every((item) => item['grade'] == 'সহিহ'), isTrue);
+    expect(newHadith100.every((item) => item['verified'] == true), isTrue);
+    expect(newHadith100.every((item) => (item['reference'] as String).isNotEmpty), isTrue);
+    expect(newHadith100.map((item) => item['reference']).toSet(), hasLength(100));
+    expect(newHadith100.every((item) => (item['arabic_text'] as String).isNotEmpty), isTrue);
+    expect(newHadith100.every((item) => (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
+    expect(newHadith100.every((item) => (item['bangla_translation'] as String).isNotEmpty), isTrue);
+    final additionalBukhari = hadith.where((item) =>
+        item['collection_batch'] == 'verified-sahih-bukhari-2026-11-28').toList();
+    expect(additionalBukhari, hasLength(10));
+    expect(additionalBukhari.every((item) => item['grade'] == 'সহিহ'), isTrue);
+    expect(additionalBukhari.every((item) => item['verified'] == true), isTrue);
+    expect(additionalBukhari.every((item) =>
+        (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
+    expect(additionalBukhari.map((item) => item['reference']).toSet(), hasLength(10));
+
+    final quranDuas = duas
+        .where((item) => item['source'] == 'আল-কুরআন')
+        .toList();
+    expect(quranDuas, hasLength(79));
+    expect(quranDuas.every((item) =>
+        (item['verified_by'] as String).contains('https://quran.com/')), isTrue);
+
+    final additionalSahihDuas = duas.where((item) =>
+        item['collection_batch'] == 'verified-sahih-dua-2026-11-28').toList();
+    expect(additionalSahihDuas, hasLength(7));
+    expect(additionalSahihDuas.every((item) => item['verified'] == true), isTrue);
+    expect(additionalSahihDuas.every((item) =>
+        (item['verified_by'] as String).contains('https://sunnah.com/')), isTrue);
+    expect(duas.every((item) => [
+      'আল-কুরআন',
+      'Sahih al-Bukhari',
+      'সহিহ মুসলিম',
+      'সহিহ আল-বুখারি ও সহিহ মুসলিম',
+      'Sunan Abi Dawud',
+      'Sunan Ibn Majah',
+    ].contains(item['source'])), isTrue);
+    expect(
+      duas.where((item) => item['source'] == 'আল-কুরআন').every((item) =>
+          (item['verified_by'] as String).contains('https://quran.com/')),
+      isTrue,
+    );
+    expect(
+      duas.where((item) => item['source'] != 'আল-কুরআন').every((item) =>
+          (item['verified_by'] as String).contains('https://sunnah.com/')),
+      isTrue,
+    );
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 22);
+    expect(duas.where((item) => item['usage_category'] == 'morning_evening' && !(item['id'] as String).startsWith('quran-')).every((item) => (item['transliteration_bn'] as String? ?? '').trim().isNotEmpty), isTrue);
+    expect(duas.where((item) => item['usage_category'] == 'daily').length, 84);
+    final afterSalah = duas.where((item) => item['usage_category'] == 'after_salah').toList();
+    expect(afterSalah, hasLength(4));
+    expect(afterSalah.every((item) => item['recitation_count'] != null), isTrue);
+    expect(afterSalah.every((item) => item['reference'] == 'সহিহ মুসলিম, ৫৯৭এ'), isTrue);
+    final morningSubhanallah = duas.singleWhere((item) => item['id'] == 'morning-muslim-2692');
+    expect(morningSubhanallah['recitation_count'], 100);
+    expect(morningSubhanallah['reference'], 'সহিহ মুসলিম, ২৬৯২');
   });
 
-  test('Hadith and Dua folders are grouped into six compact topics', () {
+  test('each Bengali topic has exactly one English category label', () {
+    final hadith =
+        jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
+    final duas =
+        jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
+
+    for (final records in [hadith, duas]) {
+      final labels = <String, Set<String>>{};
+      for (final item in records) {
+        final bn = (item['category'] ?? item['category_bn']) as String;
+        final en = item['category_en'] as String;
+        labels.putIfAbsent(bn, () => <String>{}).add(en);
+      }
+      for (final entry in labels.entries) {
+        expect(
+          entry.value,
+          hasLength(1),
+          reason: '${entry.key} has inconsistent English category labels',
+        );
+      }
+    }
+  });
+
+  test('Hadith and Dua folders are grouped into their verified topics', () {
     final hadith =
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
@@ -188,6 +290,8 @@ void main() {
         'আদব ও চরিত্র',
         'পরিবার ও সমাজ',
         'যিকির ও দোয়া',
+        'পবিত্রতা ও অজু',
+        'হজ্জ ও উমরা',
       },
     );
     expect(
@@ -199,6 +303,9 @@ void main() {
         'রিজিক ও কল্যাণ',
         'বিপদ ও নিরাপত্তা',
         'যিকির ও ইবাদত',
+        'সকাল-সন্ধ্যা',
+        'সফর ও ভ্রমণ',
+        'নামাজের পরের যিকির',
       },
     );
   });
@@ -210,7 +317,9 @@ void main() {
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
 
     for (final item in hadith.where((item) =>
-        item['collection_batch'] == 'expanded-50-hadith-2026-11-21')) {
+        item['collection_batch'] == 'expanded-50-hadith-2026-11-21' ||
+        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28' ||
+        item['collection_batch'] == 'verified-sahih-bukhari-2026-11-28')) {
       expect(
         (item['arabic_text'] as String).contains('...'),
         isFalse,

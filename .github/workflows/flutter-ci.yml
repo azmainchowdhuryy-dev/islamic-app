@@ -10,6 +10,7 @@ on:
       - main
       - feature/home-dashboard
       - fix/launcher-icon-and-ci
+      - feature/noor-home-dates-top-features
   pull_request:
     branches:
       - main
