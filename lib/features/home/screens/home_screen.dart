@@ -659,13 +659,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                               _HomeInfoChip(
                                 key: const Key('home_sunrise_chip'),
-                                icon: Icons.wb_sunny_rounded,
+                                icon: Icons.wb_sunny,
                                 label: lang == 'bn' ? 'সূর্যোদয়' : 'Sunrise',
                                 value: _clockTime(prayers.sunrise, s),
                               ),
                               _HomeInfoChip(
                                 key: const Key('home_sunset_chip'),
-                                icon: Icons.wb_twilight_rounded,
+                                icon: Icons.wb_twilight,
                                 label: lang == 'bn' ? 'সূর্যাস্ত' : 'Sunset',
                                 value: _clockTime(prayers.maghrib, s),
                               ),
