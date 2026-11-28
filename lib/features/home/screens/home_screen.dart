@@ -325,8 +325,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ? '${weekdaysBn[_now.weekday - 1]}, ${localizeDigits(_now.day, 'bn')} ${gregorianMonthsBn[_now.month - 1]} ${localizeDigits(_now.year, 'bn')}'
                 : '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
             final banglaDateLabel = lang == 'bn'
-                ? '${weekdaysBn[_now.weekday - 1]}, ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
-                : '${weekdaysEn[_now.weekday - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
+                ? '${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
+                : '${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
 
             final todayKey =
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
@@ -697,7 +697,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             lang == 'bn' ? 'নামাজের সময়সূচি' : 'Prayer Times',
                             style: const TextStyle(
                               color: AppColors.primaryText,
-                              fontSize: 15,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -803,7 +803,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 : isDone
                                                     ? AppColors.primaryAccent
                                                     : AppColors.secondaryText,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                           ),
                                         ),
@@ -832,7 +832,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 color: isNext
                                                     ? AppColors.primaryText
                                                     : AppColors.secondaryText,
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                               ),
                                             ),
@@ -843,8 +843,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       IconButton(
                                         key: Key('home_prayer_toggle_${entry.key}'),
                                         constraints: const BoxConstraints(
-                                          minWidth: 40,
-                                          minHeight: 40,
+                                          minWidth: 36,
+                                          minHeight: 36,
                                         ),
                                         visualDensity: VisualDensity.compact,
                                         padding: EdgeInsets.zero,
@@ -1286,8 +1286,8 @@ class _HomeTrackerCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          constraints: const BoxConstraints(minHeight: 96),
-          padding: const EdgeInsets.all(11),
+          constraints: const BoxConstraints(minHeight: 82),
+          padding: const EdgeInsets.all(9),
           decoration: AppSurfaceStyles.middleCard(radius: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1304,23 +1304,23 @@ class _HomeTrackerCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.primaryText,
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 7),
+              const SizedBox(height: 5),
               Text(
                 detail,
                 style: const TextStyle(
                   color: AppColors.secondaryText,
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 4),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
