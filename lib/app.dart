@@ -12,7 +12,7 @@ class IslamicApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final s = ref.watch(settingsProvider);
     return MaterialApp(
-      title: 'Islamic App',
+      title: 'Noor: Prayer Times & Dua',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
