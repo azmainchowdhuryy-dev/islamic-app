@@ -654,11 +654,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                               _HomeInfoChip(
                                 key: const Key('home_sunrise_chip'),
+                                icon: Icons.wb_sunny_rounded,
                                 label: lang == 'bn' ? 'সূর্যোদয়' : 'Sunrise',
                                 value: _clockTime(prayers.sunrise, s),
                               ),
                               _HomeInfoChip(
                                 key: const Key('home_sunset_chip'),
+                                icon: Icons.wb_twilight_rounded,
                                 label: lang == 'bn' ? 'সূর্যাস্ত' : 'Sunset',
                                 value: _clockTime(prayers.maghrib, s),
                               ),
@@ -1182,11 +1184,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
 
 class _HomeInfoChip extends StatelessWidget {
+  final IconData icon;
   final String label;
   final String value;
 
   const _HomeInfoChip({
     super.key,
+    required this.icon,
     required this.label,
     required this.value,
   });
@@ -1194,9 +1198,9 @@ class _HomeInfoChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 126,
-      height: 34,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      width: 138,
+      height: 38,
+      padding: const EdgeInsets.symmetric(horizontal: 9),
       decoration: BoxDecoration(
         color: AppColors.activeSurface,
         borderRadius: BorderRadius.circular(20),
@@ -1205,6 +1209,8 @@ class _HomeInfoChip extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Icon(icon, size: 17, color: AppColors.primaryAccent),
+          const SizedBox(width: 5),
           Flexible(
             child: Text(
               label,
@@ -1212,8 +1218,8 @@ class _HomeInfoChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.secondaryText,
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
