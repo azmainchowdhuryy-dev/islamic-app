@@ -214,11 +214,14 @@ void main() {
     // Top feature items keep their three-column arrangement without tracker tiles.
     final namesCenter = tester.getCenter(find.text('আল্লাহর ৯৯ নাম'));
     final firstRowY = namesCenter.dy;
+    expect(tester.getCenter(find.text('ছোট সূরা')).dy, closeTo(firstRowY, 1));
     expect(tester.getCenter(find.text('হাদিস').first).dy, closeTo(firstRowY, 1));
-    expect(tester.getCenter(find.text('রুকইয়াহ')).dy, closeTo(firstRowY, 1));
-    final secondRowY = tester.getCenter(find.text('তাসবিহ')).dy;
+    final secondRowY = tester.getCenter(find.text('রুকইয়াহ')).dy;
     expect(secondRowY, greaterThan(firstRowY + 40));
-    expect(tester.getCenter(find.text('দোয়া').first).dy, closeTo(secondRowY, 1));
+    expect(tester.getCenter(find.text('তাসবিহ')).dy, closeTo(secondRowY, 1));
+    expect(tester.getCenter(find.text('সকাল-সন্ধ্যার দোয়া')).dy, closeTo(secondRowY, 1));
+    final thirdRowY = tester.getCenter(find.text('দৈনন্দিন দোয়া')).dy;
+    expect(thirdRowY, greaterThan(secondRowY + 40));
   });
 
 
@@ -229,34 +232,31 @@ void main() {
 
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
-      '২২ নভেম্বর ২০২৬',
+      '22 November 2026',
     );
 
     final date = DateTime(2026, 11, 22);
     final bangla = BanglaDate.fromDateTime(date);
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      '${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
+      'রবিবার, ${localizeDigits(bangla.dayInt, 'bn')} ${bangla.monthName} ${localizeDigits(bangla.yearInt, 'bn')}',
     );
 
     final hijri = HijriDateTime.fromGregorian(date);
-    const hijriMonthsBn = [
-      'মুহাররম', 'সফর', 'রবিউল আউয়াল', 'রবিউস সানি', 'জমাদিউল আউয়াল',
-      'জমাদিউস সানি', 'রজব', 'শাবান', 'রমজান', 'শাওয়াল', 'জিলকদ', 'জিলহজ',
+    const hijriMonthsAr = [
+      'مُحَرَّم', 'صَفَر', 'رَبِيعُ الأَوَّل', 'رَبِيعُ الآخِر',
+      'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
+      'رَمَضَان', 'شَوَّال', 'ذُو القَعْدَة', 'ذُو الحِجَّة',
     ];
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'রবি, ${localizeDigits(hijri.day, 'bn')} ${hijriMonthsBn[hijri.month - 1]} ${localizeDigits(hijri.year, 'bn')}',
+      '${hijri.day} ${hijriMonthsAr[hijri.month - 1]} ${hijri.year} هـ',
     );
     await tester.tap(find.text('EN'));
     await tester.pump();
     expect(
       tester.widget<Text>(find.byKey(const Key('home_hijri_date'))).data,
-      'Sun, ${hijri.day} ${[
-        'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
-        'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Shaban',
-        'Ramadan', 'Shawwal', 'Dhul Qadah', 'Dhul Hijjah',
-      ][hijri.month - 1]} ${hijri.year}',
+      '${hijri.day} ${hijriMonthsAr[hijri.month - 1]} ${hijri.year} هـ',
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
