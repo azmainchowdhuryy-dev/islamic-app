@@ -431,7 +431,7 @@ void main() {
     await tester.tap(find.text('দোয়া'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('দৈনন্দিন ব্যবহার'), findsOneWidget);
+    expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
 
     await tester.tap(find.text('আরও'));
