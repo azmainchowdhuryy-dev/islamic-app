@@ -73,8 +73,9 @@ void main() {
     expect(find.text('87টি দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('হিদায়াত ও ঈমান'), findsOneWidget);
-    await tester.ensureVisible(find.text('হিদায়াত ও ঈমান'));
-    await tester.tap(find.text('হিদায়াত ও ঈমান'));
+    final firstTopicFolder = find.byType(ListTile).first;
+    await tester.ensureVisible(firstTopicFolder);
+    await tester.tap(firstTopicFolder);
     await tester.pump();
     expect(find.text('সব বিষয়'), findsOneWidget);
   });
