@@ -217,7 +217,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
         title: Text(widget.section == HadithDuaSection.hadith
             ? strings.t('hadith')
             : widget.section == HadithDuaSection.morningEveningDua
-                ? (lang == 'bn' ? 'সকাল-সন্ধ্যা' : 'Morning & Evening')
+                ? (lang == 'bn' ? 'সকাল-সন্ধ্যার দোয়া' : 'Morning & Evening Duas')
                 : widget.section == HadithDuaSection.dailyDua
                     ? (lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics')
                     : widget.section == HadithDuaSection.dua
