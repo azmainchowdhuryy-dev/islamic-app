@@ -12,6 +12,7 @@ import '../../../core/localization/app_strings.dart';
 import '../../../core/localization/bn_digits.dart';
 import '../../../core/navigation/navigation_provider.dart';
 import '../../../core/services/prefs.dart';
+import '../../../core/services/noor_notification_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_surface_styles.dart';
 import '../../../core/time/bangladesh_clock.dart';
@@ -115,17 +116,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> _saveCity(String value) async {
     setState(() => _cityId = value);
-    await ref.read(sharedPrefsProvider).setString('home_city', value);
+    final prefs = ref.read(sharedPrefsProvider);
+    await prefs.setString('home_city', value);
+    await NoorNotificationService.instance.syncFromPreferences(prefs);
   }
 
   Future<void> _saveAsr(bool value) async {
     setState(() => _hanafi = value);
-    await ref.read(sharedPrefsProvider).setBool('home_hanafi', value);
+    final prefs = ref.read(sharedPrefsProvider);
+    await prefs.setBool('home_hanafi', value);
+    await NoorNotificationService.instance.syncFromPreferences(prefs);
   }
 
   Future<void> _saveMethod(PrayerCalculation value) async {
     setState(() => _method = value);
-    await ref.read(sharedPrefsProvider).setInt('home_calc_method', value.index);
+    final prefs = ref.read(sharedPrefsProvider);
+    await prefs.setInt('home_calc_method', value.index);
+    await NoorNotificationService.instance.syncFromPreferences(prefs);
   }
 
   Future<void> _togglePrayerFromHome(
