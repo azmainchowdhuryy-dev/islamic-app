@@ -264,7 +264,7 @@ void main() {
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      '${bangla.dayInt} ${[
+      'Sunday, ${bangla.dayInt} ${[
         'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
         'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro',
       ][bangla.monthInt - 1]} ${bangla.yearInt}',
