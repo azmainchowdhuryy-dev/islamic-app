@@ -630,7 +630,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       ConstrainedBox(
-                                        constraints: const BoxConstraints(maxWidth: 90),
+                                        constraints: const BoxConstraints(maxWidth: 112),
                                         child: Text(
                                           city.name(lang),
                                           key: const Key('home_location_name'),
@@ -1231,8 +1231,8 @@ class _HomeInfoChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.primaryText,
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
