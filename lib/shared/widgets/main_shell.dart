@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/localization/app_strings.dart';
 import '../../core/navigation/navigation_provider.dart';
-import '../../core/navigation/noor_navigator.dart';
 import '../../core/services/noor_notification_service.dart';
 import '../../core/services/prefs.dart';
 import '../../core/theme/app_colors.dart';
