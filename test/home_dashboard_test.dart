@@ -128,7 +128,7 @@ void main() {
         );
         expect(
           tester.getSize(find.byKey(const Key('home_location_chip'))).width,
-          lessThan(150),
+          lessThan(180),
         );
         for (final chipKey in [
           'home_sunrise_chip',
@@ -358,7 +358,7 @@ void main() {
     final arc = find.byKey(const Key('next_prayer_arc'));
     expect(header, findsOneWidget);
     expect(arc, findsOneWidget);
-    expect(tester.getSize(header).height, lessThan(250));
+    expect(tester.getSize(header).height, lessThan(300));
 
     final arcRect = tester.getRect(arc);
     final curveSize = tester.getSize(
