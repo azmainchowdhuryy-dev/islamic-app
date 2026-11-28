@@ -14,13 +14,13 @@ A record is included only when its source collection and individual reference ca
 
 ## Dua collection
 
-- The collection was reduced from 181 to 88 entries after a stricter source review.
-- It now contains 70 Qur'anic supplications with direct Quran.com verse references and 18 supplications with references in Sahih al-Bukhari or Sahih Muslim.
+- The collection was reduced from 181 to 87 entries after a stricter source review.
+- It now contains 70 Qur'anic supplications with direct Quran.com verse references and 17 supplications with references in Sahih al-Bukhari or Sahih Muslim.
 - Entries from community datasets were removed when their Qur'anic reference could not be tied to a direct Quran.com verse page, or when the Hadith reference was unclear, mixed or mismatched.
 - The retained hadith-based entries keep direct Sunnah.com links. The Qur'anic entries keep their Quran.com verse references.
-- Morning and evening remembrances remain in their own folder: 9 entries. The remaining 79 entries are grouped under their relevant daily-use topics.
+- Morning and evening remembrances remain in their own folder: 3 entries. The remaining 84 entries are grouped under their relevant daily-use topics.
 - Bengali phonetic spellings are not displayed as verified pronunciation. Qur'anic Bengali pronunciation must be prepared and checked by a qualified Qur'an and Tajwid teacher.
 
 ## Totals and limits
 
-The current branch contains 198 Hadith and 88 Duas. The added narrations are from Sahih al-Bukhari, and the retained hadith-based Duas are sourced from Sahih al-Bukhari or Sahih Muslim. These source restrictions provide a strong basis for the authenticity of the narrations, but an absolute 100% guarantee of every translation or interpretation cannot honestly be made without review by qualified scholars.
+The current branch contains 198 Hadith and 87 Duas. The added narrations are from Sahih al-Bukhari, and the retained hadith-based Duas are sourced from Sahih al-Bukhari or Sahih Muslim. These source restrictions provide a strong basis for the authenticity of the narrations, but an absolute 100% guarantee of every translation or interpretation cannot honestly be made without review by qualified scholars.
