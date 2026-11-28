@@ -1434,8 +1434,8 @@
     "usage_category": "morning_evening",
     "title_bn": "তার চেয়ে কেউ উৎকৃষ্ট হবে না যে এই দোআ বেশি পরবে",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-90",
@@ -1453,8 +1453,8 @@
     "usage_category": "morning_evening",
     "title_bn": "দশটি দাসমুক্তির অনুরূপ ও একশত সাওয়াব",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-91",
@@ -1472,8 +1472,8 @@
     "usage_category": "morning_evening",
     "title_bn": "চারটি কালেমা সারা সকাল ইবাদতের চেয়েও ওজনে ভারী",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-93",
@@ -1491,8 +1491,8 @@
     "usage_category": "morning_evening",
     "title_bn": "সকাল ও বিকালের যিক্‌রসমূহ #২২",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-120",
@@ -1605,8 +1605,8 @@
     "usage_category": "morning_evening",
     "title_bn": "যিকির যা জবানে সহজ আর মীযানের পাল্লায় ভারী",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-240",
@@ -1624,8 +1624,8 @@
     "usage_category": "morning_evening",
     "title_bn": "আল্লাহ্‌র নিকট সর্বাধিক প্রিয় বাক্য",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-241",
@@ -1643,8 +1643,8 @@
     "usage_category": "morning_evening",
     "title_bn": "এক হাজার সওয়াব লেখা অথবা এক হাজার পাপ মুছে ফেলা",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-243",
@@ -1662,8 +1662,8 @@
     "usage_category": "morning_evening",
     "title_bn": "জান্নাতের এক রত্নভাণ্ডার",
     "collection_batch": "verified-sahih-dua-2026-11-28",
-    "translation_source": "DeenOne Bengali meaning and Bengali transliteration dataset",
-    "license_note": "Repository README declares MIT License. Source attribution retained."
+    "translation_source": "DeenOne Dua API-এর বাংলা অর্থ; সংশ্লিষ্ট সহিহ মুসলিম/বুখারি রেফারেন্সের সঙ্গে মিলিয়ে রাখা হয়েছে। আলেমের অনুবাদ-পর্যালোচনা বাকি।",
+    "license_note": "Source dataset: DeenOne Dua API (MIT licence). Arabic and Bengali wording retained with source attribution; hadith authenticity is tied to the listed Sahih collection reference."
   },
   {
     "id": "deenone-251",
