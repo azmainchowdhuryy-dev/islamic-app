@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.azmain.islamic_app"
-    compileSdk = 35
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
