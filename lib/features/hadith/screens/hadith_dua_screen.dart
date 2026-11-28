@@ -193,6 +193,27 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                 ),
               ),
             ],
+            if (dua['recitation_count'] != null ||
+                (dua['recitation_note'] as String? ?? '').isNotEmpty) ...[
+              const SizedBox(height: 10),
+              if (dua['recitation_count'] != null)
+                Text(
+                  lang == 'bn'
+                      ? 'পাঠসংখ্যা: ${dua['recitation_count']} বার'
+                      : 'Recitation count: ${dua['recitation_count']}',
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: scheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if ((dua['recitation_note'] as String? ?? '').isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(
+                  dua['recitation_note'] as String,
+                  style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
+                ),
+              ],
+            ],
             const SizedBox(height: 14),
             Text(
               lang == 'bn' || (dua['english_translation'] as String? ?? '').isEmpty
