@@ -297,10 +297,8 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
           const SizedBox(height: 18),
           Text(
             widget.section == HadithDuaSection.morningEveningDua
-                ? (lang == 'bn' ? 'সকাল-সন্ধ্যার যিকর ও দোয়া' : 'Morning and Evening Remembrance')
-                : widget.section == HadithDuaSection.dailyDua
-                    ? (lang == 'bn' ? 'দৈনন্দিন ব্যবহারের দোয়া' : 'Daily Use Duas')
-                    : (lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics'),
+                ? (lang == 'bn' ? 'সকাল-সন্ধ্যা' : 'Morning & Evening')
+                : (lang == 'bn' ? 'দোয়ার বিষয়সমূহ' : 'Dua Topics'),
             style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
