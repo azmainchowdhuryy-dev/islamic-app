@@ -178,7 +178,7 @@ void main() {
       expect(item['grade'], 'সহিহ');
       expect(item['verified'], isTrue);
       expect((item['verified_by'] as String).contains('https://sunnah.com/bukhari:'), isTrue);
-      expect((item['bangla_translation'] as String).contains(RegExp(r'[\\u0980-\\u09FF]')), isTrue);
+      expect((item['bangla_translation'] as String).contains(RegExp(r'[\u0980-\u09FF]')), isTrue);
     }
     final newDua19 = duas.where((item) =>
         item['collection_batch'] == 'dua-100-total-2026-11-28').toList();
