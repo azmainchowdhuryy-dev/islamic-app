@@ -57,7 +57,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.all);
 
     expect(find.text('হাদিসের বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('88টি হাদিস'), findsOneWidget);
+    expect(find.text('100টি হাদিস'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
@@ -70,7 +70,7 @@ void main() {
     // lazy ListView child that may be outside the current viewport.
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('81টি দোয়া'), findsOneWidget);
+    expect(find.text('100টি দোয়া'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(ChoiceChip),
