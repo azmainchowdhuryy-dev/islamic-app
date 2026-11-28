@@ -246,7 +246,7 @@ void main() {
 
     expect(
       tester.widget<Text>(find.byKey(const Key('home_gregorian_date'))).data,
-      '22 November 2026',
+      'রবিবার, ২২ নভেম্বর ২০২৬',
     );
 
     final date = DateTime(2026, 11, 22);
