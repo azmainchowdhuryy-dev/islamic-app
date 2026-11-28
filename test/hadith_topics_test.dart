@@ -70,11 +70,11 @@ void main() {
     // lazy ListView child that may be outside the current viewport.
     await pumpScreen(tester, HadithDuaSection.dua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('99টি দোয়া'), findsOneWidget);
+    expect(find.text('88টি দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
-    expect(find.text('সালাত ও যিক্‌র'), findsOneWidget);
-    await tester.ensureVisible(find.text('সালাত ও যিক্‌র'));
-    await tester.tap(find.text('সালাত ও যিক্‌র'));
+    expect(find.text('হিদায়াত ও ঈমান'), findsOneWidget);
+    await tester.ensureVisible(find.text('হিদায়াত ও ঈমান'));
+    await tester.tap(find.text('হিদায়াত ও ঈমান'));
     await tester.pump();
     expect(find.text('সব বিষয়'), findsOneWidget);
   });
@@ -91,7 +91,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('99টি দোয়া'), findsOneWidget);
+    expect(find.text('88টি দোয়া'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
   });
 
@@ -100,7 +100,7 @@ void main() {
     expect(find.text('সকাল-সন্ধ্যার দোয়া'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsOneWidget);
     expect(find.text('9টি দোয়া'), findsOneWidget);
-    expect(find.text('90টি দোয়া'), findsNothing);
+    expect(find.text('79টি দোয়া'), findsNothing);
   });
 
   testWidgets('Daily dua section shows only relevant topic folders', (tester) async {
@@ -108,7 +108,7 @@ void main() {
     expect(find.text('দৈনন্দিন ব্যবহার'), findsOneWidget);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
     expect(find.text('রিজিক ও কল্যাণ'), findsOneWidget);
-    expect(find.text('সালাত ও যিক্‌র'), findsOneWidget);
+    expect(find.text('হিদায়াত ও ঈমান'), findsOneWidget);
     expect(find.text('সকাল-সন্ধ্যা'), findsNothing);
     final firstTopicFolder = find.byType(ListTile).first;
     await tester.tap(firstTopicFolder);
