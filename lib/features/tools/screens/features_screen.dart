@@ -5,6 +5,7 @@ import '../../../core/localization/app_strings.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../hadith/screens/hadith_dua_screen.dart';
 import '../../settings/screens/ibadah_tools_screen.dart';
+import '../../quran/screens/short_surahs_screen.dart';
 import '../../tasbih/screens/tasbih_screen.dart';
 import 'ruqyah_screen.dart';
 
@@ -202,6 +203,14 @@ class FeaturesScreen extends ConsumerWidget {
             ],
           ),
           _sectionTitle(context, bn ? 'জ্ঞান ও দোয়া' : 'Knowledge and Duas'),
+          _featureCard(
+            context: context,
+            icon: Icons.auto_stories_outlined,
+            title: bn ? 'ছোট সূরা' : 'Short Surahs',
+            description: bn ? 'আরবি পাঠ ও আয়াতভিত্তিক বাংলা অর্থ' : 'Arabic text and verse-by-verse Bengali meanings',
+            onTap: () => _open(context, const ShortSurahsScreen()),
+          ),
+          const SizedBox(height: 10),
           _featureCard(
             context: context,
             icon: Icons.menu_book,
