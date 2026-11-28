@@ -803,7 +803,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 : isDone
                                                     ? AppColors.primaryAccent
                                                     : AppColors.secondaryText,
-                                            fontSize: 14,
+                                            fontSize: 15,
                                             fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                           ),
                                         ),
@@ -832,7 +832,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 color: isNext
                                                     ? AppColors.primaryText
                                                     : AppColors.secondaryText,
-                                                fontSize: 13,
+                                                fontSize: 14,
                                                 fontWeight: isNext ? FontWeight.w700 : FontWeight.w500,
                                               ),
                                             ),
