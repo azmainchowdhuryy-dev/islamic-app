@@ -90,7 +90,7 @@ void main() {
     await pumpScreen(tester, HadithDuaSection.dua);
 
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('100টি দোয়া'), findsOneWidget);
+    expect(find.text('200টি দোয়া'), findsOneWidget);
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
   });
 
@@ -101,10 +101,14 @@ void main() {
     expect(find.text('178টি দোয়া'), findsNothing);
   });
 
-  testWidgets('Daily use dua section filters the correct records', (tester) async {
+  testWidgets('Daily dua section shows only relevant topic folders', (tester) async {
     await pumpScreen(tester, HadithDuaSection.dailyDua);
     expect(find.text('দোয়ার বিষয়সমূহ'), findsOneWidget);
-    expect(find.text('178টি দোয়া'), findsNothing);
-    expect(find.text('22টি দোয়া'), findsNothing);
+    expect(find.text('খাদ্য ও পানীয়'), findsOneWidget);
+    expect(find.text('মসজিদ'), findsOneWidget);
+    expect(find.text('সকাল-সন্ধ্যা'), findsNothing);
+    await tester.tap(find.text('মসজিদ'));
+    await tester.pump();
+    expect(find.text('সব বিষয়'), findsOneWidget);
   });
 }
