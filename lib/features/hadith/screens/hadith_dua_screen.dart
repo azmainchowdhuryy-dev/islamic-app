@@ -148,16 +148,7 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              lang == 'bn'
-                  ? dua['category_bn'] as String
-                  : dua['category_en'] as String,
-              style: theme.textTheme.labelLarge?.copyWith(
-                color: scheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 4),
             Directionality(
               textDirection: TextDirection.rtl,
               child: Text(
@@ -348,6 +339,11 @@ class _HadithDuaScreenState extends ConsumerState<HadithDuaScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    Text(
+                      lang == 'bn' ? '${duas.length}টি দোয়া' : '${duas.length} duas',
+                      style: theme.textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 8),
                     for (final category in categories) ...[
                       Builder(builder: (context) {
                         final categoryDuas = duas
