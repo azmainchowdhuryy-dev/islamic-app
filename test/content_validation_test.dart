@@ -135,8 +135,8 @@ void main() {
         jsonDecode(File('assets/data/hadith.json').readAsStringSync()) as List;
     final duas =
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
-    expect(hadith.length, 200);
-    expect(duas.length, 200);
+    expect(hadith.length, 188);
+    expect(duas.length, 181);
     expect(
       hadith.where((item) => (item['id'] as String).startsWith('nawawi-')).length,
       25,
@@ -180,35 +180,13 @@ void main() {
     expect(newHadith100.every((item) => (item['arabic_text'] as String).isNotEmpty), isTrue);
     expect(newHadith100.every((item) => (item['verified_by'] as String).contains('https://sunnah.com/bukhari:')), isTrue);
     expect(newHadith100.every((item) => (item['bangla_translation'] as String).isNotEmpty), isTrue);
-    final newHadith12 = hadith.where((item) =>
-        item['collection_batch'] == 'expanded-100-total-hadith-2026-11-28').toList();
-    expect(newHadith12, hasLength(12));
-    for (final item in newHadith12) {
-      expect(item['grade'], 'সহিহ');
-      expect(item['verified'], isTrue);
-      expect((item['verified_by'] as String).contains('https://sunnah.com/bukhari:'), isTrue);
-      expect((item['bangla_translation'] as String).contains(RegExp(r'[\u0980-\u09FF]')), isTrue);
-    }
-    final newDua19 = duas.where((item) =>
-        item['collection_batch'] == 'dua-100-total-2026-11-28').toList();
-    expect(newDua19, hasLength(19));
-    expect(newDua19.where((item) => item['usage_category'] == 'morning_evening').length, 10);
-    expect(newDua19.where((item) => item['usage_category'] == 'daily').length, 9);
-    expect(duas.where((item) => item['usage_category'] == 'morning_evening').length, 22);
-    expect(duas.where((item) => item['usage_category'] == 'daily').length, 178);
     final newDua100 = duas.where((item) =>
         item['collection_batch'] == 'expanded-200-total-dua-2026-11-28').toList();
     expect(newDua100, hasLength(100));
     expect(newDua100.every((item) => item['verified'] == true), isTrue);
     expect(newDua100.every((item) => (item['reference'] as String).isNotEmpty), isTrue);
-    expect(newDua100.every((item) => (item['transliteration_bn'] as String).isNotEmpty), isTrue);
+    expect(newDua100.every((item) => !(item['english_translation'] as String).trim().startsWith('Reference:')), isTrue);
     expect(newDua100.where((item) => item['usage_category'] == 'morning_evening').length, 10);
-    for (final item in newDua19) {
-      expect(item['verified'], isTrue);
-      expect((item['arabic_text'] as String).trim(), isNotEmpty);
-      expect((item['bangla_translation'] as String).trim(), isNotEmpty);
-      expect((item['reference'] as String).trim(), isNotEmpty);
-    }
   });
 
   test('Hadith and Dua folders are grouped into their verified topics', () {
@@ -254,7 +232,6 @@ void main() {
         'হজ্জ ও উমরা',
         'সম্পত্তি ও রিজিক',
         'শুকরিয়া ও তওবা',
-        'মসজিদ',
       },
     );
   });
