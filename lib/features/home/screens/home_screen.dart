@@ -305,6 +305,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার',
               'শুক্রবার', 'শনিবার', 'রবিবার'
             ];
+            const weekdaysEn = [
+              'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+              'Friday', 'Saturday', 'Sunday'
+            ];
             const hijriMonthsAr = [
               'مُحَرَّم', 'صَفَر', 'رَبِيعُ الأَوَّل', 'رَبِيعُ الآخِر',
               'جُمَادَى الأُولَى', 'جُمَادَى الآخِرَة', 'رَجَب', 'شَعْبَان',
@@ -319,7 +323,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 '${_now.day} ${gregorianMonthsEn[_now.month - 1]} ${_now.year}';
             final banglaDateLabel = lang == 'bn'
                 ? '${weekdaysBn[_now.weekday - 1]}, ${s.digits(banglaDate.dayInt)} ${banglaDate.monthName} ${s.digits(banglaDate.yearInt)}'
-                : '${weekdaysBn[_now.weekday - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
+                : '${weekdaysEn[_now.weekday - 1]}, ${banglaDate.dayInt} ${banglaMonthsEn[banglaDate.monthInt - 1]} ${banglaDate.yearInt}';
 
             final todayKey =
                 '${_now.year}-${_now.month.toString().padLeft(2, '0')}-${_now.day.toString().padLeft(2, '0')}';
