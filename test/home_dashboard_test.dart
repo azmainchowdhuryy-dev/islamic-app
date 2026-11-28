@@ -278,7 +278,7 @@ void main() {
     );
     expect(
       tester.widget<Text>(find.byKey(const Key('home_bangla_date'))).data,
-      'Sunday, ${bangla.dayInt} ${[
+      '${bangla.dayInt} ${[
         'Boishakh', 'Joishtho', 'Asharh', 'Shrabon', 'Bhadro', 'Ashwin',
         'Kartik', 'Ogrohayon', 'Poush', 'Magh', 'Falgun', 'Choitro',
       ][bangla.monthInt - 1]} ${bangla.yearInt}',
@@ -435,6 +435,8 @@ void main() {
     expect(find.text('হাদিসের বিষয়সমূহ'), findsNothing);
 
     await tester.tap(find.text('আরও'));
+    await tester.pump();
+    await tester.ensureVisible(find.text('ফন্টের আকার'));
     await tester.pump();
     expect(find.text('ফন্টের আকার'), findsOneWidget);
 
