@@ -223,6 +223,8 @@ void main() {
         'আদব ও চরিত্র',
         'পরিবার ও সমাজ',
         'যিকির ও দোয়া',
+        'পবিত্রতা ও অজু',
+        'হজ্জ ও উমরা',
       },
     );
     expect(
@@ -261,7 +263,8 @@ void main() {
         jsonDecode(File('assets/data/dua.json').readAsStringSync()) as List;
 
     for (final item in hadith.where((item) =>
-        item['collection_batch'] == 'expanded-50-hadith-2026-11-21')) {
+        item['collection_batch'] == 'expanded-50-hadith-2026-11-21' ||
+        item['collection_batch'] == 'expanded-200-total-hadith-2026-11-28')) {
       expect(
         (item['arabic_text'] as String).contains('...'),
         isFalse,
